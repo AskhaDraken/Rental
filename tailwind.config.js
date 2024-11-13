@@ -8,9 +8,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'primary': '#2F1761',
+        'secondary': '#541D7B',
+        'third': '#030F19',
+        'fourth': '#14112E',
+        'fifth': '#2d264f',
+        'sixth': '#101151',
+        'seventh': '#462795',
       },
+    },
+    fontFamily: {
+      'poppins': ['Poppins', 'sans-serif',],
+      'Slackey': ["Slackey",],
     },
   },
   plugins: [],

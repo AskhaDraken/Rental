@@ -1,101 +1,152 @@
-import Image from "next/image";
+"use client"
+import { signIn, useSession } from "next-auth/react";
+// import Image from "next/image";
+
+import { IoArrowForwardCircleOutline } from "react-icons/io5";
+
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const {data} = useSession
+  // axios.get('/api/game')
+  console.log(data);
+  
+  const fitur = [
+    {
+      gambar: "/harga.png",
+      nama: 'HARGA',
+      order: 'Harga mulai dari Rp 15.000'
+    },
+    {
+      gambar: "/game.png",
+      nama: 'GAME',
+      order: 'Game PS4/ PS5 terbaru'
+    },
+    {
+      gambar: "/consolePS.png",
+      nama: 'GAME',
+      order: 'Terdapat 20 console PS'
+    },
+    {
+      gambar: "/tv.png",
+      nama: 'TV',
+      order: 'TV 32 Inch'
+    },
+    {
+      gambar: "/wifi.png",
+      nama: 'WIFI',
+      order: 'Pass : Eternityrentalps'
+    },
+    {
+      gambar: "/ac.png",
+      nama: 'AC',
+      order: 'Dilengkapi AC di setiap ruangan'
+    },
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  ]
+  return (
+    <div className='flex flex-col relative bg-fourth text-white'>
+      {/* Background dashboard */}
+      <div className='flex w-full  bg-#14112E h-full justify-center items-center text-3xl'>
+        <img src="/background1.png" alt="" className='flex-[1_0_100%]' />
+        <div className=' absolute grid grid-cols-2 justify-between items-center'>
+          <div className='flex flex-col justify-center items-center'>
+            <h1 className='font-poppins text-white font-bold text-4xl'>KENAPA HARUS BELI MAHAL-MAHAL ?</h1>
+            <h2 className='font-poppins text-white text-sm translate-x-[-50%] mt-1'>KALAU BISA RENTAL DENGAN HARGA TERJANGKAU
+            </h2>
+            {/* <button onClick={() => signIn()}>Login</button> */}
+            <button onClick={() => window.location.href = '/booking'} className='font-poppins flex justify-center items-center text-white bg-gradient-to-r from-primary to-secondary w-96 h-16 rounded-3xl translate-x-[-38%] mt-3'>Booking Sekarang!
+              <IoArrowForwardCircleOutline className='text-5xl ml-4' />
+            </button>
+          </div>
+          <div className=''>
+            <img src="/logo.png" alt="" className='w-full h-full' />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+      <div className="container mx-auto flex flex-col justify-center">
+        {/* fitur yang ada */}
+        <div className='py-10 bg-fourth'>
+          <div className='container'>
+            <div className='flex justify-center font-poppins font-bold text-3xl mb-20'>OUR FEATURES</div>
+          </div>
+          <div className='overflow-auto'>
+
+            <div className='flex md:grid flex-row md:grid-cols-3 gap-4'>
+              {
+                fitur.map((fitur, index) => {
+                  return (
+                    <div className='flex flex-col place-items-center' key={index}>
+                      <figure className='max-w-56'>
+                        <img src={fitur.gambar} alt="" className='flex-[1_0_100%]' />
+                      </figure>
+                      <h1 className='font-poppins font-bold text-3xl text-white'>{fitur.nama}</h1>
+                      <p className='mb-10'>{fitur.order}</p>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+        </div>
+
+        {/* Game Terfavorit */}
+        <div className=' bg-fourth h-fit'>
+          <div>
+            <div className='flex justify-center font-bold text-3xl py-5'>Game Terfavorit</div>
+          </div>
+          <div className='flex justify-center gap-10'>
+            <div className=" card bg-base-100 w-80 mt-14 shadow-2xl">
+              <figure className="px-5 pt-5 bg-white">
+                <img
+                  src="/fifa23.jpg"
+                  alt="Shoes"
+                  className="rounded-xl" />
+              </figure>
+              <div className="card-body text-center bg-white">
+                <h2 className="card-title text-black">Fifa 23</h2>
+                <p className='text-black flex '>
+                  adalah game simulasi sepak bola yang dikembangkan oleh EA Sports. Sebagai bagian terbaru dari seri FIFA, game ini menampilkan berbagai mode permainan, termasuk karier, Ultimate Team, dan pertandingan online.
+                </p>
+                <div className="card-actions px-52 mt-6">
+                  {/* <button className="btn btn-primary">Play</button> */}
+                </div>
+              </div>
+            </div>
+            <div className=" card bg-base-100 w-80 mt-14 shadow-2xl">
+              <figure className="px-5 pt-5 bg-white">
+                <img
+                  src="/fifa23.jpg"
+                  alt="Shoes"
+                  className="rounded-xl" />
+              </figure>
+              <div className="card-body text-center bg-white">
+                <h2 className="card-title text-black">Fifa 23</h2>
+                <p className='text-black flex '>
+                  adalah game simulasi sepak bola yang dikembangkan oleh EA Sports. Sebagai bagian terbaru dari seri FIFA, game ini menampilkan berbagai mode permainan, termasuk karier, Ultimate Team, dan pertandingan online.
+                </p>
+                <div className="card-actions px-52 mt-6">
+                  {/* <button className="btn btn-primary">Play</button> */}
+                </div>
+              </div>
+            </div>
+            <div className=" card bg-base-100 w-80 mt-14 shadow-2xl">
+              <figure className="px-5 pt-5 bg-white">
+                <img
+                  src="/fifa23.jpg"
+                  alt="Shoes"
+                  className="rounded-xl" />
+              </figure>
+              <div className="card-body text-center bg-white">
+                <h2 className="card-title text-black">Fifa 23</h2>
+                <p className='text-black flex '>
+                  adalah game simulasi sepak bola yang dikembangkan oleh EA Sports. Sebagai bagian terbaru dari seri FIFA, game ini menampilkan berbagai mode permainan, termasuk karier, Ultimate Team, dan pertandingan online.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
