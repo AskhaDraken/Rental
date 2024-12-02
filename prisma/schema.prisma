@@ -19,73 +19,86 @@ enum Role {
   admin
 }
 
+enum Confirm {
+  accept
+  reject
+  pending
+  invalid
+}
+
+enum PaymentStatus {
+  pending
+  success
+  failed
+  invalid
+}
+
 model User {
-  id       String   @id @default(uuid())
-  fullname String   @db.VarChar(255)
-  email    String   @unique @db.VarChar(255)
-  phone    String   @unique @db.VarChar(15)
-  password String   @db.VarChar(255)
-  role     Role     @default(user)
-  rental   Rental[]
-  order    Order[]
-  ProfileInfoTable ProfileInfoTable?
+  id          String        @id @default(uuid())
+  fullname    String        @db.VarChar(255)
+  email       String        @unique @db.VarChar(255)
+  phone       String        @unique @db.VarChar(15)
+  password    String        @db.VarChar(255)
+  role        Role          @default(user)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  rental      Rental[]
+  transaction Transaction[]
+  Profile     Profile?
 }
 
 model Rental {
-  id          String         @id @default(uuid())
+  id          String    @id @default(uuid())
   userId      String
   picture     String?
-  description String         @db.VarChar(500)
-  alamat      String         @db.VarChar(255)
-  mapurl      String         @db.VarChar(255)
+  description String    @db.VarChar(500)
+  alamat      String    @db.VarChar(255)
+  mapurl      String    @db.VarChar(255)
   open        String
   close       String
-  user        User           @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id])
   tv          Tv[]
-  gallery     GalleryTable[]
+  gallery     Gallery[]
 }
 
 model Tv {
-  id       String @id @default(uuid())
-  user     String @db.VarChar(255)
-  time     String
-  rentalId String
-  rental   Rental @relation(fields: [rentalId], references: [id])
-  detail   DetailOrder[]
+  id        String   @id @default(uuid())
+  user      String   @db.VarChar(255)
+  time      String
+  rentalId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rental    Rental   @relation(fields: [rentalId], references: [id])
 }
 
-model GalleryTable {
-  id       String @id @default(uuid())
-  filename String
-  mimetype String
-  rentalId String
-  rental   Rental @relation(fields: [rentalId], references: [id])
+model Gallery {
+  id        String   @id @default(uuid())
+  filename  String
+  mimetype  String
+  rentalId  String
+  createdAt DateTime @default(now())
+  rental    Rental   @relation(fields: [rentalId], references: [id])
 }
 
-model Order {
-  id               String   @id @default(uuid())
-  userId           String
-  playStatus       Boolean
-  orderStatus      Boolean
-  statusPembayaran Boolean
-  createdAt        DateTime
-  updatedAt        DateTime
-  user             User     @relation(fields: [userId], references: [id])
-  detailOrder      DetailOrder?
+model Transaction {
+  id        String        @id @default(uuid())
+  userId    String
+  rentalId  String
+  tvId      String
+  status    PaymentStatus
+  isConfirm Confirm
+  date      String
+  time      Json[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id])
 }
 
-model DetailOrder {
-  id    String @id @default(uuid())
-  orderId String @unique
-  order Order @relation(fields: [orderId], references: [id])
-  tv    Tv @relation(fields: [tvId], references: [id])
-  tvId  String
-  jam   String
-}
-
-model ProfileInfoTable {
+model Profile {
   id      String @id @default(uuid())
-  user User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
   userId  String @unique
   picture String
   bio     String @db.VarChar(500)
