@@ -69,6 +69,7 @@ const FormLogin = () => {
                 placeholder="Email"
                 value={formik.values.username}
                 onChange={handleFormikInput}
+                
             />
             <InputForm
                 label="Password"
@@ -82,7 +83,7 @@ const FormLogin = () => {
                 text="Login"
                 type="submit"
             /> */}
-            <button type="submit">Login</button>
+            <button type="submit" className="bg-secondary rounded-lg h-12 text-white text-2xl font-semibold w-full">Login</button>
         </form>
     )
 }

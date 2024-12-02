@@ -41,26 +41,27 @@ const game = () => {
     ]
     return (
         <div className='overflow-auto relative '>
-            <div className='grid grid-cols-1 w-screen'>
+            <div className='grid grid-cols-1 w-full h-screen'>
                 <div className=' flex flex-wrap justify-center w-full h-fit bg-white text-black py-5'>
+
                     <div className='flex justify-center'>
                         <h1 className='text-3xl font-bold text-primary'>Daftar Game </h1>
                         {/* <div className='w-96 h-fit p-2 flex justify-center translate-y-5 items-center rounded-3xl border shadow-xl mb-10'>
                 <input type="text" placeholder='search' className=' bg-white text-lg '/>
                 <button className='flex justify-between'>
-                  <IoSearchOutline className='w-12 h-9 translate-x-14 bg-primary text-white rounded-full text-2xl'/>
+                <IoSearchOutline className='w-12 h-9 translate-x-14 bg-primary text-white rounded-full text-2xl'/>
                 </button>
               </div> */}
                     </div>
                     <div className='grid relative translate-y-[-5%]'>
-                        <div className='flex jusfitify-center gap-4 overflow-y-auto shadow-xl'>
+                        <div className='flex jusfitify-center gap-4 overflow-y-auto shadow-xl md:min-w-80 p-4 min-w-64'>
                             {/* <button className='flex justify-between'>
-                  <IoIosArrowDropleftCircle className='w-9 h-9 translate-x-14 bg-primary text-white rounded-full text-2xl'/>
+                <IoIosArrowDropleftCircle className='w-9 h-9 translate-x-14 bg-primary text-white rounded-full text-2xl'/>
                 </button> */}
                             {
                                 CardGame.map((CardGame, index) => {
                                     return (
-                                        <div className=" card bg-base-100 w-72 mt-14 shadow-2xl" key={index}>
+                                        <div className=" card bg-base-100 w-72 mt-14 shadow-2xl shadow-black" key={index}>
                                             <figure className="px-5 pt-5 bg-white" >
                                                 <img
                                                     src={CardGame.gambar}

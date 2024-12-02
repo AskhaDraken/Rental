@@ -5,7 +5,7 @@ import Bayar from '@/components/Layouts/bayar.jsx'
 import { X } from 'react-feather'
 
 const Booking = () => {
-  const [isBayar, setIsBayar] = useState(true)
+  // const [isBayar, setIsBayar] = useState(true)
 
 
   const exData = [
@@ -175,17 +175,23 @@ const Booking = () => {
   // const [isBayar2, setIsBayar2] = useState(true)
   return (
     <div className='bg-fourth text-white'>
-      <div className='container mx-auto flex flex-col justify-center items-center bg-background bg-fourth min-h-screen '>
-        <img src="/logo.png" alt="" className='w-96 ' />
+      <div className='mx-auto flex flex-col justify-center items-center bg-background bg-fourth min-h-screen '>
+        <img src="/logo.png" alt="" className='max-w-72 ' />
 
         {/* Playstation 4 */}
         <div className='flex flex-row gap-10'>
-          <div className='flex flex-row gap-10'>
+          <div className='flex flex-col md:flex-row gap-10 '>
 
             {
               exData.map((item, index,) => (
                 <>
-                  <Bayar id={"modalCheckout" + index} data={item.television} title={item.tittle} desciption="Memiliki 2 Playstation dan bebas merokok" onClick={() => document.getElementById('modalCheckout' + index).showModal()} />
+                  <Bayar
+                    className='bg-black'
+                    id={"modalCheckout" + index}
+                    data={item.television}
+                    title={item.tittle}
+                    desciption="Memiliki 2 Playstation dan bebas merokok"
+                    onClick={() => document.getElementById('modalCheckout' + index).showModal()} />
                 </>
               ))
             }

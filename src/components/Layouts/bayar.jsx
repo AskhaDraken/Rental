@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react'
 import { IoRemoveOutline } from "react-icons/io5";
-import ListTv from '../Fragments/ListTv';
+// import ListTv from '../Fragments/ListTv';
 import ModalLayout from '../Elements/Modal/Modal';
 import Pembayaran from './pembayaran';
 import { X } from 'react-feather';
-
 
 const Bayar = ({ data, title, id, description, onClick }) => {
   const [isBayar, setIsBayar] = useState(false)
@@ -16,12 +15,10 @@ const Bayar = ({ data, title, id, description, onClick }) => {
     setIsBayar(true)
     setIndex(i)
   }
-
-
-
+  
   return (
     <>
-      <div className="flex justify-center card bg-third w-80 h-52 shadow-xl" >
+      <div className="flex justify-center card bg-third w-80 h-52 shadow-xl rounded-xl" >
         <div className="card-body ">
           <h2 className="card-title flex justify-center">{title}</h2>
           <div className='flex justify-center'>
