@@ -33,6 +33,14 @@ enum PaymentStatus {
   invalid
 }
 
+enum PS {
+  PS1
+  PS2
+  PS3
+  PS4
+  PS5
+}
+
 model User {
   id          String        @id @default(uuid())
   fullname    String        @db.VarChar(255)
@@ -42,35 +50,51 @@ model User {
   role        Role          @default(user)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  rental      Rental[]
+  rental      Rental?
   transaction Transaction[]
   Profile     Profile?
 }
 
 model Rental {
-  id          String    @id @default(uuid())
-  userId      String
+  id          String        @id @default(uuid())
+  userId      String        @unique
   picture     String?
-  description String    @db.VarChar(500)
-  alamat      String    @db.VarChar(255)
-  mapurl      String    @db.VarChar(255)
+  description String        @db.VarChar(500)
+  alamat      String        @db.VarChar(255)
+  mapurl      String        @db.VarChar(255)
   open        String
   close       String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id])
   tv          Tv[]
   gallery     Gallery[]
+  playstation PlayStation[]
+}
+
+model PlayStation {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  type        PS
+  price       Int
+  rentalId    String
+  rental      Rental   @relation(fields: [rentalId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Tv {
-  id        String   @id @default(uuid())
-  user      String   @db.VarChar(255)
-  time      String
-  rentalId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  rental    Rental   @relation(fields: [rentalId], references: [id])
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  nomorUrut   Int
+  psId        String
+  rentalId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  rental      Rental   @relation(fields: [rentalId], references: [id])
+  
 }
 
 model Gallery {
@@ -87,10 +111,11 @@ model Transaction {
   userId    String
   rentalId  String
   tvId      String
-  status    PaymentStatus
-  isConfirm Confirm
+  status    PaymentStatus @default(pending)
+  isConfirm Confirm @default(pending)
   date      String
   time      Json[]
+  snapToken String
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   user      User          @relation(fields: [userId], references: [id])
