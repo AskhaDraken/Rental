@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileUser from '../Button/Profile.jsx'
 import { X } from "react-feather"
 import Ubah from '../Button/Ubah.jsx'
+import { usePostLogout } from '@/features/auth.js';
 
 const ButtonProfileCustomer = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -65,7 +66,7 @@ const ButtonProfileCustomer = () => {
           <Ubah />
         </Modal>
 
-        <li><a href="" className='text-red-600 text-lg' onClick={handlelogout}>Kaluar</a></li>
+        <li><button className='text-red-600 text-lg' onClick={usePostLogout}>Kaluar</button></li>
       </ul>
     </details>
   )

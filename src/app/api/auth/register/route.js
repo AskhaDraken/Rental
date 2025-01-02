@@ -6,27 +6,28 @@ export async function POST(req) {
 
     const body = await req.json()
 
+
     const finduserExist = await prismaClient.user.findFirst({
         where: {
             OR: [
-                {email: body.email},
-                {phone: body.phone},
+                { email: body.email },
+                { phone: body.phone },
             ]
         }
     })
 
-    if(finduserExist) {
+    if (finduserExist) {
         return NextResponse.json(
             {
                 message: "User Already Exist"
-            })
-        }
+            }, { status: 409 })
+    }
 
     const passwordEncrypt = await bcrypt.hashSync(body.password, 10)
 
     const user = await prismaClient.user.create({
         data: {
-            fullname: body.fullname,
+            fullname: body.username,
             email: body.email,
             phone: body.phone,
             password: passwordEncrypt
@@ -37,12 +38,14 @@ export async function POST(req) {
         }
     })
 
-    if(!user) {
+    // const user = {}
+
+    if (!user) {
         return NextResponse.json(
             {
                 message: "User Not Created"
             })
-        }
+    }
 
     return NextResponse.json(
         {
@@ -50,5 +53,5 @@ export async function POST(req) {
             data: user
         })
 
-    
+
 }

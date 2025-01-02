@@ -8,18 +8,11 @@ import * as jwt from "jsonwebtoken"
 const authOption = {
     providers: [
         CredentialsProvider({
-            type: 'credentials',
             name: 'Credentials',
-            credentials: {
-                username: { label: "username", type: "text", placeholder: "username" },
-                password: { label: "password", type: "password", placeholder: "password" },
-            },
+            type: 'credentials',
+            credentials: {},
             async authorize(credentials) {
 
-                const datalogin = {
-                    username: 'admin',
-                    password: 'admin'
-                }
                 // Add logic here to look up the user from the credentials supplied
                 const generateToken = (payload) => {
                     return jwt.sign(payload, process.env.NEXTAUTH_SECRET_KEY, { expiresIn: '1h' })
@@ -35,14 +28,18 @@ const authOption = {
                     password: credentials?.password
                 }
 
+                
+
                 const user = await prismaClient.user.findFirst({
                     where: {
-                        OR: [
-                            {email: body.username},
-                            {phone: body.username},
-                        ]
+                        email: body.username
                     }
                 })
+
+                console.log(user);
+                
+
+                
 
                 if(!user) return { message: "User Not-found" }
                 
@@ -62,9 +59,9 @@ const authOption = {
             }
         })
     ],
-    // pages: {
-    //     signIn: '/login'
-    // },
+    pages: {
+        signIn: '/login'
+    },
     secret: process.env.NEXTAUTH_SECRET_KEY,
     callbacks: {
         async jwt({ token, user }) {

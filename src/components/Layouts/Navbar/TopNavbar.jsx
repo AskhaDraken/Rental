@@ -1,34 +1,56 @@
+import ButtonProfileCustomer from "@/components/Elements/Button/page.jsx"
 import Button from "@/components/Elements/Button/page.jsx"
+import { usePostLogout } from "@/features/auth"
+import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 // import BurgerNavbar from "./BurgerNavbar"
 import { useState } from "react"
 
 const TopNavbar = () => {
   const [isClick, setIsClick] = useState(false)
-
+  const { data: session, status } = useSession()
   const toggleNavbar = () => {
     setIsClick(!isClick)
   }
 
+  const renderStatusLogin = () => {
+    const router = useRouter()
+    if (status === "authenticated") {
+      return (
+        <div className="text-2xl font-Slackey items-center hidden md:flex">
+          <ButtonProfileCustomer />
+        </div>
+      )
+    } else {
+      return (
+        <div className="text-2xl font-Slackey items-center hidden md:flex gap-4">
+          <button className="btn btn-warning text-white" onClick={() => signIn()}>Login</button>
+          <button className="btn btn-warning text-white" onClick={() => router.push("/register")}>Daftar</button>
+        </div>
+      )
+
+    }
+  }
+
   return (
-    <div>
-      <div className=" justify-center w-full flex bg-third stikcy ">
+    <>
+      <div className=" justify-center w-full flex bg-third stikcy p-2">
         <nav className="countainer mx-auto max-w-7xl inline-flex items-center justify-between w-full text-white ">
           <span className="text-5xl font-Slackey">Eternity</span>
           <div className=" gap-10 hidden md:inline-flex">
             <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/">Home</Link>
             <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/game">Game</Link>
-            <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Booking</Link>
+            <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Rental</Link>
+            <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Pesanan</Link>
           </div>
-          <div className="text-2xl font-Slackey items-center hidden md:flex">
-            <Button />
-          </div>
+          {renderStatusLogin()}
           <div className="md:hidden text-white text-2xl px-5" onClick={() => setIsClick(!isClick)}>
-          ☰
-        </div>
+            ☰
+          </div>
         </nav>
       </div>
-      {   
+      {
         isClick && (
           <div className=" flex justify-center md:hidden bg-third">
             <div className="p-3">
@@ -39,7 +61,7 @@ const TopNavbar = () => {
           </div>
         )
       }
-    </div>
+    </>
   )
 }
 

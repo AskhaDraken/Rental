@@ -35,7 +35,6 @@ const Bayar = ({ data, title, id, description, onClick }) => {
           isBayar ? <Pembayaran data={data[index]} onClick={() => { setIsBayar(false);  }} /> : (
             <div className='grid grid-cols-2 auto-rows-auto gap-4 w-fit'>
               {/* <div className='absolute'> */}
-              <X className='cursor-pointer absolute text-black flex top-3 justify-end ' onClick={() => window.location.href = '/booking'} />
               {/* </div> */}
               {
                 data?.map((item, index) => {

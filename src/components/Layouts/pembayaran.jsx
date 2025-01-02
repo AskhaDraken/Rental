@@ -23,9 +23,18 @@ const Pembayaran = ({ data, onClick }) => {
             <div className='flex flex-col gap-y-6'>
                 <div className='flex justify-center gap-2'>
                     {
-                        data?.jam.map((item, index) => (
-                            <button className={`btn ${item.isTersedia ? "bg-primary" : "btn-disabled"} text-white w-32`}>{item.open} - {item.close}</button>
-                        ))
+                        data?.jam.map((item, index) => {
+                            // document.getElementById(index).checked = false
+                            // console.log(index, document.getElementById(index).value);
+                            
+                            return (
+                                <div className='flex gap-4 bg-primary p-4 text-white rounded-md'>
+                                    <input id={index} type="checkbox" defaultChecked={false}/>
+                                    <label htmlFor="" onClick={ () => document.getElementById(index).checked = true }>{item.open} - {item.close}</label>
+                                </div>
+                                // <button className={`btn ${item.isTersedia ? "bg-primary" : "btn-disabled"} text-white w-32`}>{item.open} - {item.close}</button>
+                            )
+                        })
                     }
                     {/* <button className='btn bg-primary text-white w-32'> lama sewa</button> */}
                 </div>

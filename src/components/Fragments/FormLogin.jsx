@@ -1,16 +1,17 @@
+"use client"
 import { useFormik } from "formik"
 import { getSession, signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import InputForm from "../Elements/Input"
 import * as yup from "yup"
 import Button from "../Elements/Button"
 import { jwtDecode } from "jwt-decode"
-import { Router } from "react-router-dom"
-
+import Swal from "sweetalert2"
 
 
 const FormLogin = () => {
     const router = useRouter()
+    const callbackParams = useSearchParams()
     const formik = useFormik({
         initialValues: {
             username: "",
@@ -18,28 +19,39 @@ const FormLogin = () => {
         },
         onSubmit: async (values) => {
             event.preventDefault()
+            
             try {
+                const res = await signIn('credentials', {
+                    redirect: false,
+                    username: values.username,
+                    password: values.password,
+                    // callbackUrl: callbackParams.get('callbackUrl')
+                })
+
                 
+
                 if (res.ok) {
-                    const session = await getSession
-            
-                    if (session) {
-                        const role = jwtDecode(session.user.accessToken).role
-            
-                        if (role === "customer") {
-                            router.push(callbackParams.get('callbackUrl') || '/')
-                        } else if (role == "provider") {
+                    const session = await getSession()
+        
+                // console.log(res);
+
+                
+                if (session) {
+                    const role = jwtDecode(session.user.token).role
+                    
+                        if (role === "user") {
+                            router.push('/')
+                            // router.push(callbackParams.get('callbackUrl') || '/')
+                        } else if (role == "admin") {
                             router.push('/dashboard')
-                        } else if (role == "administrator") {
-                            router.push('/admin')
                         }
                     }
                 } else {
                     throw new Error(res.error)
                 }
             }catch (error) {
-                setIsLoading(false)
-                swal.fire({
+                // setIsLoading(false)
+                Swal.fire({
                     icon: "error",
                     title: "Oops...",
                     text: "Email atau Password salah"
