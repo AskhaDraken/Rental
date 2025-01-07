@@ -9,26 +9,9 @@ import Ubah from '../Button/Ubah.jsx'
 import { usePostLogout } from '@/features/auth.js';
 
 const ButtonProfileCustomer = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isOpen2, setIsOpen2] = useState(false)
-
-  const profile = () => {
-    document.getElementById('modalprofile').showModal()
-    console.log('open');
-
-  }
-  const profile2 = () => {
-    document.getElementById('modalprofile2').showModal()
-    console.log('open');
-
-  }
-  const [isBuka, setIsBuka] = useState(true)
 
   const navigate = useNavigate
 
-  const handlelogout = () => {
-    navigate('/');
-  }
 
   return (
     <details className='dropdown p-4 rounded-md flex flex-row justify-center shadow-md'>

@@ -6,9 +6,8 @@ import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
 
 export default function Home() {
-  const { data } = useSession
+  const { data } = useSession()
   // axios.get('/api/game')
-  console.log(data);
 
   const fitur = [
     {

@@ -1,11 +1,16 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '@/components/Elements/Modal/Modal'
-import Bayar from '@/components/Layouts/bayar.jsx'
-import { X } from 'react-feather'
+import { useFetchPlaystation } from '@/features/playstation'
 
 const Booking = () => {
   // const [isBayar, setIsBayar] = useState(true)
+
+  const { data: playstation, isLoading } = useFetchPlaystation()
+
+
+  // console.log(playstation, "playstation");
+
 
 
   const exData = [
@@ -184,15 +189,22 @@ const Booking = () => {
 
             {
               exData.map((item, index,) => (
-                <>
-                  <Bayar
-                    className='bg-black'
-                    id={"modalCheckout" + index}
-                    data={item.television}
-                    title={item.tittle}
-                    desciption="Memiliki 2 Playstation dan bebas merokok"
-                    onClick={() => document.getElementById('modalCheckout' + index).showModal()} />
-                </>
+                <div className='rounded-xl shadow-sm p-4 w-96 h-64 bg-third'>
+                  <div className='flex flex-col justify-center items-center h-full'>
+                    <h1>{item.name}</h1>
+                    <label htmlFor="">{item.description}</label>
+                    <h2>{item.price}</h2>
+                  </div>
+                </div>
+                // <>
+                //   <Bayar
+                //     className='bg-black'
+                //     id={"modalCheckout" + index}
+                //     data={item.television}
+                //     title={item.tittle}
+                //     desciption="Memiliki 2 Playstation dan bebas merokok"
+                //     onClick={() => document.getElementById('modalCheckout' + index).showModal()} />
+                // </>
               ))
             }
           </div>

@@ -41,6 +41,12 @@ enum PS {
   PS5
 }
 
+enum RoomType {
+  Standart
+  VIP
+  VIP_AC
+}
+
 model User {
   id          String        @id @default(uuid())
   fullname    String        @db.VarChar(255)
@@ -71,6 +77,19 @@ model Rental {
   tv          Tv[]
   gallery     Gallery[]
   playstation PlayStation[]
+  game        Game[]
+}
+
+model Game {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  // type        PS
+  // price       Int
+  rentalId    String
+  rental      Rental   @relation(fields: [rentalId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model PlayStation {
@@ -90,6 +109,7 @@ model Tv {
   name        String
   description String?
   nomorUrut   Int      @unique
+  type RoomType @default(Standart)
   psId        String
   rentalId    String
   createdAt   DateTime @default(now())

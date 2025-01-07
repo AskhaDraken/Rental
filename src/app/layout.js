@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import MainNavbar from '@/components/Layouts/Navbar/MainNavbar.jsx'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,15 +23,27 @@ const geistMono = localFont({
 // };
 
 export default function RootLayout({ children }) {
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: false
+    }
+  })
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* NextAUTH */}
         <SessionProvider>
-          <MainNavbar >
-          {children}
-          </MainNavbar>
+          {/* Tanstack Query */}
+          <QueryClientProvider client={queryClient}>
+            {/* Content */}
+            <MainNavbar >
+              {children}
+            </MainNavbar>
+          </QueryClientProvider>
         </SessionProvider>
       </body>
     </html>

@@ -33,16 +33,29 @@ const TopNavbar = () => {
     }
   }
 
+  const renderPrivate = () => {
+    if(status === "authenticated"){
+      return (
+        <>
+          <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Rental</Link>
+          <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Pesanan</Link>
+        </>
+      )
+    }
+  }
+
   return (
     <>
-      <div className=" justify-center w-full flex bg-third stikcy p-2">
+      <div className=" justify-center w-full flex bg-third sticky top-0 p-2 border-b border-white z-50">
         <nav className="countainer mx-auto max-w-7xl inline-flex items-center justify-between w-full text-white ">
           <span className="text-5xl font-Slackey">Eternity</span>
           <div className=" gap-10 hidden md:inline-flex">
             <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/">Home</Link>
             <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/game">Game</Link>
-            <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Rental</Link>
-            <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Pesanan</Link>
+            {
+              renderPrivate()
+            }
+
           </div>
           {renderStatusLogin()}
           <div className="md:hidden text-white text-2xl px-5" onClick={() => setIsClick(!isClick)}>
