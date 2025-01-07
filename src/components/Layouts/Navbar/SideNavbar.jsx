@@ -1,27 +1,33 @@
-import { usePostLogout } from "@/features/auth";
-import Link from "next/link";
-// import React, { Children } from "react";
+import React, { useState } from 'react'
+import FragmentSidebar from '../../../components/Fragments/Fragment-Sidebar.jsx';
+import ButtonProfil from '../../../components/Elements/Button/Button-Profil.jsx';
+import LogoBar from '../../../components/Elements/Logo/Logo-Bar.jsx';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { Outlet } from 'react-router-dom';
 
-const SideNavbar = () => {
+const Sidebar = () => {
+    const [isToggle, setToggle] = useState(true)
+
     return (
-        <aside className="fixed top-0 left-0 h-screen w-64 block place-items-center shadow p-4 bg-primary space-y-4">
-            <div className="w-full">
-                <figure className="max-w-52">
-                    <img src="/logo.png" alt="" />
-                </figure>
-            </div>
-            <nav className="w-full h-full">
-                <div className="flex flex-col space-y-4 text-white">
-                    <h1 className="text-3xl font-Slackey">ETERNITY</h1>
-                    <Link href="/dashboard" className="">Dashboard</Link>
-                    <Link href="/management" className="">Management</Link>
-                    <Link href="/game" className="">Game</Link>
-                    <Link href="/booking" className="">Booking</Link>
-                    <button className="btn btn-error text-white" onClick={usePostLogout}>Logout</button>
+        <div className='fixed'>
+            <div className='flex flex-row items-start text-black'>
+                <div className='flex w-fit h-screen'>
+                    <div className={`${isToggle ? "w-64" : "w-fit"} h-full flex justify-center p-4 transition-all duration-500 relative bg-admin`}>
+                        <div className={`flex-1 flex-col items-start ${isToggle ? "" : "translate-y-6"} transition-transform duration-500 delay-150`}>
+                            <LogoBar toggle={isToggle} />
+                            <FragmentSidebar toggle={isToggle} />
+                            <ButtonProfil toggle={isToggle} />
+                        </div>
+                        <div className={`absolute transition-transform  duration-300 translate-y-1 bg-admin border-4 border-white flex justify-center items-center -right-5 w-10 h-10 rounded-full cursor-pointer`}
+                            onClick={() => setToggle(!isToggle)}
+                        >
+                            <BiChevronRight className={`${isToggle ? "rotate-180" : ""} text-3xl transition-all text-white  duration-300`} />
+                        </div>
+                    </div>
                 </div>
-            </nav>
-        </aside>
-    );
-};
+            </div>
+        </div>
+    )
+}
 
-export default SideNavbar;
+export default Sidebar
