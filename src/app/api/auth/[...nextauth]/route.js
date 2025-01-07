@@ -36,12 +36,11 @@ const authOption = {
                     }
                 })
 
-                console.log(user);
+                if(!user) {
+                    return new NextResponse("User not registered", { status: 404 })
+                }
                 
 
-                
-
-                if(!user) return { message: "User Not-found" }
                 
                 const passwordMatch = bcrypt.compareSync(body.password, user.password)
                 if(!passwordMatch) return { message: "Wrong Password" }
@@ -69,7 +68,6 @@ const authOption = {
             return { ...token, ...user }
         },
         async session({ session, token }) {
-            console.log(token, "session");
             session.user = token
 
             return session
