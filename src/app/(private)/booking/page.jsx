@@ -2,215 +2,43 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '@/components/Elements/Modal/Modal'
 import { useFetchPlaystation } from '@/features/playstation'
+import { ToRupiah } from '@/lib/toRupiah'
+import ModalLayout from '@/components/Elements/Modal/Modal'
+import ListTv from '@/components/Fragments/List/listTv'
 
 const Booking = () => {
-  // const [isBayar, setIsBayar] = useState(true)
-
   const { data: playstation, isLoading } = useFetchPlaystation()
 
 
-  // console.log(playstation, "playstation");
-
-
-
-  const exData = [
-    {
-      tittle: "PS4",
-      television: [
-        {
-          id: 1,
-          name: "Televisi 1",
-          jam: [
-            {
-              id: 1,
-              open: '11:00',
-              close: '12:00',
-              isTersedia: true,
-            },
-            {
-              id: 2,
-              open: '12:00',
-              close: '13:00',
-              isTersedia: true,
-            },
-            {
-              id: 3,
-              open: '13:00',
-              close: '14:00',
-              isTersedia: true,
-            },
-          ]
-        },
-        {
-          id: 2,
-          name: "Televisi 2",
-          jam: [
-            {
-              id: 1,
-              open: '11:00',
-              close: '12:00',
-              isTersedia: true,
-            },
-            {
-              id: 2,
-              open: '12:00',
-              close: '13:00',
-              isTersedia: true,
-            },
-            {
-              id: 3,
-              open: '13:00',
-              close: '14:00',
-              isTersedia: true,
-            },
-          ]
-        },
-        {
-          id: 3,
-          name: "Televisi 3",
-          jam: [
-            {
-              id: 1,
-              open: '11:00',
-              close: '12:00',
-              isTersedia: true,
-            },
-            {
-              id: 2,
-              open: '12:00',
-              close: '13:00',
-              isTersedia: true,
-            },
-            {
-              id: 3,
-              open: '13:00',
-              close: '14:00',
-              isTersedia: true,
-            },
-          ]
-        },
-        {
-          id: 4,
-          name: "Televisi 4",
-          jam: [
-            {
-              id: 1,
-              open: '11:00',
-              close: '12:00',
-              isTersedia: true,
-            },
-            {
-              id: 2,
-              open: '12:00',
-              close: '13:00',
-              isTersedia: true,
-            },
-            {
-              id: 3,
-              open: '13:00',
-              close: '14:00',
-              isTersedia: true,
-            },
-          ]
-        },
-        {
-          id: 5,
-          name: "Televisi 5",
-          jam: [
-            {
-              id: 1,
-              open: '11:00',
-              close: '12:00',
-              isTersedia: true,
-            },
-            {
-              id: 2,
-              open: '12:00',
-              close: '13:00',
-              isTersedia: true,
-            },
-            {
-              id: 3,
-              open: '13:00',
-              close: '14:00',
-              isTersedia: true,
-            },
-          ]
-        },
-        {
-          id: 6,
-          name: "Televisi 6",
-          jam: [
-            {
-              id: 1,
-              open: '11:00',
-              close: '12:00',
-              isTersedia: true,
-            },
-            {
-              id: 2,
-              open: '12:00',
-              close: '13:00',
-              isTersedia: true,
-            },
-            {
-              id: 3,
-              open: '13:00',
-              close: '14:00',
-              isTersedia: true,
-            },
-          ]
-        },
-      ]
-    },
-    {
-      tittle: "PS5",
-      television: [
-        {
-          id: 1,
-          name: "Terlevision1",
-        },
-        {
-          id: 2,
-          name: "tv2",
-        },
-      ]
-    }
-  ]
-  // const [isBayar2, setIsBayar2] = useState(true)
   return (
-    <div className='bg-fourth text-white'>
-      <div className='mx-auto flex flex-col justify-center items-center bg-background bg-fourth min-h-screen '>
-        <img src="/logo.png" alt="" className='max-w-72 ' />
+    <div className='bg-fourth text-white min-h-screen'>
+      <section className='container mx-auto bg-auto p-16' >
+        <div className='flex flex-col gap-10 items-center '>
+          <img src="/logo.png" alt="" className='max-w-72 ' />
 
-        {/* Playstation 4 */}
-        <div className='flex flex-row gap-10'>
-          <div className='flex flex-col md:flex-row gap-10 '>
-
+          <div className='flex flex-wrap gap-4'>
             {
-              exData.map((item, index,) => (
-                <div className='rounded-xl shadow-sm p-4 w-96 h-64 bg-third'>
-                  <div className='flex flex-col justify-center items-center h-full'>
-                    <h1>{item.name}</h1>
-                    <label htmlFor="">{item.description}</label>
-                    <h2>{item.price}</h2>
+              playstation?.data.map((item, index,) => (
+                <>
+                  <div className="card bg-third w-96 shadow-xl">
+                    <div className="card-body">
+                      <h2 className="card-title">{item.name}</h2>
+                      <h2 className='font-semibold text-lg'>{ToRupiah(item.price)}</h2>
+                      <p>{item.description}</p>
+                      <div className="card-actions justify-end">
+                        <button className="btn btn-primary" onClick={() => document.getElementById("modalCheckout" + item.id).showModal()}>Booking Sekarang</button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                // <>
-                //   <Bayar
-                //     className='bg-black'
-                //     id={"modalCheckout" + index}
-                //     data={item.television}
-                //     title={item.tittle}
-                //     desciption="Memiliki 2 Playstation dan bebas merokok"
-                //     onClick={() => document.getElementById('modalCheckout' + index).showModal()} />
-                // </>
+                  <ModalLayout id={"modalCheckout" + item.id} onClick={() => document.getElementById("modalCheckout" + item.id).close()}>
+                    <ListTv psId={item.id} />
+                  </ModalLayout>
+                </>
               ))
             }
           </div>
         </div>
-      </div>
-      <Modal>jfladk</Modal>
+      </section>
     </div>
   )
 }

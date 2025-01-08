@@ -1,7 +1,18 @@
 import { prismaClient } from "@/database/prismaClient"
+import { NextResponse } from "next/server"
 
 export async function GET(req) {
-    const tv = await prismaClient.tv.findMany()
+    const { searchParams: query } = new URL(req.url)
+
+    const tv = await prismaClient.tv.findMany(
+        {
+            where: {
+                psId: query.get('psId')
+            }
+        }
+    )
+
+    return NextResponse.json(tv, { status: 200 })
 }
 
 export async function POST(req) {
@@ -10,15 +21,15 @@ export async function POST(req) {
             userId: req.userId
         }
     })
-    if(!findRentalExist) return new NextResponse("Rental not found", { status: 404 })
+    if (!findRentalExist) return NextResponse.json("Rental not found", { status: 404 })
 
     const findPsExist = await prismaClient.playStation.findFirst({
         where: {
             rentalId: findRentalExist.id
         }
     })
-    if(!findPsExist) return new NextResponse("Playstation not found", { status: 404 })
-    
+    if (!findPsExist) return NextResponse.json("Playstation not found", { status: 404 })
+
     const tv = await prismaClient.tv.create({
         data: {
             name: req.name,
@@ -28,10 +39,10 @@ export async function POST(req) {
             rentalId: findRentalExist.id
         }
     })
-    
-    if(!tv) return new NextResponse("Failed to create tv", { status: 500 })
 
-    return new NextResponse(tv, { status: 200 })
+    if (!tv) return NextResponse.json("Failed to create tv", { status: 500 })
+
+    return NextResponse.json(tv, { status: 200 })
 }
 
 export async function PATCH(req) {
@@ -40,17 +51,17 @@ export async function PATCH(req) {
             id: req.id
         }
     })
-    if(!findTvExist) return new NextResponse("Tv not found", { status: 404 })
-    
+    if (!findTvExist) return NextResponse.json("Tv not found", { status: 404 })
+
     const tv = await prismaClient.tv.update({
         where: {
             id: req.id
         },
         data: req
     })
-    if(!tv) return new NextResponse("Failed to update tv", { status: 500 })
+    if (!tv) return NextResponse.json("Failed to update tv", { status: 500 })
 
-    return new NextResponse(tv, { status: 200 })
+    return NextResponse.json(tv, { status: 200 })
 }
 
 export async function DELETE(req) {
@@ -59,14 +70,14 @@ export async function DELETE(req) {
             id: req.id
         }
     })
-    if(!findTv) return new NextResponse("Tv not found", { status: 404 })
-    
+    if (!findTv) return NextResponse.json("Tv not found", { status: 404 })
+
     const tv = await prismaClient.tv.delete({
         where: {
             id: req.id
         }
     })
-    if(!tv) return new NextResponse("Failed to delete tv", { status: 500 })
+    if (!tv) return NextResponse.json("Failed to delete tv", { status: 500 })
 
-    return new NextResponse(tv, { status: 200 })
+    return NextResponse.json(tv, { status: 200 })
 }

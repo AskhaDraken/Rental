@@ -31,7 +31,7 @@ const ButtonProfileCustomer = () => {
           </button>
         </li>
         <Modal id="modalprofile" className="bg-secondary" onClick={() => document.getElementById('modalprofile').close()}>
-          <X className='text-white absolute top-4 right-4 cursor-pointer' onClick={() => { document.getElementById('modalprofile').close(); setIsBayar(true) }} />
+          {/* <X className='text-white absolute top-4 right-4 cursor-pointer' onClick={() => { document.getElementById('modalprofile').close(); setIsBayar(true) }} /> */}
           <ProfileUser />
         </Modal>
 

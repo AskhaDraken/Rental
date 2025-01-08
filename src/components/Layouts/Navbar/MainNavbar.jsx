@@ -15,8 +15,8 @@ const NavBar = ({ children }) => {
     const renderNavigate = () => {
         if (session) {
             const role = jwtDecode(session.user.token).role
-            
-            if (role === "admin" ) {
+
+            if (role === "admin") {
 
                 if (pathname === "/login") {
                     redirect("/")
@@ -24,7 +24,7 @@ const NavBar = ({ children }) => {
 
                 return (
                     <div className='bg-[#f8fafc] text-black flex flex-col lg:flex-row w-full'>
-                        <SideNavbar/> 
+                        <SideNavbar />
                         <section className='ml-64 w-full' >
                             {children}
                         </section>

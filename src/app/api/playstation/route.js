@@ -1,13 +1,10 @@
 import { prismaClient } from "@/database/prismaClient"
-import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
-export async function GET(req) {
-    console.log("get");
-    
+export async function GET(req) {    
     const playStation = await prismaClient.playStation.findMany()
     
-    return new NextResponse(playStation, { status: 200 })
+    return NextResponse.json(playStation, {status: 200})
 }
 
 export async function POST(req) {
@@ -18,9 +15,9 @@ export async function POST(req) {
     const rentalExist = await prismaClient.rental.findMany({
         where: {
             userId: id
-        }
+        } 
     })
-    if(rentalExist.length == 0) return new NextResponse("Rental not found", { status: 404 })
+    if(rentalExist.length == 0) return NextResponse.json("Rental not found", { status: 404 })
     
     const playStation = await prismaClient.playStation.create({
         data: {
@@ -32,9 +29,9 @@ export async function POST(req) {
             
         }
     })
-    if(!playStation) return new NextResponse("Failed to create playstation", { status: 500 })
+    if(!playStation) return NextResponse.json("Failed to create playstation", { status: 500 })
 
-    return new NextResponse(playStation, { status: 200 })
+    return NextResponse.json(playStation, { status: 200 })
 }
 
 export async function PATCH(req) {
@@ -50,7 +47,7 @@ export async function PATCH(req) {
             id: req.id
         }
     })
-    if(!findPlayStation) return new NextResponse("Playstation not found", { status: 404 })
+    if(!findPlayStation) return NextResponse.json("Playstation not found", { status: 404 })
         
     const playStation = await prismaClient.playStation.update({
         where: {
@@ -58,9 +55,9 @@ export async function PATCH(req) {
         },
         data: body
     })
-    if(!playStation) return new NextResponse("Failed to update playstation", { status: 500 })
+    if(!playStation) return NextResponse.json("Failed to update playstation", { status: 500 })
 
-    return new NextResponse(playStation, { status: 200 })
+    return NextResponse.json(playStation, { status: 200 })
 }
 
 export async function DELETE(req) {
@@ -69,14 +66,14 @@ export async function DELETE(req) {
             id: req.id
         }
     })
-    if(!findPlayStation) return new NextResponse("Playstation not found", { status: 404 })
+    if(!findPlayStation) return NextResponse.json("Playstation not found", { status: 404 })
     
     const playStation = await prismaClient.playStation.delete({
         where: {
             id: req.id
         }
     })
-    if(!playStation) return new NextResponse("Failed to delete playstation", { status: 500 })
+    if(!playStation) return NextResponse.json("Failed to delete playstation", { status: 500 })
 
-    return new NextResponse(playStation, { status: 200 })
+    return NextResponse.json(playStation, { status: 200 })
 }
