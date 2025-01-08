@@ -5,7 +5,6 @@ export async function GET() {
 
     const rental = await prismaClient.rental.findMany()
 
-    console.log(rental);
     return new NextResponse(JSON.stringify({ data: rental }), { status: 200 })
 }
 

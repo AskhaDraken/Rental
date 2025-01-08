@@ -38,7 +38,7 @@ const TopNavbar = () => {
       return (
         <>
           <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Rental</Link>
-          <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/booking">Pesanan</Link>
+          <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/transaksi">Pesanan</Link>
         </>
       )
     }

@@ -12,12 +12,14 @@ export const useFetchTransaksi = () => {
     })
 }
 
-export const useCheckoutTransaksi = () => {
+export const useCheckoutTransaksi = ({onSuccess, onError}) => {
     const axiosAuth = useAxiosAuth()
-
     return useMutation({
         mutationFn: async (body) => {
-            return await axiosAuth.post('/api/transaksi', body)
-        }
+            
+            return await axiosAuth.post('/api/checkout', body)
+        },
+        onSuccess,
+        onError
     })
 }

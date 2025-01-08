@@ -109,15 +109,14 @@ model Tv {
   name        String
   description String?
   nomorUrut   Int      @unique
-  type RoomType @default(Standart)
+  type        RoomType @default(Standart)
+  jam         Json[]
   psId        String
   rentalId    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   rental      Rental   @relation(fields: [rentalId], references: [id])
 }
-
-
 
 model Gallery {
   id        String   @id @default(uuid())

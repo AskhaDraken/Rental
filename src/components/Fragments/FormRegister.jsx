@@ -27,7 +27,6 @@ const FormRegister = () => {
                     body: JSON.stringify(values)
                 })
                 const data = await res.json()
-                console.log(data);
 
                 if (res.ok) {
                     Swal.fire({

@@ -1,8 +1,7 @@
-const { useSession } = require("next-auth/react");
-const { useRefreshToken } = require("./userRefreshToken");
-const { useEffect } = require("react");
-const { axiosInstance } = require("@/lib/axios");
-const { default: config } = require("../../postcss.config.mjs");
+import { useSession } from "next-auth/react"
+import { useRefreshToken } from "./userRefreshToken"
+import { useEffect } from "react"
+import { axiosInstance } from "@/lib/axios"
 
 function useAxiosAuth() {
     const { data: session } = useSession()
