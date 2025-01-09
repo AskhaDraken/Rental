@@ -1,10 +1,13 @@
-import React from 'react'
-
-const Button = ({ children, type = "button" }) => {
+const Button = ({className, type = "button", onClick, children}) => {
+    
     return (
-        <div className='mt-10'>
-            <button type={type} className='bg-gradient-to-r to-primary from-secondary rounded-md h-12 text-white text-2xl font-semibold w-full'>{children}</button>
-        </div>
+        <button
+            className={`btn font-semibold whitespace-nowrap ${className}`} 
+            type={type}
+            onClick={onClick}
+            >
+                {children}
+        </button>
     )
 }
 

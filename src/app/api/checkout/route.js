@@ -53,16 +53,14 @@ export async function POST(req) {
     // Create token midtrans
 
     const snap = new MidtransClient.Snap({
-        isProduction: process.env.NEXTAUTH_ISPRODUCTION,
-        clientKey: process.env.CLIENT_KEY,
-        serverKey: process.env.SERVER_KEY
+        isProduction: process.env.NEXT_PUBLIC_ISPRODUCTION,
+        clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY,
+        serverKey: process.env.NEXT_PUBLIC_SERVER_KEY
     })
 
     const fullname = findUser.fullname.split(" ")
     const data = await req.json()
-
     
-
     const token = await snap.createTransactionToken({
 
         item_details: {
@@ -81,10 +79,8 @@ export async function POST(req) {
             email: findUser.email,
             phone: findUser.phone
         },
-    }).catch((err) => {
-        console.log(err);
-        
     })
+    
     if(!token) return new NextResponse.json("Checkout failed", { status: 500 })
 
     const date = new Date()

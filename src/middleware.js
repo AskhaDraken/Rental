@@ -7,7 +7,7 @@ export async function mainMiddleware(req) {
 
 export default withAuth(mainMiddleware,
     [
-        "/profile",
+        "/profil",
         "/booking",
         "/dashboard"
     ]

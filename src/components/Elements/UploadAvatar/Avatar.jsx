@@ -13,7 +13,6 @@ const AvatarProfil = () => {
     }
 
     useEffect(() => {
-        console.log(preview)
     }, [preview])
     
 

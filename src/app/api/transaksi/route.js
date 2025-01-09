@@ -15,6 +15,8 @@ export async function GET(req) {
             }
         })
         
+        return NextResponse.json(transaction, {status: 200})
+        
         return NextResponse.json(transaction, { status: 200 })
     } else if(role == "admin") {
         const transaction = await prismaClient.transaction.findMany()

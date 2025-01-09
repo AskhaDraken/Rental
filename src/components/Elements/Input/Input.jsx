@@ -1,16 +1,31 @@
-import React from 'react'
-
-const Input = ({type, placeholder,value, onChange, name}) => {
+const Input = (
+    {
+        id,
+        name,
+        disabled = false,
+        type,
+        placeholder,
+        Required = false,
+        onChange = () => { },
+        value,
+        isInvalid = ''
+    }) => {
     return (
         <input
-        className='w-96 h-12 bg-white/30 px-2 py-3 input input-bordered input-neutral border-white font-poppins text-white text-xl'
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={onChange}
+            id={id}
+            className={`w-full lg:w-full font-semibold bg-transparent border-2
+            input input-md input-bordered  rounded-md  outline-none
+            ${isInvalid ? 'input-error' : ''}`}
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            required={Required}
+            onChange={onChange}
+            value={value}
+            disabled={disabled}
+            step={3600000}
         />
     )
-}
-
-export default Input
+  }
+  
+  export default Input

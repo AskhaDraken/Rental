@@ -25,7 +25,6 @@ const Pembayaran = ({ data, onClick }) => {
                     {
                         data?.jam.map((item, index) => {
                             // document.getElementById(index).checked = false
-                            // console.log(index, document.getElementById(index).value);
                             
                             return (
                                 <div className='flex gap-4 bg-primary p-4 text-white rounded-md'>

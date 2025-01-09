@@ -3,6 +3,7 @@ import NextAuth from "next-auth/next"
 import CredentialsProvider from "next-auth/providers/credentials"
 import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
+import { NextResponse } from "next/server"
 // import { NextAuthOptions } from "next-auth"
 
 const authOption = {
@@ -28,7 +29,7 @@ const authOption = {
                     password: credentials?.password
                 }
 
-                
+
 
                 const user = await prismaClient.user.findFirst({
                     where: {
@@ -36,25 +37,41 @@ const authOption = {
                     }
                 })
 
-                if(!user) {
-                    return new NextResponse("User not registered", { status: 404 })
+                if (!user) {
+                    throw new Error("User not registered")
                 }
-                
 
-                
+
                 const passwordMatch = bcrypt.compareSync(body.password, user.password)
-                if(!passwordMatch) return { message: "Wrong Password" }
 
-                const payload = {
-                    id: user.id,
-                    role: user.role
+                if (!passwordMatch) throw new Error("Password not match")
+
+                if (user.role === "admin") {
+
+                    const payload = {
+                        id: user.id,
+                        role: user.role,
+                        rentalId: ""
+                    }
+
+                    return {
+                        fullname: user.fullname,
+                        token: generateToken(payload),
+                        refreshToken: generateRefreshToken(payload),
+                    }
+                } else if (user.role === "user") {
+                    const payload = {
+                        id: user.id,
+                        role: user.role,
+                    }
+
+                    return {
+                        fullname: user.fullname,
+                        token: generateToken(payload),
+                        refreshToken: generateRefreshToken(payload),
+                    }
                 }
 
-                return {
-                    fullname: user.fullname,
-                    token: generateToken(payload),
-                    refreshToken: generateRefreshToken(payload),
-                }
             }
         })
     ],

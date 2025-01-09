@@ -11,7 +11,6 @@ const Riwayatproviders = () => {
     const [open, setOpen] = useState(false)
     const history = () => {
         document.getElementById('modalhistory').showModal()
-        // console.log('open');
     }
     const [isSelesai, setIsSelesai] = useState(true)
 

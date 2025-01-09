@@ -49,7 +49,7 @@ const ListTv = ({ psId }) => {
     // Routing
     const route = useRouter()
 
-    const { mutate: checkout } = useCheckoutTransaksi({
+    const { mutate: checkout, status } = useCheckoutTransaksi({
         onSuccess: () => {
             document.getElementById("modalCheckout" + psId).close()
             Swal.fire({
@@ -103,20 +103,35 @@ const ListTv = ({ psId }) => {
         checkout(body)
     }
 
+    const renderLoading = () => {
+        if(status === "pending") {
+            return (
+                <div className='absolute w-screen h-screen bg-black/50 '>
 
+                </div>
+            )
+        }
+    }
+
+    
     return isLoading ? (<span>Loading...</span>) : listTv?.data.length > 0 ? (
         <>
             {
-                isSelect ? isSelect ? (
+                isSelect ? (
                     <div className='flex flex-col items-start gap-4'>
                         <button className='btn btn-info' onClick={() => setIsSelect(false)}>Back</button>
                         <h1 className='font-bold text-black'>List TV {tvData[position].nomor}</h1>
                         <ListJam tvId={listTv?.data[position].id} />
-                        <form action="#" id={listTv?.data[position].id} className='flex justify-end w-full' onSubmit={handleSubmit}>
-                            <button className='btn btn-info btn-wide' type='submit'>Booking Sekarang</button>
+                        <form id={listTv?.data[position].id} className='flex justify-end w-full' onSubmit={handleSubmit}>
+                            
+                            <button className={`btn btn-info btn-wide ${status === "pending" ? "btn-disabled" : ""}`} type='submit'>
+                                {
+                                    status === "pending" ? <span className="loading loading-dots loading-lg"></span> : "Booking Sekarang"
+                                }
+                            </button>
                         </form>
                     </div>
-                ) : <></> : (
+                ) : (
                     <div className='flex flex-col gap-4 items-start'>
                         <h1 className='font-bold text-black'>List TV</h1>
 

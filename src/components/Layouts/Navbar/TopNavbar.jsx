@@ -1,18 +1,13 @@
 import ButtonProfileCustomer from "@/components/Elements/Button/page.jsx"
-import Button from "@/components/Elements/Button/page.jsx"
-import { usePostLogout } from "@/features/auth"
 import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-// import BurgerNavbar from "./BurgerNavbar"
 import { useState } from "react"
 
 const TopNavbar = () => {
   const [isClick, setIsClick] = useState(false)
-  const { data: session, status } = useSession()
-  const toggleNavbar = () => {
-    setIsClick(!isClick)
-  }
+  const { status } = useSession()
+
 
   const renderStatusLogin = () => {
     const router = useRouter()

@@ -1,8 +1,10 @@
-import React from 'react'
-
-const Label = ({htmlFor, children}) => {
+const Label = ({ htmlFor, children }) => {
     return (
-        <label htmlFor={htmlFor} className='text-white font-poppins font-medium text-2xl'>{children}</label>
+        <label className='label' htmlFor={htmlFor}>
+            <span className="label-text text-black font-semibold text-base text-nowrap whitespace-nowrap">
+                {children}
+            </span>
+        </label>
     )
 }
 

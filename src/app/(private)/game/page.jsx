@@ -236,7 +236,38 @@ const game = () => {
                 </div>
 
             )
-        }
+        } 
+    } else {
+        return (
+
+            <section className='container mx-auto bg-white p-16' >
+                <div className="flex flex-col items-center gap-8">
+                    <h1 className="font-bold text-3xl">Daftar Game</h1>
+                    <div className="grid grid-cols-4 gap-4 ">
+                        {
+                            CardGame.map((CardGame, index) => {
+                                return (
+                                    <div className=" card bg-base-100 w-full shadow-md border rounded-xl" key={index}>
+                                        <figure className="px-5 pt-5 bg-white" >
+                                            <img
+                                                src={CardGame.gambar}
+                                                alt="Shoes"
+                                                className="rounded-xl" />
+                                        </figure>
+                                        <div className="card-body text-center bg-white">
+                                            <h2 className="card-title text-black">{CardGame.nama}</h2>
+                                            <p className='text-black flex '>
+                                                {CardGame.order}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+            </section>
+        )
     }
 
 

@@ -1,14 +1,36 @@
-import React from 'react'
 import Label from './Label'
 import Input from './Input'
 
-const InputForm = ({label, name, type, placeholder, value, onChange}) => {
-  return (
-    <div className='flex flex-col mb-5 '>
-        <Label htmlFor={name}>{label}</Label> 
-        <Input type={type}  name={name} placeholder={placeholder} value={value} onChange={onChange}/>
-    </div>
-  )
+const InputForm = (
+    {
+        className,
+        disabled,
+        type,
+        title,
+        name,
+        placeholder,
+        required,
+        onChange,
+        value,
+        isInvalid
+    }) => {
+    return (
+        <div className={`flex flex-col ${className}`}>
+            <Label htmlFor={name}>{title}</Label>
+            <Input
+                id={name}
+                name={name}
+                type={type}
+                placeholder={placeholder}
+                Required={required}
+                onChange={onChange}
+                value={value}
+                disabled={disabled}
+                isInvalid={isInvalid}
+            />
+            {isInvalid && <p className="text-error text-sm mt-1">{isInvalid}</p>}
+        </div>
+    )
 }
 
 export default InputForm

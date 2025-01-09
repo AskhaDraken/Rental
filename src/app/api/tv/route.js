@@ -3,15 +3,50 @@ import { NextResponse } from "next/server"
 
 export async function GET(req) {
 
-    const tv = await prismaClient.tv.findMany(
-        {
-            where: {
-                psId: req.nextUrl.searchParams.get('psId')
-            }
-        }
-    )
 
-    return NextResponse.json(tv, { status: 200 })
+    if (req.nextUrl.searchParams.get('id')) {
+        const tv = await prismaClient.tv.findFirst({
+            where: {
+                id: req.nextUrl.searchParams.get('id')
+            }
+        })
+        if(!tv) return NextResponse.json("Television Not Found", {status: 404})
+
+        const playStation = await prismaClient.playStation.findFirst({
+            where: {
+                id: tv.psId
+            },
+            select: {
+                name: true,
+                price: true
+            }
+        })
+        if(!playStation) return NextResponse.json("Playstation Not Found", {status: 404})
+
+
+        return NextResponse.json(
+            {
+                ...tv,
+                ...playStation,
+                playstationName: playStation.name
+            },
+            { status: 200 }
+        )
+
+    } else {
+
+        const tv = await prismaClient.tv.findMany(
+            {
+                where: {
+                    psId: req.nextUrl.searchParams.get('psId')
+                }
+            }
+        )
+        return NextResponse.json(tv, { status: 200 })
+
+    }
+
+
 }
 
 export async function POST(req) {
@@ -29,7 +64,7 @@ export async function POST(req) {
     })
     if (!findPsExist) return NextResponse.json("Playstation not found", { status: 404 })
 
-    
+
 
     const body = await req.json()
 
@@ -46,7 +81,7 @@ export async function POST(req) {
     let checkJam = "today"
 
     if (findRentalExist.open === findRentalExist.close) {
-        return NextResponse.json({ message: "Jam tidak boleh sama" }, {status: 400})
+        return NextResponse.json({ message: "Jam tidak boleh sama" }, { status: 400 })
     }
 
     if (parseInt(findRentalExist.open) <= parseInt(findRentalExist.close)) {

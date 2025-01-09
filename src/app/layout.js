@@ -4,6 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import MainNavbar from '@/components/Layouts/Navbar/MainNavbar.jsx'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Bounce, ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,19 @@ export default function RootLayout({ children }) {
             </MainNavbar>
           </QueryClientProvider>
         </SessionProvider>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Bounce}
+        />
       </body>
     </html>
   );
