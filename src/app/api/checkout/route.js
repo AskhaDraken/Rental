@@ -53,13 +53,34 @@ export async function POST(req) {
     // Create token midtrans
 
     const snap = new MidtransClient.Snap({
-        isProduction: process.env.NEXT_PUBLIC_ISPRODUCTION,
+        isProduction: false,
         clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY,
         serverKey: process.env.NEXT_PUBLIC_SERVER_KEY
     })
 
     const fullname = findUser.fullname.split(" ")
     const data = await req.json()
+    console.log({
+        isProduction: process.env.NEXT_PUBLIC_ISPRODUCTION,
+        clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY,
+        serverKey: process.env.NEXT_PUBLIC_SERVER_KEY,
+        item_details: {
+            name: findPs.name,
+            price: findPs.price,
+            quantity: data.jam.length,
+            category: findPs.type
+        },
+        transaction_details: {
+            order_id: Math.random(),
+            gross_amount: findPs.price * data.jam.length
+        },
+        customer_details: {
+            first_name: fullname[0],
+            last_name: fullname[fullname.length - 1],
+            email: findUser.email,
+            phone: findUser.phone
+        },
+    });
     
     const token = await snap.createTransactionToken({
 

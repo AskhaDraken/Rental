@@ -16,7 +16,10 @@ export async function POST(req) {
         }
     })
 
-    if (finduserExist) {
+    console.log(finduserExist);
+    
+
+    if (finduserExist !== null) {
         return NextResponse.json(
             {
                 message: "User Already Exist"
