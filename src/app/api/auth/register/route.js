@@ -15,8 +15,6 @@ export async function POST(req) {
             ]
         }
     })
-
-    console.log(finduserExist);
     
 
     if (finduserExist !== null) {

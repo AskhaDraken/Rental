@@ -1,4 +1,6 @@
 import { prismaClient } from "@/database/prismaClient"
+import { jwtDecode } from "jwt-decode"
+import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
 export async function GET(req) {
@@ -23,6 +25,8 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
+    const body = await req.json()
+    
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
 
     const { id } = jwtDecode(session.token)
@@ -36,10 +40,10 @@ export async function POST(req) {
 
     const playStation = await prismaClient.playStation.create({
         data: {
-            name: req.name,
-            type: req.type,
-            description: req.description,
-            price: req.price,
+            name: body.name,
+            type: body.type,
+            description: body.description,
+            price: parseInt(body.price),
             rentalId: rentalExist[0].id
 
         }
@@ -50,23 +54,18 @@ export async function POST(req) {
 }
 
 export async function PATCH(req) {
-    const body = {
-        name: req.name,
-        type: req.type,
-        description: req.description,
-        price: req.price
-    }
+    const body = await req.json()
 
     const findPlayStation = await prismaClient.playStation.findFirst({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         }
     })
     if (!findPlayStation) return NextResponse.json("Playstation not found", { status: 404 })
 
     const playStation = await prismaClient.playStation.update({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         },
         data: body
     })
@@ -78,14 +77,14 @@ export async function PATCH(req) {
 export async function DELETE(req) {
     const findPlayStation = await prismaClient.playStation.findFirst({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         }
     })
     if (!findPlayStation) return NextResponse.json("Playstation not found", { status: 404 })
 
     const playStation = await prismaClient.playStation.delete({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         }
     })
     if (!playStation) return NextResponse.json("Failed to delete playstation", { status: 500 })

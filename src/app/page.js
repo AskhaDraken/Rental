@@ -1,47 +1,58 @@
 "use client"
+import { jwtDecode } from "jwt-decode";
 import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 // import Image from "next/image";
 
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
 
 export default function Home() {
-  const { data } = useSession()
-  // axios.get('/api/game')
+  const { data: session, status } = useSession()
 
-  const fitur = [
-    {
-      gambar: "/harga.png",
-      nama: 'HARGA',
-      order: 'Harga mulai dari Rp 15.000'
-    },
-    {
-      gambar: "/game.png",
-      nama: 'GAME',
-      order: 'Game PS4/ PS5 terbaru'
-    },
-    {
-      gambar: "/consolePS.png",
-      nama: 'GAME',
-      order: 'Terdapat 20 console PS'
-    },
-    {
-      gambar: "/tv.png",
-      nama: 'TV',
-      order: 'TV 32 Inch'
-    },
-    {
-      gambar: "/wifi.png",
-      nama: 'WIFI',
-      order: 'Pass : Eternityrentalps'
-    },
-    {
-      gambar: "/ac.png",
-      nama: 'AC',
-      order: 'Dilengkapi AC di setiap ruangan'
-    },
+  if (status === "authenticated" && session) {
+    const role = jwtDecode(session.user.token).role
+    if(role === "admin") {
+      redirect("/dashboard")
+    }
+    
+  }
+    // axios.get('/api/game')
 
-  ]
+    const fitur = [
+      {
+        gambar: "/harga.png",
+        nama: 'HARGA',
+        order: 'Harga mulai dari Rp 15.000'
+      },
+      {
+        gambar: "/game.png",
+        nama: 'GAME',
+        order: 'Game PS4/ PS5 terbaru'
+      },
+      {
+        gambar: "/consolePS.png",
+        nama: 'GAME',
+        order: 'Terdapat 20 console PS'
+      },
+      {
+        gambar: "/tv.png",
+        nama: 'TV',
+        order: 'TV 32 Inch'
+      },
+      {
+        gambar: "/wifi.png",
+        nama: 'WIFI',
+        order: 'Pass : Eternityrentalps'
+      },
+      {
+        gambar: "/ac.png",
+        nama: 'AC',
+        order: 'Dilengkapi AC di setiap ruangan'
+      },
+
+    ]
   return (
     <div className='flex flex-col relative bg-fourth text-white'>
       {/* Background dashboard */}

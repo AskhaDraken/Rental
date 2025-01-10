@@ -1,21 +1,19 @@
-"use client"
-
 import { useEffect } from "react"
 import { X } from "react-feather"
-import { useNavigate } from "react-router-dom"
 
-const ModalLayout = ({ id, className, children, onClick = () => { } }) => {
 
+const ModalLayout = ({ id, className = "min-h-fit", title, children }) => {    
     return (
-        <dialog className="modal " role="dialog" id={id}>
-            <div className={`modal-box max-w-fit ${className}`}>
-                <div className="modal-action">
-                    <X className='cursor-pointer absolute text-black flex top-3 justify-end ' onClick={onClick} />
-
-                    {children}
-                </div>
-                <button onClick={onClick}></button>
-                {/* <div className='' onClick={handlelogout}>keluar</div> */}
+        <dialog id={id} className="modal bg-black/30 ">
+            <div className={`modal-box min-w-fit ${className} `}>
+                <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-xl">✕</button>
+                </form>
+                <h3 className="font-bold text-xl mb-3 text-center w-full">{title}</h3>
+                <hr />
+                <br />
+                {children}
             </div>
         </dialog>
     )
