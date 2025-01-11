@@ -23,7 +23,6 @@ const Input = (
             onChange={onChange}
             value={value}
             disabled={disabled}
-            step={3600000}
         />
     )
   }

@@ -3,6 +3,7 @@ import Textarea from '@mui/joy/Textarea';
 import Modal from '../../../components/Elements/Modal/Modal.jsx'
 import Photo from "../../../../public/Photo.jpeg";
 import Avatar from '../../../components/Elements/UploadAvatar/Avatar.jsx';
+import { usePostLogout } from "@/features/auth.js";
 
 const ButtonProfil = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,9 +44,9 @@ const ButtonProfil = (props) => {
             </a>
           </li>
           <li>
-            <a href="" className="text-lg text-red-600">
+            <button onClick={usePostLogout} className="text-lg text-red-600">
               Keluar
-            </a>
+            </button>
           </li>
         </ul>
       </div>

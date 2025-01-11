@@ -1,6 +1,6 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth"
 import axios from "@/lib/axios"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const useFetchPlaystation = () => {
     return useQuery({
@@ -21,3 +21,35 @@ export const useFetchPlaystationById = (id) => {
     })
 }
 
+export const usePostPlaystation = ({onSuccess, onError}) => {
+    const axiosAuth = useAxiosAuth()
+    return useMutation({
+        mutationFn: async (body) => {
+            return await axiosAuth.post('/api/playstation', body)
+        },
+        onSuccess,
+        onError
+    })
+}
+
+export const usePatchPlaystation = ({onSuccess, onError}) => {
+    const axiosAuth = useAxiosAuth()
+    return useMutation({
+        mutationFn: async (body) => {
+            return await axiosAuth.patch('/api/playstation?id=' + body.id, body.data)
+        },
+        onSuccess,
+        onError
+    })
+}
+
+export const useDeletePlaystation = ({onSuccess, onError}) => {
+    const axiosAuth = useAxiosAuth()
+    return useMutation({
+        mutationFn: async (id) => {
+            return await axiosAuth.delete('/api/playstation?id=' + id)
+        },
+        onSuccess,
+        onError
+    })
+}

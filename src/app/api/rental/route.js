@@ -1,68 +1,83 @@
 import { prismaClient } from "@/database/prismaClient";
+import { jwtDecode } from "jwt-decode";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req) {
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
+    const { id } = jwtDecode(session.token)
 
-    const rental = await prismaClient.rental.findMany()
-
-    return new NextResponse(JSON.stringify({ data: rental }), { status: 200 })
+    return NextResponse.json(
+        await prismaClient.rental.findMany({
+            where: {
+                userId: id
+            }
+        }),
+        {
+            status: 200
+        }
+    )
 }
 
 export async function POST(req) {
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
+    const { id } = jwtDecode(session.token)
 
+    const body = await req.json()
     const rental = await prismaClient.rental.create({
         data: {
-            userId: req.userId,
-            name: req.name,
+            userId: id,
+            name: body.name,
             picture: "",
-            description: req.description,
-            alamat: req.alamat,
-            mapurl: req.mapurl,
-            open: req.open,
-            close: req.close,
+            description: body.description,
+            alamat: body.alamat,
+            mapurl: body.mapurl,
+            open: body.open,
+            close: body.close,
 
         }
     })
 
-    if (!rental) return new NextResponse("Failed to create rental", { status: 500 })
+    if (!rental) return NextResponse.json("Failed to create rental", { status: 500 })
 
-    return new NextResponse(rental, { status: 200 })
+    return NextResponse.json(rental, { status: 200 })
 }
 
 export async function PATCH(req) {
     const findRentalExist = await prismaClient.rental.findFirst({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         }
     })
-    if (!findRentalExist) return new NextResponse("Rental not found", { status: 404 })
+    if (!findRentalExist) return NextResponse.json("Rental not found", { status: 404 })
 
     const rental = await prismaClient.rental.update({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         },
-        data: req
+        data: await req.json()
     })
-    if (!rental) return new NextResponse("Failed to update rental", { status: 500 })
+    if (!rental) return NextResponse.json("Failed to update rental", { status: 500 })
 
 
-    return new NextResponse(rental, { status: 200 })
+    return NextResponse.json(rental, { status: 200 })
 
 }
 
 export async function DELETE(req) {
     const findRentalExist = await prismaClient.rental.findFirst({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         }
     })
-    if (!findRentalExist) return new NextResponse("Rental not found", { status: 404 })
+    if (!findRentalExist) return NextResponse.json("Rental not found", { status: 404 })
 
     const rental = await prismaClient.rental.delete({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get("id")
         }
     })
-    if (!rental) return new NextResponse("Failed to delete rental", { status: 500 })
-    return new NextResponse(rental, { status: 200 })
+    if (!rental) return NextResponse.json("Failed to delete rental", { status: 500 })
+        
+    return NextResponse.json(rental, { status: 200 })
 }

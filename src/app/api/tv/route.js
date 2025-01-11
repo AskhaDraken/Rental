@@ -1,4 +1,6 @@
 import { prismaClient } from "@/database/prismaClient"
+import { jwtDecode } from "jwt-decode"
+import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
 export async function GET(req) {
@@ -10,7 +12,7 @@ export async function GET(req) {
                 id: req.nextUrl.searchParams.get('id')
             }
         })
-        if(!tv) return NextResponse.json("Television Not Found", {status: 404})
+        if (!tv) return NextResponse.json("Television Not Found", { status: 404 })
 
         const playStation = await prismaClient.playStation.findFirst({
             where: {
@@ -21,7 +23,7 @@ export async function GET(req) {
                 price: true
             }
         })
-        if(!playStation) return NextResponse.json("Playstation Not Found", {status: 404})
+        if (!playStation) return NextResponse.json("Playstation Not Found", { status: 404 })
 
 
         return NextResponse.json(
@@ -35,14 +37,21 @@ export async function GET(req) {
 
     } else {
 
-        const tv = await prismaClient.tv.findMany(
-            {
-                where: {
-                    psId: req.nextUrl.searchParams.get('psId')
+        const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
+        const { role } = jwtDecode(session.token)
+
+        if (role == "user") {
+            return NextResponse.json(await prismaClient.tv.findMany(
+                {
+                    where: {
+                        psId: req.nextUrl.searchParams.get('psId')
+                    }
                 }
-            }
-        )
-        return NextResponse.json(tv, { status: 200 })
+            ), { status: 200 })
+
+        } else if (role == "admin") {
+            return NextResponse.json(await prismaClient.tv.findMany(), { status: 200 })
+        }
 
     }
 
@@ -50,6 +59,8 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
+    const body = await req.json()
+
     const findRentalExist = await prismaClient.rental.findFirst({
         where: {
             userId: req.userId
@@ -59,14 +70,21 @@ export async function POST(req) {
 
     const findPsExist = await prismaClient.playStation.findFirst({
         where: {
-            rentalId: findRentalExist.id
+            id: body.psId
         }
     })
     if (!findPsExist) return NextResponse.json("Playstation not found", { status: 404 })
 
+    const findRoomExist = await prismaClient.room.findFirst({
+        where: {
+            id: body.roomId
+        }
+    })
+    if (!findRoomExist) return NextResponse.json("Room not found", { status: 404 })
+
+    console.log(findRoomExist);
 
 
-    const body = await req.json()
 
     // Creating jam
     const openSplit = findRentalExist.open
@@ -126,12 +144,13 @@ export async function POST(req) {
 
     const tv = await prismaClient.tv.create({
         data: {
-            name: req.name,
-            nomorUrut: req.nomorUrut,
-            description: req.description,
+            name: body.name,
+            nomorUrut: parseInt(body.nomorUrut),
+            description: body.description,
             jam: jam,
             psId: findPsExist.id,
-            rentalId: findRentalExist.id
+            rentalId: findRentalExist.id,
+            roomId: findRoomExist.id
         }
     })
 
@@ -141,18 +160,21 @@ export async function POST(req) {
 }
 
 export async function PATCH(req) {
+    const body = await req.json()
+
     const findTvExist = await prismaClient.tv.findFirst({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get('id')
         }
     })
     if (!findTvExist) return NextResponse.json("Tv not found", { status: 404 })
 
+
     const tv = await prismaClient.tv.update({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get('id')
         },
-        data: req
+        data: body
     })
     if (!tv) return NextResponse.json("Failed to update tv", { status: 500 })
 
@@ -160,16 +182,18 @@ export async function PATCH(req) {
 }
 
 export async function DELETE(req) {
+    console.log(req.nextUrl.searchParams.get('id'));
+
     const findTv = await prismaClient.tv.findFirst({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get('id')
         }
     })
     if (!findTv) return NextResponse.json("Tv not found", { status: 404 })
 
     const tv = await prismaClient.tv.delete({
         where: {
-            id: req.id
+            id: req.nextUrl.searchParams.get('id')
         }
     })
     if (!tv) return NextResponse.json("Failed to delete tv", { status: 500 })

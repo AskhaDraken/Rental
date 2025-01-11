@@ -1,62 +1,100 @@
-import { Textarea } from '@mui/joy'
-import { FormControl, InputLabel, NativeSelect } from '@mui/material'
+import Button from '@/components/Elements/Button'
+import InputForm from '@/components/Elements/Input'
+import Textarea from '@/components/Elements/Textarea'
+import { usePatchGame, usePostGame } from '@/features/game'
+import { useQueryClient } from '@tanstack/react-query'
+import { useFormik } from 'formik'
 import React from 'react'
+import Swal from 'sweetalert2'
 
-const FormGame = () => {
+const FormGame = ({ data, type = "create", onClick }) => {
+    const queryClient = useQueryClient()
+
+
+    const { mutate: addGame } = usePostGame({
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["fetch.game"] })
+            document.getElementById("addGame").close()
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Success Tambah Game",
+            })
+        },
+        onError: () => {
+            document.getElementById("addGame").close()
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Gagal Tambah Game",
+            })
+        }
+    })
+
+    const { mutate: updateGame } = usePatchGame({
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["fetch.game"] })
+            document.getElementById("editGame" + data.id).close()
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Success Ubah Game",
+            })
+        },
+        onError: () => {
+            document.getElementById("editGame").close()
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Gagal Ubah Game",
+            })
+        }
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            name: data?.name || "",
+            description: data?.description || "",
+        },
+        onSubmit: (values) => {
+            event.preventDefault()
+
+            if (type === "create") {
+                addGame(values)
+            } else if (type === "update") {
+                updateGame({
+                    id: data.id,
+                    data: values
+                })
+            }
+
+        }
+    })
+
+    const handleFormInput = (event) => {
+        const { name, value } = event.target
+        formik.setFieldValue(name, value)
+    }
+
     return (
-        <form className='flex flex-col' method="dialog">
-            <div className='flex'>
-                <h3 className="font-bold text-lg">Game Form</h3>
-            </div>
-            <div className='grid grid-row gap-10 mt-5'>
-                <Textarea
-                    name="Neutral"
-                    placeholder="Nama PS"
-                    variant="outlined"
-                    color="neutral"
+        <form className='block w-full space-y-4' onSubmit={formik.handleSubmit}>
+            <div className='flex flex-col gap-4'>
+                <InputForm
+                    name="name"
+                    title="Nama Playstation"
+                    className="w-full"
+                    type="text"
+                    placeholder="Masukan nama"
+                    required={true}
+                    onChange={handleFormInput}
+                    value={formik.values.name}
+                    isInvalid={formik.errors.name}
                 />
-                <Textarea
-                    name="Soft"
-                    placeholder="Deskripsi PS"
-                    variant="soft"
-                />
-                <FormControl fullWidth>
-                    <InputLabel  variant="standard" htmlFor="uncontrolled-native">
-                        Tipe
-                    </InputLabel>
-                    <NativeSelect
-                        defaultValue={30}
-                        inputProps={{
-                            name: 'Tipe',
-                            id: 'uncontrolled-native',
-                        }}
-                    >
-                        <option value={10}>PS2</option>
-                        <option value={20}>PS3</option>
-                        <option value={30}>PS4</option>
-                        <option value={30}>PS5</option>
-                    </NativeSelect>
-                </FormControl>
-                <FormControl fullWidth>
-                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Harga
-                    </InputLabel>
-                    <NativeSelect
-                        defaultValue={30}
-                        inputProps={{
-                            name: 'Harga',
-                            id: 'uncontrolled-native',
-                        }}
-                    >
-                        <option value={10}>Rp 5000</option>
-                        <option value={20}>Rp 10000</option>
-                        <option value={30}>Rp 15000</option>
-                        <option value={30}>Rp 20000</option>
-                    </NativeSelect>
-                </FormControl>
+                <Textarea name="description" value={formik.values.description} title="Deskripsi" className="w-full" placeholder="Masukan Deskripsi" required={true} onChange={handleFormInput} />
             </div>
-            <div className="mt-5">
-                <button className="bg-purple-800 w-full rounded-md mt-2 text-white p-2">Add</button>
+            <div className="flex gap-4 mt-5">
+                <Button className="text-white btn-wide hidden lg:flex btn-error" onClick={onClick}>Cancel</Button>
+                <Button className={`lg:btn-wide text-white w-full ${type === "create" ? "btn-info" : "btn-warning"}`} type='submit'>{type === "create" ? "Tambah" : "Ubah"}</Button>
             </div>
         </form>
     )

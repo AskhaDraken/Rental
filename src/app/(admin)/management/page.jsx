@@ -22,6 +22,10 @@ import GamePage from "@/components/Pages/Management/Game.jsx";
 import PlaystationPage from "@/components/Pages/Management/Playstation.jsx";
 import TelevisionPage from "@/components/Pages/Management/Television.jsx";
 import Search from "@/components/Fragments/Search/Search.jsx";
+import RoomPage from "@/components/Pages/Management/Room.jsx";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosAuth from "@/hooks/useAxiosAuth.js";
+import FormRental from "@/components/Fragments/Form/FormRental.jsx";
 
 
 const Gameproviders = () => {
@@ -74,6 +78,10 @@ const Gameproviders = () => {
             title: "Television",
             value: "television"
         },
+        {
+            title: "Room",
+            value: "room"
+        },
     ]
 
     const [filter, setFilter] = useState("game")
@@ -85,74 +93,58 @@ const Gameproviders = () => {
             return <PlaystationPage />
         } else if (filter === "television") {
             return <TelevisionPage />
+        } else if (filter === "room") {
+            return <RoomPage />
         } else {
             return <GamePage />
         }
     }
+
+    const axiosAuth = useAxiosAuth()
+    const { data: rental, isLoading } = useQuery({
+        queryKey: ['fetch.rental'],
+        queryFn: async () => {
+            return await axiosAuth.get('/api/rental')
+        }
+    })
+
+    const handleManagement = () => {
+        if (rental?.data.length > 0) {
+            return (
+                <div className="flex flex-col w-full h-full gap-8">
+                    {/* Filter */}
+                    <div className="inline-flex gap-8">
+                        {
+                            filterPage.map((item, index) => (
+                                <div key={index} className="rounded-md p-3 flex items-center justify-center border-2 border-success cursor-pointer hover:scale-105" onClick={() => setFilter(item.value)}>
+                                    <h1 className="font-semibold">{item.title}</h1>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <Search />
+                    {renderFilter()}
+                </div>
+            )
+        } else {
+            return (
+                <>
+                    <Button className="btn-success text-white w-fit" onClick={() => document.getElementById("addRental").showModal()}>Tambah Rental</Button>
+                    <ModalLayout id="addRental" title="Tambah Rental" onClick={() => document.getElementById("addRental").close()}>
+                        <FormRental data={rental?.data} onClick={() => document.getElementById("addRental").close()}/>
+                    </ModalLayout>
+                </>
+            )
+        }
+    }
     return (
+
         <div className="flex flex-col w-full h-full gap-8">
 
             <h1 className="text-2xl font-bold">Management</h1>
+            {handleManagement()}
 
-            {/* Filter */}
-            <div className="inline-flex gap-8">
-                {
-                    filterPage.map((item, index) => (
-                        <div key={index} className="rounded-full p-3 flex items-center justify-center border-2 border-success cursor-pointer hover:scale-105" onClick={() => setFilter(item.value)}>
-                            <h1 className="font-semibold">{item.title}</h1>
-                        </div>
-                    ))
-                }
-            </div>
-            <Search />
-            {renderFilter()}
         </div>
-        // <div className='grid justify-Pcenter p-20 w-full h-fit py-6 overflow-y bg-background overflow-y-scroll font-body'>
-        //     <div className='flex justify-between mr-'>
-        //         <h1 h1 className='bg-gradient-to-r from-white via-purple-950 to-purple-950 text-transparent w-full bg-clip-text text-3xl font-bold'>
-        //             List Tv Rental
-        //         </h1>
-        //         <div className='flex w-[30rem] h-11 p-2 rounded-full items-center justify-between bg-transparent border-white border'>
-        //             <input
-        //                 className='w-full bg-transparent text-lg outline-none text-white p-2'
-        //                 placeholder='Search'
-        //             />
-        //             <div className='w-12 bg-gradient-to-r from-birutua to-ungu hover:from-ungu flex justify-center p-1 border border-white rounded-full cursor-pointer'>
-        //                 <IoSearchOutline size={20} className=' text-white ' />
-        //             </div>
-        //         </div>
-        //     </div>
-        //     <div className='bg-purple-800 w-fit p-2 rounded-lg m-1 translate-y-10 translate-x-0 text-black'>
-        //         {/* {Button} */}
-        //         <button className='text-white' onClick={() => document.getElementById("addGame").showModal()}>+ Add Game</button>
-        //     </div>
-        //     {/* Modal */}
-        //     <ModalLayout id="addGame" className='bg-white' onClick={() => document.getElementById("addGame").close()}>
-        //         <FormGame/>
-        //     </ModalLayout>
-        //     <div className='grid grid-cols-3 gap-10 mt-14'>
-        //         {
-        //             game.map((game, index) => {
-        //                 return (
-        //                     <div className="card bg-white w-80 h-200" key={index}>
-        //                         <figure>
-        //                             <img
-        //                                 src={game.gambar}
-        //                                 alt="" />
-        //                         </figure>
-        //                         <div className="card-body ">
-        //                             <div className='flex justify-between items-start'>
-        //                                 <h2 className="card-title poppins-medium">{game.nama}</h2>
-        //                                 <LikeButton />
-        //                             </div>
-        //                             <p id='descOrder' className="">{game.order}</p>
-        //                         </div>
-        //                     </div>
-        //                 )
-        //             })
-        //         }
-        //     </div>
-        // </div>
     )
 }
 

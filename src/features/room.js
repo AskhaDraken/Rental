@@ -1,45 +1,43 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-
-export const useFetchRental = () => {
+export const useFetchRoom = () => {
     const axiosAuth = useAxiosAuth()
     return useQuery({
-        queryKey: ["fetch.rental"],
+        queryKey: ["fetch.room"],
         queryFn: async () => {
-            return axiosAuth.get("/api/rental")
+            return await axiosAuth.get('/api/room')
         }
     })
 }
 
-export const usePostRental = ({onSuccess, onError}) => {
+export const usePostRoom = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return axiosAuth.post("/api/rental", body)
+            return await axiosAuth.post('/api/room', body)
         },
         onSuccess,
         onError
     })
 }
 
-export const usePatchRental = ({onSuccess, onError}) => {
+export const usePatchRoom = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return axiosAuth.patch(`/api/rental?id=${body}`, body)
+            return await axiosAuth.patch('/api/room?id=' + body.id, body.data)
         },
         onSuccess,
         onError
     })
 }
 
-
-export const useDeleteRental = ({onSuccess, onError}) => {
+export const useDeleteRoom = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (id) => {
-            return axiosAuth.delete(`/api/rental/${id}`)
+            return await axiosAuth.delete('/api/room?id=' + id)
         },
         onSuccess,
         onError

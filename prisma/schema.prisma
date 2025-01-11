@@ -78,14 +78,13 @@ model Rental {
   gallery     Gallery[]
   playstation PlayStation[]
   game        Game[]
+  room        Room[]
 }
 
 model Game {
   id          String   @id @default(uuid())
   name        String
   description String?
-  // type        PS
-  // price       Int
   rentalId    String
   rental      Rental   @relation(fields: [rentalId], references: [id])
   createdAt   DateTime @default(now())
@@ -109,13 +108,24 @@ model Tv {
   name        String
   description String?
   nomorUrut   Int      @unique
-  type        RoomType @default(Standart)
   jam         Json[]
+  roomId      String
   psId        String
   rentalId    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   rental      Rental   @relation(fields: [rentalId], references: [id])
+}
+
+model Room {
+  id        String   @id @default(uuid())
+  name      String
+  type      RoomType @default(Standart)
+  price     Int
+  rentalId  String
+  rental    Rental   @relation(fields: [rentalId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Gallery {

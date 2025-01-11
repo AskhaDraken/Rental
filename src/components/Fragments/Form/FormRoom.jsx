@@ -1,53 +1,51 @@
 import Button from "@/components/Elements/Button"
 import InputForm from "@/components/Elements/Input"
 import SelectInput from "@/components/Elements/SelectInput"
-import Textarea from "@/components/Elements/Textarea"
-import { useFetchPlaystation, usePatchPlaystation, usePostPlaystation } from "@/features/playstation"
-import { usePostRental } from "@/features/rental"
+import { useFetchRoom, usePatchRoom, usePostRoom } from "@/features/room"
 import { useQueryClient } from "@tanstack/react-query"
 import { useFormik } from "formik"
 import Swal from "sweetalert2"
 
-const FormPlaystation = ({ data, type = "create", onClick }) => {
+const FormRoom = ({ data, type = "create", onClick }) => {
     const queryClient = useQueryClient()
+    const { data: listRoom } = useFetchRoom()
 
-
-    const { mutate: addPlaystation } = usePostPlaystation({
+    const { mutate: addRoom } = usePostRoom({
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["fetch.playstation"] })
-            document.getElementById("addPlaystation").close()
+            queryClient.invalidateQueries({ queryKey: ["fetch.room"] })
+            document.getElementById("addRoom").close()
             Swal.fire({
                 icon: "success",
                 title: "Success",
-                text: "Success Tambah Playstation",
+                text: "Success Tambah Room",
             })
         },
         onError: () => {
-            document.getElementById("addPlaystation").close()
+            document.getElementById("addRoom").close()
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Gagal Tambah Playstation",
+                text: "Gagal Tambah Room",
             })
         }
     })
 
-    const { mutate: updatePlaystation } = usePatchPlaystation({
+    const { mutate: updateRoom } = usePatchRoom({
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["fetch.playstation"] })
-            document.getElementById("editPlaystation" + data.id).close()
+            queryClient.invalidateQueries({ queryKey: ["fetch.room"] })
+            document.getElementById("editRoom" + data.id).close()
             Swal.fire({
                 icon: "success",
                 title: "Success",
-                text: "Success Ubah Playstation",
+                text: "Success Ubah Room",
             })
         },
         onError: () => {
-            document.getElementById("editPlaystation").close()
+            document.getElementById("addRoom").close()
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Gagal Ubah Playstation",
+                text: "Gagal Ubah Room",
             })
         }
     })
@@ -55,7 +53,6 @@ const FormPlaystation = ({ data, type = "create", onClick }) => {
     const formik = useFormik({
         initialValues: {
             name: data?.name || "",
-            description: data?.description || "",
             type: data?.type || "",
             price: data?.price || 0
         },
@@ -63,9 +60,9 @@ const FormPlaystation = ({ data, type = "create", onClick }) => {
             event.preventDefault()
 
             if (type === "create") {
-                addPlaystation(values)
+                addRoom(values)
             } else if (type === "update") {
-                updatePlaystation({
+                updateRoom({
                     id: data.id,
                     data: values
                 })
@@ -83,27 +80,21 @@ const FormPlaystation = ({ data, type = "create", onClick }) => {
         if (type === "update") {
             return (
                 <>
-                    <option selected={data.type == "PS1" ? true : false}>PS1</option>
-                    <option selected={data.type == "PS2" ? true : false}>PS2</option>
-                    <option selected={data.type == "PS3" ? true : false}>PS3</option>
-                    <option selected={data.type == "PS4" ? true : false}>PS4</option>
-                    <option selected={data.type == "PS5" ? true : false}>PS5</option>
+                    <option selected={data.type == "Standart" ? true : false} value="Standart">Standart</option>
+                    <option selected={data.type == "VIP" ? true : false} value="VIP">VIP</option>
                 </>
             )
         } else if (type === "create") {
             return (
                 <>
                     <option selected disabled>Pilih</option>
-                    <option>PS1</option>
-                    <option>PS2</option>
-                    <option>PS3</option>
-                    <option>PS4</option>
-                    <option>PS5</option>
+                    <option>Standart</option>
+                    <option>VIP</option>
+
                 </>
             )
         }
     }
-
     return (
         <form className='block w-full space-y-4' onSubmit={formik.handleSubmit}>
             <div className='flex flex-col gap-4'>
@@ -118,8 +109,7 @@ const FormPlaystation = ({ data, type = "create", onClick }) => {
                     value={formik.values.name}
                     isInvalid={formik.errors.name}
                 />
-                <Textarea name="description" value={formik.values.description} title="Deskripsi" className="w-full" placeholder="Masukan Deskripsi" required={true} onChange={handleFormInput} />
-                <SelectInput name="type" title="Tipe PS" onChange={handleFormInput}>
+                <SelectInput name="type" title="Tipe" onChange={handleFormInput}>
                     {handleRenderTypePlaystation()}
                 </SelectInput>
                 <InputForm
@@ -142,4 +132,4 @@ const FormPlaystation = ({ data, type = "create", onClick }) => {
     )
 }
 
-export default FormPlaystation
+export default FormRoom

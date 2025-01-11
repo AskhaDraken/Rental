@@ -10,7 +10,7 @@ const PlaystationPage = () => {
     return (
         <>
             <div className="flex flex-col w-fit gap-4">
-                <Button className="btn-info w-fit text-white" onClick={() => document.getElementById("addPlaystation").showModal()}>Add Playstation</Button>
+                <Button className="btn-info w-fit text-white" onClick={() => document.getElementById("addPlaystation").showModal()}>Tambah Playstation</Button>
                 <div className="grid grid-cols-3 gap-4">
                     {
                         listPlaystation?.data.map((item, index) => (
