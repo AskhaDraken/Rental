@@ -1,10 +1,7 @@
 import { prismaClient } from "@/database/prismaClient"
-import { jwtDecode } from "jwt-decode"
-import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
 export async function GET(req) {
-
 
     if (req.nextUrl.searchParams.get('id')) {
         const tv = await prismaClient.tv.findFirst({
@@ -25,33 +22,62 @@ export async function GET(req) {
         })
         if (!playStation) return NextResponse.json("Playstation Not Found", { status: 404 })
 
+        const room = await prismaClient.room.findFirst({
+            where: {
+                id: tv.roomId
+            },
+            select: {
+                name: true,
+                price: true,
+                type: true
+            }
+        })
+
 
         return NextResponse.json(
             {
                 ...tv,
                 ...playStation,
+                ...room,
+                psPrice: playStation.price,
+                roomPrice: room.price,
+                roomName: room.name,
+                roomType: room.type,
                 playstationName: playStation.name
             },
             { status: 200 }
         )
 
+    } else if (req.nextUrl.searchParams.get('psId')) {
+        const tv = await prismaClient.tv.findMany({
+            where: {
+                psId: req.nextUrl.searchParams.get('psId')
+            }
+        })
+        const roomFilter = []
+
+        tv.map((item) => {
+            roomFilter.push(item.roomId)
+        })
+
+        return NextResponse.json({
+            data: tv,
+            filter: [...new Set(roomFilter)]
+        }, { status: 200 })
     } else {
 
-        const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
-        const { role } = jwtDecode(session.token)
+        const tv = await prismaClient.tv.findMany()
 
-        if (role == "user") {
-            return NextResponse.json(await prismaClient.tv.findMany(
-                {
-                    where: {
-                        psId: req.nextUrl.searchParams.get('psId')
-                    }
-                }
-            ), { status: 200 })
+        const roomFilter = []
 
-        } else if (role == "admin") {
-            return NextResponse.json(await prismaClient.tv.findMany(), { status: 200 })
-        }
+        tv.map((item) => {
+            roomFilter.push(item.roomId)
+        })
+
+        return NextResponse.json({
+            data: tv,
+            filter: [...new Set(roomFilter)]
+        }, { status: 200 })
 
     }
 

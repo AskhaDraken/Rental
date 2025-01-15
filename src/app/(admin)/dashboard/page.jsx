@@ -1,83 +1,88 @@
-import React from 'react'
-import Stik from '../../../../public/layout.png'
+"use client"
+import React, { useState } from 'react'
+// import Stik from '../../../../public/layout.png'
+import { useSession } from 'next-auth/react'
+import ListStat from '@/components/Fragments/List/ListStat'
+import ListOrder from '@/components/Fragments/List/ListOrder'
+import { useFetchRental } from '@/features/rental'
+import ListTransaksi from '@/components/Fragments/List/ListTransaksi'
 
 const Dashboardproviders = () => {
 
+    const { data: session } = useSession()
+    const date = new Date()
+    const [time, setTime] = useState(date.toLocaleTimeString())
+
+    const { data: rental, isLoading } = useFetchRental()
+
+    console.log(rental?.data.length);
+
+
+
+    // const lapanganId = session.user.lapanganId == "" ? localStorage.getItem("aWQ=") : session.user.lapanganId !== "" && localStorage.getItem("aWQ=") !== null ? localStorage.getItem("aWQ=") : session.user.lapanganId
+
+    // const { data: detailLapangan, isLoading } = lapanganId != null ? useFetchByIdLapangan(lapanganId) : ""
+
+
+
+    const RenderDashboard = () => {
+        if (rental?.data.length > 0) {
+            return (
+                <div className='flex flex-col w-full h-full'>
+                    <div className='inline-flex items-center p-2 justify-start w-full'>
+                        <h1 className='font-semibold text-xl text-white'>Hi {session.user.fullname}!</h1>
+
+                        {/* Notification */}
+                        {/* <div className='ml-auto hidden md:inline-flex gap-4 items-center justify-center'>
+                            <label className='' htmlFor="date">{days[date.getDay() - 1]}</label>
+                            <label className='' htmlFor="time">{time}</label>
+                        </div> */}
+                    </div>
+                    <div className='flex flex-row h-full gap-4'>
+
+                        <div className='flex flex-col w-full gap-6'>
+                            {/* Statistik */}
+                            <ListStat />
+
+                            {/* List Order */}
+
+                            <div className='overflow-y-scroll scroll-smooth no-scrollbar w-full h-full min-h-96 bg-white shadow rounded-md p-4'>
+                                <div className='flex flex-col gap-2'>
+                                    <label className='text-xl font-semibold text-secondary' htmlFor="">Booking hari ini</label>
+                                    <hr />
+                                    <ListTransaksi />
+
+                                    {/* <ListOrder id={rental?.data[0].id} token={session.user.token} /> */}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {/* <div className='absolute bottom-0 right-0 inline-flex gap-2'>
+                        <ButtonBooking />
+                        <ButtonScan />
+                    </div> */}
+
+                </div>
+            )
+        } else {
+            return <h1>Tidak apa apa</h1>
+            // return <EmptyData title="Saat ini anda belum punya lapangan" />
+        }
+    }
+
     return (
-        <div className='flex flex-col p-10 w-full py-6 bg-background'>
-            <div className='w-full flex flex-row justify-between mt-5'>
-                <h1 className=' bg-gradient-to-r from-white to-gray-500 text-transparent bg-clip-text text-3xl font-bold '>
-                    Order
-                </h1>
-                <img src={Stik} className='h-12'>
-                </img>
-            </div>
-            <div className='flex w-full flex-row justify-center gap-x-28 mt-10'>
-                <div className='w-full h-full mt-20 px-20 font-semibold font-body'>
-                    <div className='flex w-full justify-center py-4'>
-                        <a href="Management">
-                            <button className="btn bg-primary text-white">
-                                Lihat Selengkapnya
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div className='w-full h-full mt-10 px-10 font-semibold font-body absolut text-white p-5'>
-                <h1>Management</h1>
-            </div>
-            <div className='flex flex-row gap-4'>
-                <div className="card bg-white w-80 h-200 shadow-sm shadow-black">
-                    <figure>
-                        <img
-                            src="https://img.id.my-best.com/product_images/8b24be64b0a63bf3d0e5aac56013dacb.jpeg?ixlib=rails-4.3.1&q=70&lossless=0&w=800&h=800&fit=clip&s=c7e58c84878cc727d56ea64869340063"
-                            alt="Shoes" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title">Shoes!</h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                    </div>
-                </div>
-                <div className="card bg-white w-80 h-200 shadow-sm shadow-black">
-                    <figure>
-                        <img
-                            src="https://img.id.my-best.com/product_images/8b24be64b0a63bf3d0e5aac56013dacb.jpeg?ixlib=rails-4.3.1&q=70&lossless=0&w=800&h=800&fit=clip&s=c7e58c84878cc727d56ea64869340063"
-                            alt="Shoes" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title">Shoes!</h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                    </div>
-                </div>
-                <div className="card bg-white w-80 h-200 shadow-sm shadow-black">
-                    <figure>
-                        <img
-                            src="https://img.id.my-best.com/product_images/8b24be64b0a63bf3d0e5aac56013dacb.jpeg?ixlib=rails-4.3.1&q=70&lossless=0&w=800&h=800&fit=clip&s=c7e58c84878cc727d56ea64869340063"
-                            alt="Shoes" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title">Shoes!</h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                    </div>
-                </div>
-                <div className="card bg-white w-80 h-200 shadow-sm shadow-black">
-                    <figure>
-                        <img
-                            src="https://img.id.my-best.com/product_images/8b24be64b0a63bf3d0e5aac56013dacb.jpeg?ixlib=rails-4.3.1&q=70&lossless=0&w=800&h=800&fit=clip&s=c7e58c84878cc727d56ea64869340063"
-                            alt="Shoes" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title">Shoes!</h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                    </div>
-                </div>
-            </div>
-            <div className='flex w-full justify-center py-4'>
-                <a href="Game">
-                    <button className="btn bg-primary text-white">Lihat Selengkapnya</button>
-                </a>
-            </div>
-        </div>
+        <main className='flex flex-col items-center justify-center gap-4 h-full relative'>
+            {
+                isLoading ? (
+                    <>
+                        <h1 className='font-extrabold text-4xl text-success tracking-wide'>Loading</h1>
+                        <span className="loading loading-spinner text-success loading-lg"></span>
+                    </>
+                ) : RenderDashboard()
+            }
+        </main>
     )
 }
 

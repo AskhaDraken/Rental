@@ -10,10 +10,9 @@ export async function GET(req) {
         select: {
             psId: true,
             jam:true,
-            type: true,
             
         }
-    })
+    })    
     
     if(!data) return NextResponse.json({message: "Tv not found"}, {status: 404})
 
@@ -33,6 +32,8 @@ export async function GET(req) {
     const tanggal = new Date()
     const tomorrow = new Date(date)
 
+    date.setDate(date.getDate() + 1)
+    tomorrow.setDate(tomorrow.getDate() + 1)
 
     const order = await prismaClient.transaction.findMany({
         where: {

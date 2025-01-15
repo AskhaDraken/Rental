@@ -3,9 +3,20 @@ import { jwtDecode } from "jwt-decode"
 import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
-export async function GET() {
+export async function GET(req) {
 
+    if(req.nextUrl.searchParams.get("id")) {
+        const room = await prismaClient.room.findFirst({
+            where: {
+                id: req.nextUrl.searchParams.get("id")
+            }
+        })
+        if (!room) return NextResponse.json("Room not found", { status: 404 })
+
+        return NextResponse.json(room, { status: 200 })
+    }
     const room = await prismaClient.room.findMany()
+    
 
     return NextResponse.json(room, { status: 200 })
 }

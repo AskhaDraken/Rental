@@ -10,7 +10,7 @@ export const CheckboxButton = ({ children, onInput, value, isChecked, disabled, 
                 rounded-md min-w-44 h-full cursor-pointer
                 btn-md btn-outline border-gray-400
                 hover:bg-transparent hover:border-gray-400 hover:text-current hover:shadow-md
-                ${isChecked ? "bg-success/10 text-success border-success" : ""}
+                ${isChecked ? "bg-secondary/10 text-success border-secondary" : ""}
                 `} >
             <input
                 className="hidden"

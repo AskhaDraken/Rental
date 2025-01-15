@@ -112,17 +112,19 @@ const Gameproviders = () => {
         if (rental?.data.length > 0) {
             return (
                 <div className="flex flex-col w-full h-full gap-8">
-                    {/* Filter */}
-                    <div className="inline-flex gap-8">
-                        {
-                            filterPage.map((item, index) => (
-                                <div key={index} className="rounded-md p-3 flex items-center justify-center border-2 border-success cursor-pointer hover:scale-105" onClick={() => setFilter(item.value)}>
-                                    <h1 className="font-semibold">{item.title}</h1>
-                                </div>
-                            ))
-                        }
+                    <div className="inline-flex justify-between items-center">
+                        {/* Filter */}
+                        <div className="inline-flex gap-8">
+                            {
+                                filterPage.map((item, index) => (
+                                    <div key={index} className="rounded-md p-3 flex items-center justify-center border border-white bg-secondary cursor-pointer hover:scale-105" onClick={() => setFilter(item.value)}>
+                                        <h1 className="font-medium text-white">{item.title}</h1>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <Search />
                     </div>
-                    <Search />
                     {renderFilter()}
                 </div>
             )
@@ -141,7 +143,7 @@ const Gameproviders = () => {
 
         <div className="flex flex-col w-full h-full gap-8">
 
-            <h1 className="text-2xl font-bold">Management</h1>
+            <h1 className="text-2xl font-bold text-white">Management</h1>
             {handleManagement()}
 
         </div>

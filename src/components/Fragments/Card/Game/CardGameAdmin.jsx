@@ -27,18 +27,19 @@ const CardGameAdmin = ({ item }) => {
   })
   return (
     <>
-      <div className=" card bg-base-100 w-full shadow-md border rounded-xl">
-        <figure className="px-5 pt-5 bg-white" >
-          {/* <img
-          src={CardGame.gambar}
-          alt="Shoes"
-          className="rounded-xl" /> */}
+      <div className=" card bg-base-100 w-fit shadow-md border rounded-xl">
+        <figure className="px-5 pt-5 bg-white relative" >
+          <img
+            
+            src="/gta.jpg"
+            alt="Shoes"
+            className="rounded-xl w-full max-w-72" />
+          <span className='absolute bottom-4 left-8 bg-third p-2 border border-white rounded'>
+            <h1 className='font-semibold text-white'>PS4</h1>
+          </span>
         </figure>
         <div className="card-body text-center bg-white">
           <h2 className="card-title text-black">{item.name}</h2>
-          <p className='text-black flex '>
-            {item.description}
-          </p>
           <div className="card-actions justify-end">
             <Button className="text-white btn-warning" onClick={() => document.getElementById("editGame" + item.id).showModal()}>Edit</Button>
             <Button className="text-white btn-error" onClick={() => deleteGame(item.id)}>Hapus</Button>

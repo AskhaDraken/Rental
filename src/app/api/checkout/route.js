@@ -1,23 +1,27 @@
 import { prismaClient } from "@/database/prismaClient"
 import { jwtDecode } from "jwt-decode"
-import { MidtransClient } from "midtrans-node-client"
+import Midtrans from "midtrans-client"
 import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
 export async function POST(req) {
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
-    
+
     const { id } = jwtDecode(session.token)
 
+    const data = await req.json()
+
+    console.log(data);
     
+
     // check order
-    const checkOrderExist = await prismaClient.transaction.findFirst({
-        where: {
-            status: "success",
-            date: req.date,
-        }
-    })
-    if (checkOrderExist) return new NextResponse.json("Checkout failed", { status: 500 })
+    // const checkOrderExist = await prismaClient.transaction.findFirst({
+    //     where: {
+    //         status: "success",
+    //         date: req.date,
+    //     }
+    // })
+    // if (checkOrderExist) return new NextResponse.json("Checkout failed", { status: 500 })
 
     const findUser = await prismaClient.user.findFirst({
         where: {
@@ -28,7 +32,7 @@ export async function POST(req) {
 
     const findRental = await prismaClient.rental.findFirst({
         where: {
-            id: req.rentalId
+            id: data.rentalId
         }
     })
     if (!findRental) return new NextResponse.json("Rental not found", { status: 404 })
@@ -36,8 +40,8 @@ export async function POST(req) {
     const findTvId = await prismaClient.tv.findFirst({
         where: {
             AND: {
-                id: req.tvId,
-                rentalId: req.rentalId
+                id: data.tvId,
+                rentalId: data.rentalId
             }
         }
     })
@@ -50,49 +54,39 @@ export async function POST(req) {
     })
     if (!findPs) return new NextResponse.json("Playstation not found", { status: 404 })
 
+    const findRoom = await prismaClient.room.findFirst({
+        where: {
+            id: findTvId.roomId,
+        }
+    })
+    if (!findRoom) return new NextResponse.json("Room not found", { status: 404 })
+
     // Create token midtrans
 
-    const snap = new MidtransClient.Snap({
+    const snap = new Midtrans.Snap({
         isProduction: false,
         clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY,
         serverKey: process.env.NEXT_PUBLIC_SERVER_KEY
     })
 
     const fullname = findUser.fullname.split(" ")
-    const data = await req.json()
-    console.log({
-        isProduction: process.env.NEXT_PUBLIC_ISPRODUCTION,
-        clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY,
-        serverKey: process.env.NEXT_PUBLIC_SERVER_KEY,
-        item_details: {
-            name: findPs.name,
-            price: findPs.price,
-            quantity: data.jam.length,
-            category: findPs.type
-        },
-        transaction_details: {
-            order_id: Math.random(),
-            gross_amount: findPs.price * data.jam.length
-        },
-        customer_details: {
-            first_name: fullname[0],
-            last_name: fullname[fullname.length - 1],
-            email: findUser.email,
-            phone: findUser.phone
-        },
-    });
+
+    console.log(findTvId,findPs, findRoom, data.jam.length);
+    
+    console.log((findPs.price + findRoom.price) * data.jam.length);
+    
     
     const token = await snap.createTransactionToken({
-
         item_details: {
+            id: Date.now(),
             name: findPs.name,
-            price: findPs.price,
+            price: findPs.price + findRoom.price,
             quantity: data.jam.length,
             category: findPs.type
         },
         transaction_details: {
-            order_id: Math.random(),
-            gross_amount: findPs.price * data.jam.length
+            order_id: Date.now(),
+            gross_amount: (findPs.price + findRoom.price) * data.jam.length
         },
         customer_details: {
             first_name: fullname[0],
@@ -102,10 +96,9 @@ export async function POST(req) {
         },
     })
     
-    if(!token) return new NextResponse.json("Checkout failed", { status: 500 })
 
+    if (token.data != undefined) return NextResponse.json("Checkout failed", { status: 500 })
     const date = new Date()
-    
     const checkout = await prismaClient.transaction.create({
         data: {
             rentalId: data.rentalId,
@@ -119,5 +112,5 @@ export async function POST(req) {
 
     if (!checkout) return new NextResponse.json("Checkout failed", { status: 500 })
 
-    return new NextResponse.json("Checkout success", { status: 201 })
+    return NextResponse.json("Checkout success", { status: 201 })
 }

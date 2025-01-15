@@ -10,12 +10,11 @@ import CryptoJS from 'crypto-js'
 import Text from '@/components/Elements/Text'
 import { useFetchTvById } from '@/features/tv'
 
-const CardDetailTransaksi = ({ data }) => {
+const CardDetailTransaksi = ({ data }) => {    
 
     const { data: session } = useSession()
     const queryClient = useQueryClient()
-    const { data: television } = useFetchTvById(data.tvId)
-
+    const { data: television } = useFetchTvById(data.tvId)    
 
     useEffect(() => {        
 
@@ -35,8 +34,6 @@ const CardDetailTransaksi = ({ data }) => {
 
     }, [])
 
-    // const { data: orderDetail, isLoading } = useFetchOrders(orderId)
-    // const { data: user } = useFetchByIdUser(data.userId)
 
 
     const { mutate: orderUpdate } = usePatchTransaksi({
@@ -95,8 +92,6 @@ const CardDetailTransaksi = ({ data }) => {
     return (
         <div className='flex flex-col md:flex-row items-center justify-center gap-6'>
             <div className='block space-y-6 max-w-xl'>
-
-
                 <div className="block space-y-2">
                     <h1 className='font-semibold'>Rincian transaksi</h1>
                     <Text title="Status">
@@ -104,8 +99,9 @@ const CardDetailTransaksi = ({ data }) => {
                             <label className='text-sm' htmlFor="">{renderStatusBermain().status}</label>
                         </span>
                     </Text>
-                    <Text title="Tempat">{data.name}</Text>
-                    <Text title="Tipe Lapangan">{data.type}</Text>
+                    <Text title="Nomor Urut">{data.television.nomorUrut}</Text>
+                    <Text title="Tempat">{data.television.name}</Text>
+                    <Text title="Tipe Ruangan">{data.television.roomType}</Text>
                     <Text className="max-w-36 line-clamp-1" title="ID Transaksi">{data.id}</Text>
                     <Text title="Lama Bermain">{data.time.length} Jam</Text>
                     <Text title="Waktu">{data.time[0].open} - {data.time[data.time.length - 1].close}</Text>
@@ -113,12 +109,12 @@ const CardDetailTransaksi = ({ data }) => {
                 <hr />
                 <div className='block'>
                     <Text title="Jumlah">x {data.time.length}</Text>
-                    <Text title="Harga">{ToRupiah(television?.data.price)}</Text>
+                    <Text title="Harga">{ToRupiah(television?.data.psPrice + television?.data.roomPrice)}</Text>
                 </div>
                 <hr />
                 <div className='flex justify-between'>
                     <h1 className='font-semibold'>Total</h1>
-                    <h1 className='font-semibold'>{ToRupiah(television?.data.price * data.time.length)}</h1>
+                    <h1 className='font-semibold'>{ToRupiah((television?.data.psPrice + television?.data.roomPrice) * data.time.length)}</h1>
                 </div>
 
                 <div className={`${data.status === "success" || renderStatusBermain().status === "Dibatalkan" ? "hidden" : "flex"} gap-2 flex-col md:flex-row justify-evenly`}>
@@ -136,10 +132,10 @@ const CardDetailTransaksi = ({ data }) => {
             </div>
             <div className={`${data.status === "success" ? "flex" : "hidden"} flex-col items-center justify-center gap-4`}>
                 <div className='w-fit border rounded-xl shadow-md p-4'>
-                    {/* <QRCode
+                    <QRCode
                         size={256}
-                        value={CryptoJS.AES.encrypt(JSON.stringify(data), process.env.NEXT_PUBLIC_KEY).toString()}
-                    /> */}
+                        value={CryptoJS.AES.encrypt(JSON.stringify({}), process.env.NEXT_PUBLIC_KEY).toString()}
+                    />
                 </div>
                 <label className='font-normal text-lg' htmlFor="">QR Code Order</label>
             </div>

@@ -1,17 +1,24 @@
 import useAxiosAuth from '@/hooks/useAxiosAuth'
 import { ToRupiah } from '@/lib/toRupiah'
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
+import React, { useState } from 'react'
+import Jam from '../Jam/Jam'
+import { useOrderStore } from '@/store/orderStore'
+import { useFetchRoomById } from '@/features/room'
+import { useFetchPlaystationById } from '@/features/playstation'
 
-const ListJam = ({tvId}) => {
+const ListJam = ({ data }) => {
 
     const axiosAuth = useAxiosAuth()
     const { data: listJam, isLoading } = useQuery({
-        queryKey:['fetch.jam', tvId],
+        queryKey: ['fetch.jam', data.id],
         queryFn: async () => {
-            return await axiosAuth.get(`/api/jam?id=${tvId}`)
+            return await axiosAuth.get(`/api/jam?id=${data.id}`)
         }
     })
+
+    const {data: room} = useFetchRoomById(data.roomId)
+    const {data: playstation} = useFetchPlaystationById(data.psId)    
 
     return (
         <div className='flex flex-col items-start justify-start'>
@@ -19,14 +26,7 @@ const ListJam = ({tvId}) => {
             <div className='grid grid-cols-4 gap-4'>
                 {
                     isLoading ? <span className="loading loading-dots loading-lg"></span> : listJam?.data.data.jadwal.map((item, index) => (
-                        <div key={index} className='p-4 flex flex-col bg-blue-600 rounded-md gap-4 items-center justify-center cursor-pointer hover:scale-105 transition-all'>
-                            <h1 className='font-light text-sm'>60 Menit</h1>
-                            <div className='inline-flex gap-2'>
-                                <h3 className='font-bold text-base'>{item.open}</h3>
-                                <h3 className='font-bold text-base'>{item.close}</h3>
-                            </div>
-                            <h1 className='font-normal text-lg'>{ToRupiah(listJam?.data.data.price)}</h1>
-                        </div>
+                        <Jam key={index} item={item} price={parseInt(room?.data.price) +  parseInt(playstation?.data.price)} />
                     ))
                 }
             </div>

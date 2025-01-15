@@ -11,6 +11,16 @@ export const useFetchRoom = () => {
     })
 }
 
+export const useFetchRoomById = (id) => {
+    const axiosAuth = useAxiosAuth()
+    return useQuery({
+        queryKey: ["fetch.room", id],
+        queryFn: async () => {
+            return await axiosAuth.get('/api/room?id=' + id)
+        }
+    })
+}
+
 export const usePostRoom = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({

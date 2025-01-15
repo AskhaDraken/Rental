@@ -29,7 +29,7 @@ const CardTelevisionAdmin = ({ item }) => {
     })
     return (
         <>
-            <div className="card bg-base-100 w-96 shadow-xl">
+            <div className="card bg-base-100 w-full shadow-xl">
                 <div className="card-body">
                     <h2 className="card-title">{item.name}</h2>
                     <h2 className="card-title">{item.nomorUrut}</h2>
