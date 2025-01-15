@@ -17,8 +17,8 @@ const ListJam = ({ data }) => {
         }
     })
 
-    const {data: room} = useFetchRoomById(data.roomId)
-    const {data: playstation} = useFetchPlaystationById(data.psId)    
+    const { data: room } = useFetchRoomById(data.roomId)
+    const { data: playstation } = useFetchPlaystationById(data.psId)
 
     return (
         <div className='flex flex-col items-start justify-start'>
@@ -26,7 +26,7 @@ const ListJam = ({ data }) => {
             <div className='grid grid-cols-4 gap-4'>
                 {
                     isLoading ? <span className="loading loading-dots loading-lg"></span> : listJam?.data.data.jadwal.map((item, index) => (
-                        <Jam key={index} item={item} price={parseInt(room?.data.price) +  parseInt(playstation?.data.price)} />
+                        <Jam key={index} item={item} price={parseInt(room?.data.price) + parseInt(playstation?.data.price)} />
                     ))
                 }
             </div>

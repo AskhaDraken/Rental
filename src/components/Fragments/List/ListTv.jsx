@@ -14,7 +14,7 @@ import OptionRoom from '../Option/OptionRoom'
 const ListTv = ({ psId }) => {
     const state = useOrderStore()
     const { data: listTv, isLoading } = useFetchTv(psId)
-    
+
     const [isSelect, setIsSelect] = useState(false)
     const [position, setPosition] = useState(0)
 
@@ -30,6 +30,7 @@ const ListTv = ({ psId }) => {
     const { mutate: checkout, status } = useCheckoutTransaksi({
         onSuccess: () => {
             document.getElementById("modalCheckout" + psId).close()
+            state.clearJam([])
             Swal.fire({
                 icon: "success",
                 title: "Success",
@@ -71,14 +72,14 @@ const ListTv = ({ psId }) => {
                 </div>
             )
         }
-    }    
+    }
 
     return isLoading ? (<span>Loading...</span>) : listTv?.data.data.length > 0 ? (
         <>
             {
                 isSelect ? (
                     <div className='flex flex-col items-start gap-4'>
-                        <button className='btn btn-info' onClick={() => setIsSelect(false)}>Back</button>
+                        <button className='btn btn-info' onClick={() => { setIsSelect(false); state.clearJam([]) }}>Back</button>
                         <h1 className='font-bold text-black'>List TV {listTv?.data.data[position].nomorUrut}</h1>
                         <ListJam data={listTv?.data.data[position]} />
                         <form id={listTv?.data.data[position].id} method='POST' action="#" className='flex justify-end w-full' onSubmit={handleSubmit}>
