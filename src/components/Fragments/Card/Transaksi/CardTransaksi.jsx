@@ -5,7 +5,7 @@ import React from 'react'
 import CardDetailTransaksi from './CardDetailTransaksi'
 import { useSession } from 'next-auth/react'
 import { jwtDecode } from 'jwt-decode'
-import {     useFetchUserById } from '@/features/profil'
+import { useFetchUserById } from '@/features/profil'
 
 const CardTransaksi = ({ data }) => {
 
@@ -75,7 +75,7 @@ const CardTransaksi = ({ data }) => {
                         <h4 className=' line-clamp-1' htmlFor="">{television?.data.playstationName}</h4>
                         <h4 className=' line-clamp-1' htmlFor="">{television?.data.roomName}</h4>
                         <h4 className='whitespace-nowrap' htmlFor="">{television?.data.type} </h4>
-                        <h4 className='whitespace-nowrap' htmlFor="">{data.time[0].open} - {data.time[data.time.length - 1].close}</h4>
+                        <h4 className='whitespace-nowrap text-center w-full bg-black' htmlFor="">{data.time[0].open} - {data.time[data.time.length - 1].close}</h4>
                         <h4 className='whitespace-nowrap' htmlFor="">{data.date}</h4>
                         <h4 className='whitespace-nowrap' htmlFor="">{ToRupiah((television?.data.psPrice + television?.data.roomPrice) * data.time.length)}</h4>
                         <span className={`min-w-40 badge ${renderStatusBermain().style} font-semibold text-md text-white p-4`}>
@@ -85,13 +85,12 @@ const CardTransaksi = ({ data }) => {
                     <ModalLayout id={"modalPesanan" + data.id} title="Detail Pesanan" onClick={() => document.getElementById("modalPesanan" + data.id).close()}>
                         {
                             isLoading ? <h1>Mohon tunggu</h1> : <CardDetailTransaksi data={body} />
-
                         }
                     </ModalLayout>
                 </>
             )
         } else if (role === "admin") {
-            
+
             return (
                 <>
                     <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 place-items-center grid-rows-1 w-full border hover:shadow transition-all p-4 md:p-6 rounded-md cursor-pointer bg-white' onClick={() => document.getElementById("modalPesanan" + data.id).showModal()}>
@@ -108,7 +107,7 @@ const CardTransaksi = ({ data }) => {
                         <h4 className='whitespace-nowrap' htmlFor="">Tv {television?.data.nomorUrut}</h4>
 
                         <label className='w-full line-clamp-1 h-fit hidden lg:flex' htmlFor="">{television?.data.playstationName} / {television?.data.roomName}</label>
-                        <label className='w-full line-clamp-1 h-fit hidden md:flex' htmlFor="">{data.time[0].open} - {data.time[data.time.length - 1].close}</label>
+                        <label className='w-full line-clamp-1 h-fit hidden md:flex text-center items-center justify-center' htmlFor="">{data.time[0].open} - {data.time[data.time.length - 1].close}</label>
                         <span className={`min-w-40 hidden md:flex badge ${renderStatusKonfirmasi().style} font-semibold text-md text-white p-4`}>
                             <label htmlFor="">{renderStatusKonfirmasi().status}</label>
                         </span>

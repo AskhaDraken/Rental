@@ -18,6 +18,7 @@ const ListTransaksi = () => {
         </div>
     )) : listTransaksi?.data.length > 0 ? (
         <div className='block w-full h-full space-y-4'>
+            
             {
                 listTransaksi?.data.map((item, index) => (
                     <CardTransaksi data={item} key={index} />

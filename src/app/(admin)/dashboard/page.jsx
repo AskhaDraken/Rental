@@ -6,6 +6,8 @@ import ListStat from '@/components/Fragments/List/ListStat'
 import ListOrder from '@/components/Fragments/List/ListOrder'
 import { useFetchRental } from '@/features/rental'
 import ListTransaksi from '@/components/Fragments/List/ListTransaksi'
+import ButtonBooking from '@/components/Fragments/Button/ButtonBooking'
+import ButtonScan from '@/components/Fragments/Button/ButtonScan'
 
 const Dashboardproviders = () => {
 
@@ -49,20 +51,27 @@ const Dashboardproviders = () => {
                             <div className='overflow-y-scroll scroll-smooth no-scrollbar w-full h-full min-h-96 bg-white shadow rounded-md p-4'>
                                 <div className='flex flex-col gap-2'>
                                     <label className='text-xl font-semibold text-secondary' htmlFor="">Booking hari ini</label>
+                                    <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 place-items-center grid-rows-1 w-full border transition-all p-2 rounded-md bg-white'>
+                                        <h4 className='whitespace-nowrap font-bold' htmlFor="">Nama</h4>
+                                        <h4 className='whitespace-nowrap font-bold' htmlFor="">Nomor Urut</h4>
+                                        <h4 className='whitespace-nowrap font-bold' htmlFor="">Tipe</h4>
+                                        <h4 className='whitespace-nowrap font-bold' htmlFor="">Jam</h4>
+                                        <h4 className='whitespace-nowrap font-bold' htmlFor="">Konfirmasi</h4>
+                                        <h4 className='whitespace-nowrap font-bold' htmlFor="">Pembayaran</h4>
+                                    </div>
                                     <hr />
                                     <ListTransaksi />
 
-                                    {/* <ListOrder id={rental?.data[0].id} token={session.user.token} /> */}
                                 </div>
                             </div>
 
                         </div>
 
                     </div>
-                    {/* <div className='absolute bottom-0 right-0 inline-flex gap-2'>
+                    <div className='absolute bottom-0 right-0 inline-flex gap-2'>
                         <ButtonBooking />
                         <ButtonScan />
-                    </div> */}
+                    </div>
 
                 </div>
             )

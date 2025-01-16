@@ -21,7 +21,7 @@ const ListJam = ({ data }) => {
     const { data: playstation } = useFetchPlaystationById(data.psId)
 
     return (
-        <div className='flex flex-col items-start justify-start'>
+        <div className='flex flex-col gap-4 items-start justify-start'>
             <h1 className='font-bold text-black'>List Jam</h1>
             <div className='grid grid-cols-4 gap-4'>
                 {

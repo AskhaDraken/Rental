@@ -7,21 +7,9 @@ import { NextResponse } from "next/server"
 export async function POST(req) {
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
 
-    const { id } = jwtDecode(session.token)
+    const { id, role } = jwtDecode(session.token)
 
     const data = await req.json()
-
-    console.log(data);
-    
-
-    // check order
-    // const checkOrderExist = await prismaClient.transaction.findFirst({
-    //     where: {
-    //         status: "success",
-    //         date: req.date,
-    //     }
-    // })
-    // if (checkOrderExist) return new NextResponse.json("Checkout failed", { status: 500 })
 
     const findUser = await prismaClient.user.findFirst({
         where: {
@@ -94,18 +82,38 @@ export async function POST(req) {
 
     if (token.data != undefined) return NextResponse.json("Checkout failed", { status: 500 })
     const date = new Date()
-    const checkout = await prismaClient.transaction.create({
-        data: {
-            rentalId: data.rentalId,
-            tvId: data.tvId,
-            userId: id,
-            date: date.toLocaleDateString(),
-            time: data.jam,
-            snapToken: token
-        }
-    })
 
-    if (!checkout) return new NextResponse.json("Checkout failed", { status: 500 })
-
-    return NextResponse.json("Checkout success", { status: 201 })
+    if(role === "admin") {
+        const checkout = await prismaClient.transaction.create({
+            data: {
+                rentalId: data.rentalId,
+                tvId: data.tvId,
+                userId: id,
+                date: date.toLocaleDateString(),
+                time: data.jam,
+                isConfirm: 'accept',
+                status: 'success',
+                snapToken: token
+            }
+        })
+    
+        if (!checkout) return new NextResponse.json("Checkout failed", { status: 500 })
+    
+        return NextResponse.json("Checkout success", { status: 201 })
+    } else if(role === "user") {
+        const checkout = await prismaClient.transaction.create({
+            data: {
+                rentalId: data.rentalId,
+                tvId: data.tvId,
+                userId: id,
+                date: date.toLocaleDateString(),
+                time: data.jam,
+                snapToken: token
+            }
+        })
+    
+        if (!checkout) return new NextResponse.json("Checkout failed", { status: 500 })
+    
+        return NextResponse.json("Checkout success", { status: 201 })
+    }
 }
