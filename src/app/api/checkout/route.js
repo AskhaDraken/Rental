@@ -70,11 +70,6 @@ export async function POST(req) {
     })
 
     const fullname = findUser.fullname.split(" ")
-
-    console.log(findTvId,findPs, findRoom, data.jam.length);
-    
-    console.log((findPs.price + findRoom.price) * data.jam.length);
-    
     
     const token = await snap.createTransactionToken({
         item_details: {

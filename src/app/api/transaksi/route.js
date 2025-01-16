@@ -18,7 +18,12 @@ export async function GET(req) {
         return NextResponse.json(transaction, {status: 200})
         
     } else if(role == "admin") {
-        const transaction = await prismaClient.transaction.findMany()
+        const date = new Date()
+        const transaction = await prismaClient.transaction.findMany({
+            where: {
+                date: date.toLocaleDateString()
+            }
+        })
         
         return NextResponse.json(transaction, { status: 200 })
     }

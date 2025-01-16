@@ -1,9 +1,11 @@
 "use client"
-import { useFetchTransaksi } from '@/features/transaction'
 import CardTransaksi from '../Card/Transaksi/CardTransaksi'
+import { useFetchRiwayat } from '@/features/riwayat'
 
-const ListTransaksi = () => {
-    const { data: listTransaksi, isLoading } = useFetchTransaksi()
+const ListRiwayat = () => {
+    const { data: listRiwayat, isLoading } = useFetchRiwayat()
+    console.log(listRiwayat );
+    
 
     return isLoading ? Array.from({ length: 5 }).map((item, index) => (
         <div className='p-4 w-full h-24 border shadow grid grid-cols-5 gap-4 place-items-center' key={index}>
@@ -16,16 +18,16 @@ const ListTransaksi = () => {
             <span className='skeleton w-full rounded-full h-8'></span>
             <span className='skeleton w-full rounded-full h-8'></span>
         </div>
-    )) : listTransaksi?.data.length > 0 ? (
+    )) : listRiwayat?.data.length > 0 ? (
         <div className='block w-full h-full space-y-4'>
             {
-                listTransaksi?.data.map((item, index) => (
+                listRiwayat?.data.map((item, index) => (
                     <CardTransaksi data={item} key={index} />
                 ))
             }
         </div>
 
-    ) : <h1 className='text-white'>Transaksi masih kosong</h1>
+    ) : <h1 className='text-white'>Riwayat masih kosong</h1>
 }
 
-export default ListTransaksi
+export default ListRiwayat

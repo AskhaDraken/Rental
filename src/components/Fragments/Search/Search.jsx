@@ -30,15 +30,15 @@ const Search = ({ }) => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <div className='inline-flex gap-4 pr-4 items-center justify-between bg-secondary w-[50rem] max-w-2xl text-xl rounded-full shadow shadow-white/20 border-4  border-secondary'>
-                <div className='bg-white w-full rounded-full p-2'>
-                <input
-                    name='value'
-                    type='text'
-                    placeholder='Search'
-                    className='text-black  w-full outline-none text-lg'
-                    value={formik.values.value}
-                    onChange={handleFormikInput}
-                />
+                <div className='bg-white w-full rounded-full px-4 py-2'>
+                    <input
+                        name='value'
+                        type='text'
+                        placeholder='Search'
+                        className='text-black  w-full outline-none text-lg '
+                        value={formik.values.value}
+                        onChange={handleFormikInput}
+                    />
                 </div>
                 <SearchIcon className='cursor-pointer scale-105' color='white' size={32} />
             </div>

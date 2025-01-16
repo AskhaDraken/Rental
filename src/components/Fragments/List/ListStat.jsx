@@ -7,16 +7,13 @@ import { useSession } from 'next-auth/react'
 import CardStat from '../Card/CardStat'
 
 const ListStat = () => {
-    const { data: session } = useSession()
     const axiosAuth = useAxiosAuth()
-    const lapanganId = session.user.lapanganId == "" ? localStorage.getItem("aWQ=") : session.user.lapanganId !== "" && localStorage.getItem("aWQ=") !== null ? localStorage.getItem("aWQ=") : session.user.lapanganId
-
 
     const { data: statistik, isLoading } = useQuery({
         queryKey: ['fetch.statistik'],
-        queryFn: () => axiosAuth.get(`/api/v2/order/${lapanganId}/stat`)
+        queryFn: () => axiosAuth.get(`/api/transaksi/statistik`)
     })
-
+    
     return (
         <div className='flex flex-col md:flex-row gap-6 w-full'>
             {
@@ -30,9 +27,9 @@ const ListStat = () => {
                     </div>
                 )) : (
                     <>
-                        <CardStat name="totalOrder" title="Total Order" total={statistik?.data.data.totalOrder || 0} icon={<IoFileTrayStackedOutline size={36} />} />
-                        <CardStat name="konfirmasi" title="Konfirmasi" total={statistik?.data.data.confirmed || 0} icon={<IoCheckmarkCircleOutline size={36} />} />
-                        <CardStat name="pendapatan" title="Pendapatan" total={ToRupiah(10000)} icon={<IoWalletOutline size={36} />} />
+                        <CardStat name="totalOrder" title="Total Order" total={statistik?.data.totalOrder || 0} icon={<IoFileTrayStackedOutline size={36} />} />
+                        <CardStat name="konfirmasi" title="Konfirmasi" total={statistik?.data.konfirmasi || 0} icon={<IoCheckmarkCircleOutline size={36} />} />
+                        <CardStat name="pendapatan" title="Pendapatan" total={ToRupiah(statistik?.data.income)} icon={<IoWalletOutline size={36} />} />
                     </>
                 )
             }

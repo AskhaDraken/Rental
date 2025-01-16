@@ -78,7 +78,6 @@ export async function GET(req) {
             data: tv,
             filter: [...new Set(roomFilter)]
         }, { status: 200 })
-
     }
 
 

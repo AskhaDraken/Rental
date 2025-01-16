@@ -12,4 +12,14 @@ export const useFetchUser = () => {
     })
 }
 
+export const useFetchUserById = (id) => {
+    const axiosAuth = useAxiosAuth()
+    return useQuery({
+        queryKey: ['fetch.user',id],
+        queryFn: async () => {
+            return await axiosAuth.get(`/api/profil?id=${id}`)
+        }
+    })
+}
+
 

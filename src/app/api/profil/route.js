@@ -6,28 +6,48 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
 
+
     const { id } = jwtDecode(session.token)
 
-    const findUserById = await prismaClient.user.findFirst({
-        where: {
-            id: id
-        },
-        omit: {
-            id: true,
-            password: true,
-            role:true,
-            createdAt: true,
-            updatedAt: true
-        }
-    })
+    if (req.nextUrl.searchParams.get('id')) {
+        return NextResponse.json(
+            await prismaClient.user.findFirst({
+                where: {
+                    id: req.nextUrl.searchParams.get('id')
+                },
+                omit: {
+                    id: true,
+                    password: true,
+                    role: true,
+                    createdAt: true,
+                    updatedAt: true
+                }
+            })
+        )
+    } else {
+        return NextResponse.json(
+            await prismaClient.user.findFirst({
+                where: {
+                    id: id
+                },
+                omit: {
+                    id: true,
+                    password: true,
+                    role: true,
+                    createdAt: true,
+                    updatedAt: true
+                }
+            })
+        )
+    }
 
-    return NextResponse.json(findUserById, {status: 200})
+
 }
 
 export async function PATCH(req) {
     const body = await req.json()
 
-    
+
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
     const { id } = jwtDecode(session.token)
 
@@ -36,7 +56,7 @@ export async function PATCH(req) {
             id: id
         },
     })
-    if(!findUserById) return NextResponse.json("User not found", {status: 404})
+    if (!findUserById) return NextResponse.json("User not found", { status: 404 })
 
     const updateProfil = await prismaClient.user.update({
         where: {
@@ -44,7 +64,7 @@ export async function PATCH(req) {
         },
         data: body
     })
-    if(!updateProfil) return NextResponse.json("Update Fail", {status: 500})
+    if (!updateProfil) return NextResponse.json("Update Fail", { status: 500 })
 
-    return NextResponse.json("Success update", {status: 200})
+    return NextResponse.json("Success update", { status: 200 })
 }
