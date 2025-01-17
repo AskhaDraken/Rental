@@ -65,7 +65,7 @@ const CardDetailTransaksi = ({ data }) => {
 
     const { mutate: cancelOrder } = usePatchCancelTransaksi({
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["fetch.order"] })
+            queryClient.invalidateQueries({ queryKey: ["fetch.transaksi"] })
             toast.success("Pesanan Berhasil di batalkan", { style: { backgroundColor: "#00a96e" } })
             document.getElementById("modalPesanan" + data.id).close()
         },
@@ -126,7 +126,7 @@ const CardDetailTransaksi = ({ data }) => {
                             <h1 className='font-semibold'>{ToRupiah((television?.data.psPrice + television?.data.roomPrice) * data.time.length)}</h1>
                         </div>
         
-                        <div className={`${data.status === "success" || renderStatusBermain().status === "Dibatalkan" ? "hidden" : "flex"} gap-2 flex-col md:flex-row justify-evenly`}>
+                        <div className={`${data.status === "success" || renderStatusBermain().status === "Dibatalkan" || renderStatusBermain().status === "Invalid" ? "hidden" : "flex"} gap-2 flex-col md:flex-row justify-evenly`}>
                             <button
                                 className="btn btn-error w-full md:btn-wide text-white"
                                 onClick={() => cancelOrder({ id: data.id, tvId: data.tvId })}>

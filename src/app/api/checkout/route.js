@@ -80,6 +80,9 @@ export async function POST(req) {
     })
     
 
+    // Sorting Jam
+    data.jam.sort((a, b) => a.id - b.id)
+
     if (token.data != undefined) return NextResponse.json("Checkout failed", { status: 500 })
     const date = new Date()
 

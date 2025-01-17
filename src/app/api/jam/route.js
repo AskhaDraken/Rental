@@ -34,19 +34,18 @@ export async function GET(req) {
 
     date.setDate(date.getDate() + 1)
     tomorrow.setDate(tomorrow.getDate() + 1)
-    
-
+        
     const order = await prismaClient.transaction.findMany({
         where: {
             tvId: req.nextUrl.searchParams.get('id'),
-            date: tomorrow.toJSON().split("T")[0]
+            // date: tomorrow.toLocaleDateString()
         },
         select: {
             status: true,
             time: true,
             date: true
         },
-    })    
+    })        
 
     const jam = data?.jam    
     const available = jam.map((values) => {
@@ -62,11 +61,12 @@ export async function GET(req) {
 
         // Pengecekan jadwal yang sudah terbooking            
         order.map((item) => {
-            
             item.time?.map((v) => {
                 if (new Date(item.date).getDate() == tomorrow.getDate()) {
                     if (values.id == v?.id) {
-                        if(item.orders.statusPembayaran) {
+                        if(item.status) {
+                            console.log("sini");
+                            
                             values.isAvailable = false
                         }
                     }
