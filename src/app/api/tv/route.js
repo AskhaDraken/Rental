@@ -62,7 +62,11 @@ export async function GET(req) {
                 ]
             }
         })
-        const filter = await prismaClient.tv.findMany()
+        const filter = await prismaClient.tv.findMany({
+            where: {
+                psId: req.nextUrl.searchParams.get('psId')
+            }
+        })
         const roomFilter = []
 
         filter.map((item) => {
@@ -145,9 +149,6 @@ export async function POST(req) {
         }
     })
     if (!findRoomExist) return NextResponse.json("Room not found", { status: 404 })
-
-    console.log(findRoomExist);
-
 
 
     // Creating jam
