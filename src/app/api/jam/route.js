@@ -32,6 +32,10 @@ export async function GET(req) {
     const tanggal = new Date()
     const tomorrow = new Date(date)
 
+    date.setDate(date.getDate() + 1)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+
     const order = await prismaClient.transaction.findMany({
         where: {
             tvId: req.nextUrl.searchParams.get('id'),
@@ -42,12 +46,11 @@ export async function GET(req) {
             time: true,
             date: true
         },
-    })
-    
+    })    
 
-    const jam = data?.jam
+    const jam = data?.jam    
     const available = jam.map((values) => {
-
+        
         // Pengecekan jadwal
         if (tanggal.getDate() == tomorrow.getDate() && tanggal.getHours() >= parseInt(values.open.split(":")[0])) { //Sesuai hari dan jam
             values.isAvailable = false

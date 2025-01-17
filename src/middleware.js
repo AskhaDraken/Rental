@@ -9,6 +9,8 @@ export default withAuth(mainMiddleware,
     [
         "/profil",
         "/booking",
-        "/dashboard"
+        "/dashboard",
+        "/riwayat",
+        "/management"
     ]
 )

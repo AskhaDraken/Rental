@@ -185,7 +185,7 @@ const CardDetailTransaksi = ({ data }) => {
                         <hr />
                         <div className='flex justify-between'>
                             <h1 className='font-semibold'>Total</h1>
-                            <h1 className='font-semibold'>{ToRupiah(television?.data.psPrice + television?.data.roomPrice)}</h1>
+                            <h1 className='font-semibold'>{ToRupiah((television?.data.psPrice + television?.data.roomPrice) * data.time.length)}</h1>
                         </div>
                     </div>
                 </div>
