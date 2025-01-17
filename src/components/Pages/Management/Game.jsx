@@ -9,7 +9,6 @@ import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const GamePage = () => {
-  const axiosAuth = useAxiosAuth()
   const query = useSearchParams()
   const [type, setType] = useState("")
   

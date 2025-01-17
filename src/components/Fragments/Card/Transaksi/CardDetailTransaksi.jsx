@@ -59,7 +59,8 @@ const CardDetailTransaksi = ({ data }) => {
             },
             onError: (result) => {
                 toast.error("Gagal melakukan checkout" + result, { style: { backgroundColor: "#ff5861" } })
-            }
+            },
+            
         })
     }
 

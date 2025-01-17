@@ -41,10 +41,7 @@ const CardTransaksi = ({ data }) => {
         television: television?.data
     }
 
-    const { data: session } = useSession()
-
-    console.log(body);
-    
+    const { data: session } = useSession()    
 
     if (session && data) {
         const { role } = jwtDecode(session.user.token)

@@ -2,12 +2,12 @@ import useAxiosAuth from "@/hooks/useAxiosAuth"
 import axios from "@/lib/axios"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-export const useFetchTv = (psId) => {
+export const useFetchTv = (query) => {
     const axiosAuth = useAxiosAuth()
     return useQuery({
-        queryKey: ["fetch.tv", psId],
+        queryKey: ["fetch.tv", query.psId],
         queryFn: async () => {
-            return await axiosAuth.get('/api/tv?psId=' + psId)
+            return await axiosAuth.get(`/api/tv?psId=${query.psId}&room=${query.roomId}`)
         }
     })
 }

@@ -1,26 +1,25 @@
 import { useFetchTv } from '@/features/tv'
-import { ToRupiah } from '@/lib/toRupiah'
-import React, { useState } from 'react'
-import { CheckboxButton } from '../CheckboxButton'
-import ListJam from './ListJam'
-import { useFormik } from 'formik'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useCheckoutTransaksi } from '@/features/transaction'
-import { useRouter } from 'next/navigation'
-import Swal from 'sweetalert2'
+import React, { useEffect, useState } from 'react'
 import { useOrderStore } from '@/store/orderStore'
 import OptionRoom from '../Option/OptionRoom'
-import { useSession } from 'next-auth/react'
-import { jwtDecode } from 'jwt-decode'
-import CardTelevisoion from '../Card/Television/CardTelevision'
 import CardTelevision from '../Card/Television/CardTelevision'
 import CardTelevisionDetail from '../Card/Television/CardTelevisionDetail'
 
 const ListTv = ({ psId }) => {
     const state = useOrderStore()
-    const { data: listTv, isLoading } = useFetchTv(psId)
+    const [roomId, setRoomId] = useState("")
+    const queryParams = {
+        psId: psId,
+        roomId: roomId
+    }
+
+    const { data: listTv, isLoading, refetch } = useFetchTv(queryParams)
     const [isSelect, setIsSelect] = useState(false)
     const [position, setPosition] = useState(0)
+
+    useEffect(() => {
+        refetch()
+    },[roomId])
 
 
     const handleClickPosition = (index) => {
@@ -36,8 +35,9 @@ const ListTv = ({ psId }) => {
             {
                 isSelect ? <CardTelevisionDetail item={listTv?.data.data[position]} onClick={() => { setIsSelect(false); state.clearJam([]) }}/> : (
                     <div className='flex flex-col gap-4 items-start'>                        <h1 className='font-bold text-black'>List TV</h1>
-                        <select className="select select-bordered w-full max-w-xs text-black">
+                        <select className="select select-bordered w-full max-w-xs text-black" onChange={(event) => setRoomId(event.target.value)}>
                             <option disabled selected>Filter</option>
+                            <option>Semua</option>
 
                             {
                                 isLoading ? <h1>loading</h1> : listTv?.data.filter.map((item, index) => (

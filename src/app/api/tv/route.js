@@ -51,12 +51,21 @@ export async function GET(req) {
     } else if (req.nextUrl.searchParams.get('psId')) {
         const tv = await prismaClient.tv.findMany({
             where: {
-                psId: req.nextUrl.searchParams.get('psId')
+                psId: req.nextUrl.searchParams.get('psId'),
+                OR: [
+                    {
+                        roomId: {
+                            contains: req.nextUrl.searchParams.get('room') != "null" ? req.nextUrl.searchParams.get("room") != "Semua" ? req.nextUrl.searchParams.get("room") : "" : "",
+                            mode: 'insensitive'
+                        }
+                    }
+                ]
             }
         })
+        const filter = await prismaClient.tv.findMany()
         const roomFilter = []
 
-        tv.map((item) => {
+        filter.map((item) => {
             roomFilter.push(item.roomId)
         })
 
