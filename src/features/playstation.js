@@ -11,6 +11,17 @@ export const useFetchPlaystation = (value) => {
     })
 }
 
+export const useFetchPlaystationOrder = (value) => {    
+    return useQuery({
+        queryKey: ["fetch.playstation"],
+        queryFn: async () => {
+            return await axios.get('/api/playstation/public')
+        }
+    })
+}
+
+
+
 export const useFetchPlaystationById = (id) => {
     const axiosAuth = useAxiosAuth()
     return useQuery({

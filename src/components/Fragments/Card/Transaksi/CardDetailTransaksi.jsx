@@ -95,6 +95,18 @@ const CardDetailTransaksi = ({ data }) => {
         }
     }
 
+    const renderStatusKonfirmasi = () => {
+        if (data.isConfirm === "pending") {
+            return { style: "badge-warning", status: "Pending" }
+        } else if (data.isConfirm === "reject") {
+            return { style: "badge-error", status: "Reject" }
+        } else if (data.isConfirm === "accept") {
+            return { style: "badge-success", status: "Accept" }
+        } else {
+            return { style: "badge-error", status: "Invalid" }
+        }
+    }
+
     if (session) {
         const { role } = jwtDecode(session.user.token)
         if(role === "user") {
@@ -103,7 +115,7 @@ const CardDetailTransaksi = ({ data }) => {
                     <div className='block space-y-6 max-w-xl'>
                         <div className="block space-y-2">
                             <h1 className='font-semibold'>Rincian transaksi</h1>
-                            <Text title="Status">
+                            <Text title="Status Pembayaran">
                                 <span className={`min-w-36 badge ${renderStatusBermain().style} font-semibold text-white p-3 md:p-4`}>
                                     <label className='text-sm' htmlFor="">{renderStatusBermain().status}</label>
                                 </span>
@@ -165,7 +177,12 @@ const CardDetailTransaksi = ({ data }) => {
 
                         <div className="block space-y-2">
                             <h1 className='font-semibold'>Rincian transaksi</h1>
-                            <Text title="Status">
+                            <Text title="Status Konfirmasi">
+                                <span className={`min-w-36 badge ${renderStatusKonfirmasi().style} font-semibold text-white p-3 md:p-4`}>
+                                    <label className='text-sm' htmlFor="">{renderStatusKonfirmasi().status}</label>
+                                </span>
+                            </Text>
+                            <Text title="Status Pembayaran">
                                 <span className={`min-w-36 badge ${renderStatusBermain().style} font-semibold text-white p-3 md:p-4`}>
                                     <label className='text-sm' htmlFor="">{renderStatusBermain().status}</label>
                                 </span>

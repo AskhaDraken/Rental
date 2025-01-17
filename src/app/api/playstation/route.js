@@ -15,7 +15,8 @@ export async function GET(req) {
             { status: 200 }
         )
     } else {
-
+        console.log(req.nextUrl.pathname);
+        
         return NextResponse.json(
             await prismaClient.playStation.findMany({
                 where: {

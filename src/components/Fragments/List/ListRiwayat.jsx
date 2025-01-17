@@ -3,9 +3,7 @@ import CardTransaksi from '../Card/Transaksi/CardTransaksi'
 import { useFetchRiwayat } from '@/features/riwayat'
 
 const ListRiwayat = () => {
-    const { data: listRiwayat, isLoading } = useFetchRiwayat()
-    console.log(listRiwayat );
-    
+    const { data: listRiwayat, isLoading } = useFetchRiwayat()    
 
     return isLoading ? Array.from({ length: 5 }).map((item, index) => (
         <div className='p-4 w-full h-24 border shadow grid grid-cols-5 gap-4 place-items-center' key={index}>
