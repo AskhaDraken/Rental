@@ -76,7 +76,7 @@ const Dashboardproviders = () => {
                 </div>
             )
         } else {
-            return <h1>Tidak apa apa</h1>
+            return <h1 className='font-semibold text-2xl text-white'>Tidak ada apa</h1>
             // return <EmptyData title="Saat ini anda belum punya lapangan" />
         }
     }

@@ -13,7 +13,7 @@ const FormGame = ({ data, type = "create", onClick }) => {
 
     const { mutate: addGame } = usePostGame({
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["fetch.game"] })
+            queryClient.invalidateQueries({ queryKey: ["fetch.game.admin"] })
             document.getElementById("addGame").close()
             Swal.fire({
                 icon: "success",
@@ -54,7 +54,10 @@ const FormGame = ({ data, type = "create", onClick }) => {
     const formik = useFormik({
         initialValues: {
             name: data?.name || "",
+            picture: data?.picture || "",
             description: data?.description || "",
+            type: data?.type || "",
+            
         },
         onSubmit: (values) => {
             event.preventDefault()
@@ -74,7 +77,7 @@ const FormGame = ({ data, type = "create", onClick }) => {
     const handleFormInput = (event) => {
         const { name, value } = event.target
         formik.setFieldValue(name, value)
-    }
+    }    
 
     return (
         <form className='block w-full space-y-4' onSubmit={formik.handleSubmit}>
@@ -90,6 +93,14 @@ const FormGame = ({ data, type = "create", onClick }) => {
                     value={formik.values.name}
                     isInvalid={formik.errors.name}
                 />
+                <select name='type' className="select select-bordered w-full max-w-xs" onChange={handleFormInput}>
+                    <option disabled selected>Filter</option>
+                    <option>PS1</option>
+                    <option>PS2</option>
+                    <option>PS3</option>
+                    <option>PS4</option>
+                    <option>PS5</option>
+                </select>
                 <Textarea name="description" value={formik.values.description} title="Deskripsi" className="w-full" placeholder="Masukan Deskripsi" required={true} onChange={handleFormInput} />
             </div>
             <div className="flex gap-4 mt-5">

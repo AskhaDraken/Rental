@@ -272,7 +272,7 @@ const GamePage = () => {
     //     )
     // }
     const { data: listGame, isLoading   } = useQuery({
-        queryKey: ["fetch.game"],
+        queryKey: ["fetch.game.user"],
         queryFn: async () => {
             return await axios.get('/api/game')
         }

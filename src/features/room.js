@@ -1,12 +1,14 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-export const useFetchRoom = () => {
+export const useFetchRoom = (value) => {
+    console.log(value);
+    
     const axiosAuth = useAxiosAuth()
     return useQuery({
         queryKey: ["fetch.room"],
         queryFn: async () => {
-            return await axiosAuth.get('/api/room')
+            return await axiosAuth.get('/api/room?value=' + value)
         }
     })
 }

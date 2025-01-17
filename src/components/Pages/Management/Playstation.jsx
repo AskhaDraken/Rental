@@ -3,9 +3,17 @@ import ModalLayout from '@/components/Elements/Modal/Modal'
 import CardPlaystationAdmin from '@/components/Fragments/Card/Playstation/CardPlaystationAdmin'
 import FormPlaystation from '@/components/Fragments/Form/FormPlaystation'
 import { useFetchPlaystation } from '@/features/playstation'
+import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 
 const PlaystationPage = () => {
-    const { data: listPlaystation, isLoading } = useFetchPlaystation()
+    const query = useSearchParams()
+    const { data: listPlaystation, isLoading, refetch } = useFetchPlaystation(query.get('value'))
+        
+
+    useEffect(() => {
+        refetch()
+    },[query.get('value')])
 
     return (
         <>

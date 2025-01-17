@@ -5,7 +5,7 @@ import { NextResponse } from "next/server"
 
 export async function GET(req) {
 
-    if(req.nextUrl.searchParams.get("id")) {
+    if (req.nextUrl.searchParams.get("id")) {
         const room = await prismaClient.room.findFirst({
             where: {
                 id: req.nextUrl.searchParams.get("id")
@@ -15,8 +15,25 @@ export async function GET(req) {
 
         return NextResponse.json(room, { status: 200 })
     }
-    const room = await prismaClient.room.findMany()
-    
+    const room = await prismaClient.room.findMany({
+        // where: {
+        //     OR: [
+        //         {
+        //             name: {
+        //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
+        //                 mode: 'insensitive'
+        //             }
+        //         },
+        //         {
+        //             description: {
+        //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
+        //                 mode: 'insensitive'
+        //             }
+        //         }
+        //     ]
+        // }
+    })
+
 
     return NextResponse.json(room, { status: 200 })
 }

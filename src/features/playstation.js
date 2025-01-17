@@ -2,11 +2,11 @@ import useAxiosAuth from "@/hooks/useAxiosAuth"
 import axios from "@/lib/axios"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-export const useFetchPlaystation = () => {
+export const useFetchPlaystation = (value) => {    
     return useQuery({
         queryKey: ["fetch.playstation"],
         queryFn: async () => {
-            return await axios.get('/api/playstation')
+            return await axios.get('/api/playstation?value=' + value)
         }
     })
 }

@@ -1,13 +1,11 @@
 "use client"
 
-import { useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { Search as SearchIcon } from 'react-feather'
 
 const Search = ({ }) => {
-    const queryClient = useQueryClient()
     const query = useSearchParams()
     const router = useRouter()
 
@@ -17,10 +15,7 @@ const Search = ({ }) => {
         },
         onSubmit: async () => {
             event.preventDefault()
-            if (formik.values.value !== "") {
-                router.push('?value=' + formik.values.value)
-                queryClient.invalidateQueries()
-            }
+            router.push('?value=' + formik.values.value)
         }
     })
 
@@ -38,9 +33,14 @@ const Search = ({ }) => {
                         className='text-black  w-full outline-none text-lg '
                         value={formik.values.value}
                         onChange={handleFormikInput}
+                        // onChange={(event) => {
+                        //     router.push('?value='+event.target.value)
+                        // }}
                     />
                 </div>
-                <SearchIcon className='cursor-pointer scale-105' color='white' size={32} />
+                <button type='submit'>
+                    <SearchIcon className='cursor-pointer scale-105' color='white' size={32} />
+                </button>
             </div>
         </form>
     )

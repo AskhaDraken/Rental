@@ -65,18 +65,48 @@ export async function GET(req) {
             filter: [...new Set(roomFilter)]
         }, { status: 200 })
     } else {
+        console.log(req.nextUrl.searchParams.get('ps') != "null" ? req.nextUrl.searchParams.get("ps") : "");
 
-        const tv = await prismaClient.tv.findMany()
+        const tv = await prismaClient.tv.findMany({
+            where: {
+                AND: [
+                    {
+                        name: {
+                            contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') : "",
+                            mode: 'insensitive'
+                        }
+                    },
+                    {
+                        psId: {
+                            contains: req.nextUrl.searchParams.get('ps') != "null" ? req.nextUrl.searchParams.get("ps") != "Semua" ? req.nextUrl.searchParams.get("ps") : "" : "",
+                            mode: 'insensitive'
+                        }
+                    },
+                    {
+                        roomId: {
+                            contains: req.nextUrl.searchParams.get('room') != "null" ? req.nextUrl.searchParams.get("room") != "Semua" ? req.nextUrl.searchParams.get("room") : "" : "",
+                            mode: 'insensitive'
+                        }
+                    }
+                ]
+            }
+        })
+
+        const filter = await prismaClient.tv.findMany()
 
         const roomFilter = []
+        const psFilter = []
 
-        tv.map((item) => {
+        filter.map((item) => {
             roomFilter.push(item.roomId)
+            psFilter.push(item.psId)
         })
+
 
         return NextResponse.json({
             data: tv,
-            filter: [...new Set(roomFilter)]
+            filterRoom: [...new Set(roomFilter)],
+            filterPs: [...new Set(psFilter)]
         }, { status: 200 })
     }
 

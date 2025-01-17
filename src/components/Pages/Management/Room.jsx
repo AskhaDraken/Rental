@@ -3,9 +3,17 @@ import ModalLayout from '@/components/Elements/Modal/Modal'
 import CardRoomAdmin from '@/components/Fragments/Card/Room/CardRoomAdmin'
 import FormRoom from '@/components/Fragments/Form/FormRoom'
 import { useFetchRoom } from '@/features/room'
+import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 
 const RoomPage = () => {
-    const { data: listRoom } = useFetchRoom()
+    const query = useSearchParams()    
+    const { data: listRoom, refetch } = useFetchRoom("asd")
+            
+
+    useEffect(() => {
+        refetch()
+    },[query.get('value')])
     return (
         <>
             <div className="flex flex-col w-fit gap-4">

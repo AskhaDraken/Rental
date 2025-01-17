@@ -66,9 +66,9 @@ model Rental {
   userId      String        @unique
   name        String
   picture     String?
-  description String?        @db.VarChar(500)
+  description String?       @db.VarChar(500)
   alamat      String?       @db.VarChar(255)
-  mapurl      String?        @db.VarChar(255)
+  mapurl      String?       @db.VarChar(255)
   open        String
   close       String
   createdAt   DateTime      @default(now())
@@ -86,6 +86,7 @@ model Game {
   name        String
   picture     String?
   description String?
+  type        String
   rentalId    String
   rental      Rental   @relation(fields: [rentalId], references: [id])
   createdAt   DateTime @default(now())

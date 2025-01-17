@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
 export async function GET(req) {
-    
+
     if (req.nextUrl.searchParams.get("id")) {
         return NextResponse.json(
             await prismaClient.playStation.findFirst({
@@ -12,12 +12,29 @@ export async function GET(req) {
                     id: req.nextUrl.searchParams.get("id")
                 }
             }),
-            {status: 200}
+            { status: 200 }
         )
     } else {
 
         return NextResponse.json(
-            await prismaClient.playStation.findMany(),
+            await prismaClient.playStation.findMany({
+                // where: {
+                //     OR: [
+                //         {
+                //             name: {
+                //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
+                //                 mode: 'insensitive'
+                //             }
+                //         },
+                //         {
+                //             description: {
+                //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
+                //                 mode: 'insensitive'
+                //             }
+                //         }
+                //     ]
+                // }
+            }),
             { status: 200 }
         )
     }
@@ -26,7 +43,7 @@ export async function GET(req) {
 
 export async function POST(req) {
     const body = await req.json()
-    
+
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
 
     const { id } = jwtDecode(session.token)
