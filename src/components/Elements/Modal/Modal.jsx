@@ -8,9 +8,9 @@ const ModalLayout = ({ id, className = "min-h-fit", title, children }) => {
             <div className={`modal-box min-w-fit ${className} `}>
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-xl">✕</button>
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-xl text-secondary">✕</button>
                 </form>
-                <h3 className="font-bold text-xl mb-3 text-center w-full">{title}</h3>
+                <h3 className="font-bold text-xl mb-3 text-center w-full text-secondary">{title}</h3>
                 <hr />
                 <br />
                 {children}

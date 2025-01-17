@@ -11,6 +11,7 @@ import { IoIosArrowDropleft } from "react-icons/io";
 import { useFetchRoomById } from '@/features/room'
 
 const CardTelevisionDetail = ({ item, onClick }) => {
+
     const state = useOrderStore()
     const { data: session } = useSession()
     const queryClient = useQueryClient()
@@ -19,8 +20,15 @@ const CardTelevisionDetail = ({ item, onClick }) => {
 
     const { mutate: checkout, status } = useCheckoutTransaksi({
         onSuccess: () => {
-            document.getElementById("modalCheckout" + psId).close()
-            document.getElementById("orderManual").close()
+            if(session) {
+                const {role} = jwtDecode(session.user.token)
+                
+                if(role == "admin") {
+                    document.getElementById("orderManual").close()
+                } else if(role == "user"){
+                    document.getElementById("modalCheckout" + item.psId).close()
+                }
+            }
             queryClient.invalidateQueries(['fetch.transaksi'])
             state.clearJam([])
             Swal.fire({
@@ -37,14 +45,14 @@ const CardTelevisionDetail = ({ item, onClick }) => {
                         if (role === "user") {
                             route.push("/transaksi")
                         } else {
-                            document.getElementById("modalCheckout" + psId).close()
+                            document.getElementById("modalCheckout" + item.psId).close()
                         }
                     }
                 }
             })
         },
         onError: () => {
-            document.getElementById("modalCheckout" + psId).close()
+            document.getElementById("modalCheckout" + item.psId).close()
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -53,7 +61,7 @@ const CardTelevisionDetail = ({ item, onClick }) => {
         }
     })
 
-    const {data: room} = useFetchRoomById(item.roomId)
+    const { data: room } = useFetchRoomById(item.roomId)
 
     const handleSubmit = () => {
         event.preventDefault()
@@ -62,12 +70,13 @@ const CardTelevisionDetail = ({ item, onClick }) => {
             tvId: item.id,
             jam: state.jam
         }
+        
         checkout(body)
     }
     return (
         <div className='flex flex-col items-start gap-4'>
             <div className='inline-flex gap-2 items-center hover:scale-[102%] cursor-pointer' onClick={onClick}>
-                <IoIosArrowDropleft size={36} />
+                <IoIosArrowDropleft size={36} color='#541d7b' />
                 <h1 className='font-semibold text-secondary text-lg'>Kembali</h1>
             </div>
 
@@ -85,7 +94,7 @@ const CardTelevisionDetail = ({ item, onClick }) => {
             <ListJam data={item} />
             <form id={item.id} method='POST' action="#" className='flex justify-end w-full' onSubmit={handleSubmit}>
 
-                <button className={`btn bg-third text-white btn-info btn-wide ${status === "pending" ? "btn-disabled" : ""}`} type='submit'>
+                <button className={`btn bg-third text-white btn-info btn-wide ${status === "pending" ? "btn-disabled" : ""} ${state.jam.length < 1 ? "btn-disabled" : ""}`} type='submit'>
                     {
                         status === "pending" ? <span className="loading loading-dots loading-lg"></span> : <h1 className='font-semibold text-base'>Pesan Sekarang</h1>
                     }

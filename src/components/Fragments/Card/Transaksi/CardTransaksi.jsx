@@ -73,12 +73,11 @@ const CardTransaksi = ({ data }) => {
                         <h4 className='whitespace-nowrap text-md text-end' htmlFor="">Total: {ToRupiah(television?.data.price)}</h4>
                     </div>
 
-                    <div className='bg-white hidden md:flex flex-col lg:flex-row items-start lg:items-center justify-between w-full border shadow p-6 rounded-md cursor-pointer' onClick={() => document.getElementById("modalPesanan" + data.id).showModal()}>
+                    <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-4 place-items-center grid-rows-1 w-full border hover:shadow transition-all p-4 rounded-md cursor-pointer bg-white' onClick={() => document.getElementById("modalPesanan" + data.id).showModal()}>
                         <h4 className='text-black whitespace-nowrap' htmlFor="">Tv {television?.data.nomorUrut}</h4>
                         <h4 className='text-black line-clamp-1' htmlFor="">{television?.data.playstationName}</h4>
-                        <h4 className='text-black line-clamp-1' htmlFor="">{television?.data.roomName}</h4>
-                        <h4 className='text-black whitespace-nowrap' htmlFor="">{television?.data.type} </h4>
-                        <h4 className='text-black whitespace-nowrap text-center w-full' htmlFor="">{data.time[0].open} - {data.time[data.time.length - 1].close}</h4>
+                        <h4 className='text-black whitespace-nowrap' htmlFor="">{television?.data.roomName} </h4>
+                        <h4 className='text-black whitespace-nowrap text-center' htmlFor="">{data.time[0].open} - {data.time[data.time.length - 1].close}</h4>
                         <h4 className='text-black whitespace-nowrap' htmlFor="">{data.date}</h4>
                         <h4 className='text-black whitespace-nowrap' htmlFor="">{ToRupiah((television?.data.psPrice + television?.data.roomPrice) * data.time.length)}</h4>
                         <span className={`min-w-40 badge ${renderStatusBermain().style} font-semibold text-md text-white p-4`}>

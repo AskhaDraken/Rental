@@ -11,6 +11,7 @@ export default withAuth(mainMiddleware,
         "/booking",
         "/dashboard",
         "/riwayat",
+        "/transaksi",
         "/management"
     ]
 )
