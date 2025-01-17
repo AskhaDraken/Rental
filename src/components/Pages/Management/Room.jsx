@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 
 const RoomPage = () => {
     const query = useSearchParams()    
-    const { data: listRoom, refetch } = useFetchRoom("asd")
+    const { data: listRoom, refetch } = useFetchRoom(query.get('value'))
             
 
     useEffect(() => {

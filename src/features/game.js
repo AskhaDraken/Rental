@@ -1,6 +1,15 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth"
-import { useMutation } from "@tanstack/react-query"
+import axios from "@/lib/axios"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
+export const useFetchGame = (query) => {
+    return useQuery({
+        queryKey: ["fetch.game"],
+        queryFn: async () => {
+            return await axios.get(`/api/game?value=${query.value}&type=${query.type || null}`)
+        }
+    })
+}
 export const usePostGame = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({

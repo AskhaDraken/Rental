@@ -13,7 +13,7 @@ const FormGame = ({ data, type = "create", onClick }) => {
 
     const { mutate: addGame } = usePostGame({
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["fetch.game.admin"] })
+            queryClient.invalidateQueries({ queryKey: ["fetch.game"] })
             document.getElementById("addGame").close()
             Swal.fire({
                 icon: "success",

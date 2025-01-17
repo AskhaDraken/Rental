@@ -271,14 +271,14 @@ const GamePage = () => {
     //         </section>
     //     )
     // }
-    const { data: listGame, isLoading   } = useQuery({
-        queryKey: ["fetch.game.user"],
-        queryFn: async () => {
-            return await axios.get('/api/game')
-        }
-    })
+    // const { data: listGame, isLoading   } = useQuery({
+    //     queryKey: ["fetch.game.user"],
+    //     queryFn: async () => {
+    //         return await axios.get('/api/game')
+    //     }
+    // })
 
-    console.log(listGame?.data);
+    // console.log(listGame?.data);
     
 
     return (

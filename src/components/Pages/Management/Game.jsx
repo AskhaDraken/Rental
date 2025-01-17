@@ -2,6 +2,7 @@ import Button from '@/components/Elements/Button'
 import ModalLayout from '@/components/Elements/Modal/Modal'
 import CardGameAdmin from '@/components/Fragments/Card/Game/CardGameAdmin'
 import FormGame from '@/components/Fragments/Form/FormGame'
+import { useFetchGame } from '@/features/game'
 import useAxiosAuth from '@/hooks/useAxiosAuth'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
@@ -11,14 +12,13 @@ const GamePage = () => {
   const axiosAuth = useAxiosAuth()
   const query = useSearchParams()
   const [type, setType] = useState("")
+  
+  const queryParams = {
+    value: query.get("value"),
+    type: type
+  }
 
-  const { data: listGame, isLoading, refetch } = useQuery({
-    queryKey: ["fetch.game.admin"],
-    queryFn: async () => {
-      return await axiosAuth.get(`/api/game?value=${query.get('value')}&type=${type ||null}`)
-    }
-  })
-
+  const { data: listGame, isLoading, refetch } = useFetchGame(queryParams)
 
   useEffect(() => {
     refetch()
@@ -28,7 +28,7 @@ const GamePage = () => {
       <div className="flex flex-col w-full gap-4">
         <div className='flex flex-row justify-between w-full'>
           <Button className="btn-info w-fit text-white" onClick={() => document.getElementById("addGame").showModal()}>Tambah Game</Button>
-          <select className="select select-bordered w-full max-w-xs" onChange={(event) => {setType(event.target.value)}}>
+          <select className="select select-bordered w-full max-w-xs" onChange={(event) => { setType(event.target.value) }}>
             <option disabled selected>Filter</option>
             <option>Semua</option>
             {
