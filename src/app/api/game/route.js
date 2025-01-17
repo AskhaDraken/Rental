@@ -14,12 +14,10 @@ export async function GET(req) {
             }),
             { status: 200 }
         )
-    } else {
-        console.log(req.nextUrl.searchParams.get('type') != "null" ? req.nextUrl.searchParams.get("type") != "Semua" ? req.nextUrl.searchParams.get("type") : "" : "");
-        
+    } else {        
         const game = await prismaClient.game.findMany({
             where: {
-                OR: [
+                AND: [
                     {
                         name: {
                             contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') : "",
@@ -28,14 +26,10 @@ export async function GET(req) {
                     },
                     {
                         type: {
-                            contains: "PS4",
+                            // contains: "PS4",
+                            contains: req.nextUrl.searchParams.get('type') != "null" ? req.nextUrl.searchParams.get("type") != "Semua" ? req.nextUrl.searchParams.get("type") : "" : "",
                             mode: 'insensitive'
                         }
-                        // type: {
-                        //     contains: "PS4",
-                        //     // contains: req.nextUrl.searchParams.get('type') != "null" ? req.nextUrl.searchParams.get("type") != "Semua" ? req.nextUrl.searchParams.get("type") : "" : "",
-                        //     mode: 'insensitive'
-                        // }
                     }
                 ]
             }

@@ -35,7 +35,7 @@ const CardGameAdmin = ({ item }) => {
             alt="Shoes"
             className="rounded-xl w-full max-w-72" />
           <span className='absolute bottom-4 left-8 bg-third p-2 border border-white rounded'>
-            <h1 className='font-semibold text-white'>PS4</h1>
+            <h1 className='font-semibold text-white'>{item.type}</h1>
           </span>
         </figure>
         <div className="card-body text-center bg-white">
