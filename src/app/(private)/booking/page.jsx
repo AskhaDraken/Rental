@@ -1,14 +1,9 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import Modal from '@/components/Elements/Modal/Modal'
-import { useFetchPlaystation } from '@/features/playstation'
-import { ToRupiah } from '@/lib/toRupiah'
-import ModalLayout from '@/components/Elements/Modal/Modal'
-import ListTv from '@/components/Fragments/List/ListTv'
+import {  useFetchPlaystationOrder } from '@/features/playstation'
 import CardPlaystation from '@/components/Fragments/Card/CardPlaystation'
 
 const Booking = () => {
-  const { data: playstation, isLoading } = useFetchPlaystation()
+  const { data: playstation, isLoading } = useFetchPlaystationOrder()
 
 
   return (

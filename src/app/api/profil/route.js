@@ -16,7 +16,6 @@ export async function GET(req) {
                     id: req.nextUrl.searchParams.get('id')
                 },
                 omit: {
-                    id: true,
                     password: true,
                     role: true,
                     createdAt: true,
@@ -31,7 +30,6 @@ export async function GET(req) {
                     id: id
                 },
                 omit: {
-                    id: true,
                     password: true,
                     role: true,
                     createdAt: true,

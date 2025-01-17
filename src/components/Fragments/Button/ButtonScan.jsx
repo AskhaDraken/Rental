@@ -3,6 +3,8 @@ import QrScanner from 'qr-scanner'
 import { IoScan } from 'react-icons/io5'
 import CryptoJS from 'crypto-js'
 import ModalLayout from '@/components/Elements/Modal/Modal'
+import { useKonfirmasiTransaksi } from '@/features/transaction'
+import FormKonfirmasi from '../Form/FormKonfirmasi'
 
 const ButtonScan = () => {
     let isStopScan = false
@@ -21,7 +23,7 @@ const ButtonScan = () => {
         await new Promise((r) => setTimeout(r, 100));
         const scanner = new QrScanner(
             document.getElementById('scanView'),
-            (result) => {                
+            (result) => {
                 setIsResult(true)
                 setConfirm(CryptoJS.AES.decrypt(result.data, process.env.NEXT_PUBLIC_KEY).toString(CryptoJS.enc.Utf8))
                 scanner.stop()
@@ -57,15 +59,17 @@ const ButtonScan = () => {
         scanQr(!isScan)
         setIsResult(false)
     }
-    
+
+
+
 
     return (
         <>
             <span className="bg-secondary p-4 rounded-full w-fit h-fit cursor-pointer hover:scale-105 transition-all" onClick={handleBtnScan}><IoScan color='white' size={36} /></span>
             <ModalLayout title="Scan QR Code" id="scanQrCode" onClick={handleStop}>
-                {/* {
-                    isResult ? <FormKonfirmasi data={JSON.parse(confirm)} onClick={handleStop} /> : <video id="scanView" className='w-full h-full max-w-7xl object-cover'></video>
-                } */}
+                {
+                    isResult ? <FormKonfirmasi data={JSON.parse(confirm)} onClick={() => document.getElementById("scanQrCode").close()}/> : <video id="scanView" className='w-full h-full max-w-7xl object-cover'></video>
+                }
                 <video id="scanView" className='w-full h-full max-w-7xl object-cover'></video>
             </ModalLayout>
         </>

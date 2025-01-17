@@ -35,6 +35,17 @@ export const usePatchTransaksi = ({ onSuccess, onError }) => {
     })
 }
 
+export const useKonfirmasiTransaksi = ({ onSuccess, onError }) => {
+    const axiosAuth = useAxiosAuth()
+    return useMutation({
+        mutationFn: async (body) => {
+            return await axiosAuth.patch(`/api/transaksi/konfirmasi?id=${body.id}`, body)
+        },
+        onSuccess,
+        onError
+    })
+}
+
 export const usePatchCancelTransaksi = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({

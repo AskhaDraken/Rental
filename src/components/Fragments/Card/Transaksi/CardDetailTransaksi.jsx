@@ -110,6 +110,10 @@ const CardDetailTransaksi = ({ data }) => {
     if (session) {
         const { role } = jwtDecode(session.user.token)
         if(role === "user") {
+            const body = {
+                id: data.id,
+                userId: user?.data.id
+            }            
             return (
                 <div className='flex flex-col md:flex-row items-center justify-center gap-6'>
                     <div className='block space-y-6 max-w-xl'>
@@ -156,7 +160,7 @@ const CardDetailTransaksi = ({ data }) => {
                         <div className='w-fit border rounded-xl shadow-md p-4'>
                             <QRCode
                                 size={256}
-                                value={CryptoJS.AES.encrypt(JSON.stringify({}), process.env.NEXT_PUBLIC_KEY).toString()}
+                                value={CryptoJS.AES.encrypt(JSON.stringify(body), process.env.NEXT_PUBLIC_KEY).toString()}
                             />
                         </div>
                         <label className='font-normal text-lg' htmlFor="">QR Code Order</label>
