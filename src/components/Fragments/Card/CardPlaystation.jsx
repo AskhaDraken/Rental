@@ -2,7 +2,7 @@ import ModalLayout from '@/components/Elements/Modal/Modal'
 import { ToRupiah } from '@/lib/toRupiah'
 import ListTv from '../List/ListTv'
 
-const CardPlaystation = ({item}) => {
+const CardPlaystation = ({ item }) => {
     return (
         <>
             <div className="card bg-third w-96 shadow-xl text-white" >

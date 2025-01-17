@@ -9,7 +9,6 @@ import { useEffect } from 'react'
 const PlaystationPage = () => {
     const query = useSearchParams()
     const { data: listPlaystation, isLoading, refetch } = useFetchPlaystation(query.get('value'))
-        
 
     useEffect(() => {
         refetch()

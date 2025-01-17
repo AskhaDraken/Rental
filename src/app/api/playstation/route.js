@@ -18,22 +18,12 @@ export async function GET(req) {
 
         return NextResponse.json(
             await prismaClient.playStation.findMany({
-                // where: {
-                //     OR: [
-                //         {
-                //             name: {
-                //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
-                //                 mode: 'insensitive'
-                //             }
-                //         },
-                //         {
-                //             description: {
-                //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
-                //                 mode: 'insensitive'
-                //             }
-                //         }
-                //     ]
-                // }
+                where: {
+                    name: {
+                        contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
+                        mode: 'insensitive'
+                    }
+                }
             }),
             { status: 200 }
         )

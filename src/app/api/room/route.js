@@ -16,22 +16,12 @@ export async function GET(req) {
         return NextResponse.json(room, { status: 200 })
     }
     const room = await prismaClient.room.findMany({
-        // where: {
-        //     OR: [
-        //         {
-        //             name: {
-        //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
-        //                 mode: 'insensitive'
-        //             }
-        //         },
-        //         {
-        //             description: {
-        //                 contains: req.nextUrl.searchParams.get('value') != "null" ? req.nextUrl.searchParams.get('value') || "" : "",
-        //                 mode: 'insensitive'
-        //             }
-        //         }
-        //     ]
-        // }
+        where: {
+            name: {
+                contains: req.nextUrl.searchParams.get('v') != "null" ? req.nextUrl.searchParams.get('v') || "" : "",
+                mode: 'insensitive'
+            }
+        }
     })
 
 

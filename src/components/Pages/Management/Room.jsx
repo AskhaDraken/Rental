@@ -12,8 +12,9 @@ const RoomPage = () => {
             
 
     useEffect(() => {
-        refetch()
+        refetch()        
     },[query.get('value')])
+
     return (
         <>
             <div className="flex flex-col w-fit gap-4">

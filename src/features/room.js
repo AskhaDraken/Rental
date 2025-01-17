@@ -7,7 +7,7 @@ export const useFetchRoom = (query) => {
     return useQuery({
         queryKey: ["fetch.room"],
         queryFn: async () => {
-            return await axiosAuth.get('/api/room?value=' + query)
+            return await axiosAuth.get(`/api/room?v=${query || null}`)
         }
     })
 }

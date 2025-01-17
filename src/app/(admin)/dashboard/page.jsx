@@ -17,9 +17,6 @@ const Dashboardproviders = () => {
 
     const { data: rental, isLoading } = useFetchRental()
 
-    console.log(rental?.data.length);
-
-
 
     // const lapanganId = session.user.lapanganId == "" ? localStorage.getItem("aWQ=") : session.user.lapanganId !== "" && localStorage.getItem("aWQ=") !== null ? localStorage.getItem("aWQ=") : session.user.lapanganId
 
@@ -48,7 +45,7 @@ const Dashboardproviders = () => {
 
                             {/* List Order */}
 
-                            <div className='overflow-y-scroll scroll-smooth no-scrollbar w-full h-full min-h-96 bg-white shadow rounded-md p-4'>
+                            <div className='scroll-smooth no-scrollbar w-full h-full min-h-96 bg-white shadow rounded-md p-4'>
                                 <div className='flex flex-col gap-2'>
                                     <label className='text-xl font-semibold text-secondary' htmlFor="">Booking hari ini</label>
                                     <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 place-items-center grid-rows-1 w-full border transition-all p-2 rounded-md bg-white'>
@@ -86,8 +83,8 @@ const Dashboardproviders = () => {
             {
                 isLoading ? (
                     <>
-                        <h1 className='font-extrabold text-4xl text-success tracking-wide'>Loading</h1>
-                        <span className="loading loading-spinner text-success loading-lg"></span>
+                        <h1 className='font-extrabold text-4xl text-white tracking-wide'>Loading</h1>
+                        <span className="loading loading-spinner text-white loading-lg"></span>
                     </>
                 ) : RenderDashboard()
             }

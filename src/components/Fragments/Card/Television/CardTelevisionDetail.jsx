@@ -20,12 +20,12 @@ const CardTelevisionDetail = ({ item, onClick }) => {
 
     const { mutate: checkout, status } = useCheckoutTransaksi({
         onSuccess: () => {
-            if(session) {
-                const {role} = jwtDecode(session.user.token)
-                
-                if(role == "admin") {
+            if (session) {
+                const { role } = jwtDecode(session.user.token)
+                if (role == "admin") {
                     document.getElementById("orderManual").close()
-                } else if(role == "user"){
+                    document.getElementById("modalCheckout" + item.psId).close()
+                } else if (role == "user") {
                     document.getElementById("modalCheckout" + item.psId).close()
                 }
             }
@@ -70,7 +70,7 @@ const CardTelevisionDetail = ({ item, onClick }) => {
             tvId: item.id,
             jam: state.jam
         }
-        
+
         checkout(body)
     }
     return (
@@ -91,7 +91,7 @@ const CardTelevisionDetail = ({ item, onClick }) => {
                     {/* <h1 className='font-bold text-black'>{room?.data.description}</h1> */}
                 </div>
             </div>
-            <ListJam data={item} />
+            <ListJam data={item} />            
             <form id={item.id} method='POST' action="#" className='flex justify-end w-full' onSubmit={handleSubmit}>
 
                 <button className={`btn bg-third text-white btn-info btn-wide ${status === "pending" ? "btn-disabled" : ""} ${state.jam.length < 1 ? "btn-disabled" : ""}`} type='submit'>
