@@ -25,7 +25,6 @@ export async function PATCH(req) {
         }
     })
     if (!transaction) return NextResponse.json("Failed to update transaction", { status: 500 })
-    console.log(data);
 
 
     return NextResponse.json("Transaction success", { status: 200 })

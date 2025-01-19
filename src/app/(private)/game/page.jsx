@@ -1,26 +1,5 @@
 "use client"
-
-import { jwtDecode } from "jwt-decode"
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
-
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
-
-// Gambar
-import Spider from '../../../../public/spiderman.jpg'
-import Assasin from '../../../../public/Assasin.png'
-import Fifa from "../../../../public/fifa23.jpg"
-import RedDead from "../../../../public/red dead.jpg"
-import Uncharted from "../../../../public/Unchartad.png"
-import Witcher from "../../../../public/witcher.jpg"
-import { IoSearchOutline } from "react-icons/io5"
-import { Textarea } from "@mui/joy"
-import LikeButton from "@/components/LikeButton";
-import ModalLayout from "@/components/Elements/Modal/Modal";
-import { useQuery } from "@tanstack/react-query";
-import axios from "@/lib/axios";
+import { useEffect, useState } from "react" 
 import { useFetchGame } from "@/features/game";
 import { useSearchParams } from "next/navigation";
 import CardGame from "@/components/Fragments/Card/Game/CardGame";

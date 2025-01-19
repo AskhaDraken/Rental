@@ -1,4 +1,6 @@
 "use client"
+import CardGame from "@/components/Fragments/Card/Game/CardGame";
+import { useFetchGame } from "@/features/game";
 import { jwtDecode } from "jwt-decode";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -13,46 +15,48 @@ export default function Home() {
 
   if (status === "authenticated" && session) {
     const role = jwtDecode(session.user.token).role
-    if(role === "admin") {
+    if (role === "admin") {
       redirect("/dashboard")
     }
-    
+
   }
-    // axios.get('/api/game')
+  // axios.get('/api/game')
+  const { data: listGame, isLoading, refetch, } = useFetchGame()  
 
-    const fitur = [
-      {
-        gambar: "/harga.png",
-        nama: 'HARGA',
-        order: 'Harga mulai dari Rp 15.000'
-      },
-      {
-        gambar: "/game.png",
-        nama: 'GAME',
-        order: 'Game PS4/ PS5 terbaru'
-      },
-      {
-        gambar: "/consolePS.png",
-        nama: 'GAME',
-        order: 'Terdapat 20 console PS'
-      },
-      {
-        gambar: "/tv.png",
-        nama: 'TV',
-        order: 'TV 32 Inch'
-      },
-      {
-        gambar: "/wifi.png",
-        nama: 'WIFI',
-        order: 'Pass : Eternityrentalps'
-      },
-      {
-        gambar: "/ac.png",
-        nama: 'AC',
-        order: 'Dilengkapi AC di setiap ruangan'
-      },
 
-    ]
+  const fitur = [
+    {
+      gambar: "/harga.png",
+      nama: 'HARGA',
+      order: 'Harga mulai dari Rp 15.000'
+    },
+    {
+      gambar: "/game.png",
+      nama: 'GAME',
+      order: 'Game PS4/ PS5 terbaru'
+    },
+    {
+      gambar: "/consolePS.png",
+      nama: 'GAME',
+      order: 'Terdapat 20 console PS'
+    },
+    {
+      gambar: "/tv.png",
+      nama: 'TV',
+      order: 'TV 32 Inch'
+    },
+    {
+      gambar: "/wifi.png",
+      nama: 'WIFI',
+      order: 'Pass : Eternityrentalps'
+    },
+    {
+      gambar: "/ac.png",
+      nama: 'AC',
+      order: 'Dilengkapi AC di setiap ruangan'
+    },
+
+  ]
   return (
     <div className='flex flex-col relative bg-fourth text-white'>
       {/* Background dashboard */}
@@ -113,25 +117,9 @@ export default function Home() {
 
             <div className='flex justify-start items-start gap-10'>
               {
-                Array.from({ length: 3 }).map((_, index) => {
-                  return (
-
-                    <div className=" card bg-white md:min-w-80 p-4 min-w-64 shadow-white rounded-md gap-4">
-                      <figure className="max-w-full">
-                        <img
-                          src="/fifa23.jpg"
-                          alt="Shoes"
-                          className="rounded-xl" />
-                      </figure>
-                      <div className="card-body text-center bg-white">
-                        <h2 className="card-title text-black">Fifa 23</h2>
-                        <p className='text-black     '>
-                          adalah game simulasi sepak bola yang dikembangkan oleh EA Sports. Sebagai bagian terbaru dari seri FIFA, game ini menampilkan berbagai mode permainan, termasuk karier, Ultimate Team, dan pertandingan online.
-                        </p>
-                      </div>
-                    </div>
-                  )
-                })
+                listGame?.data.data.map((item, index) => (
+                  <CardGame item={item} key={index} />
+                ))
               }
             </div>
           </div>

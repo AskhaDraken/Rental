@@ -57,7 +57,7 @@ const FormGame = ({ data, type = "create", onClick }) => {
             picture: data?.picture || "",
             description: data?.description || "",
             type: data?.type || "",
-            
+
         },
         onSubmit: (values) => {
             event.preventDefault()
@@ -70,18 +70,26 @@ const FormGame = ({ data, type = "create", onClick }) => {
                     data: values
                 })
             }
-
-        }
+        },
+        
     })
 
     const handleFormInput = (event) => {
         const { name, value } = event.target
         formik.setFieldValue(name, value)
-    }    
+    }
+
+    const handleFormikFile = (event) => {
+        const formdata = new FormData()
+
+        formdata.append("picture", event.target.files[0])
+        formik.setFieldValue(event.target.name, formdata.get("picture"))
+    }
 
     return (
         <form className='block w-full space-y-4' onSubmit={formik.handleSubmit}>
             <div className='flex flex-col gap-4'>
+                <input type="file" name="picture" id="" onChange={handleFormikFile} className='file-input w-full max-w-xs' />
                 <InputForm
                     name="name"
                     title="Nama Playstation"
@@ -93,6 +101,7 @@ const FormGame = ({ data, type = "create", onClick }) => {
                     value={formik.values.name}
                     isInvalid={formik.errors.name}
                 />
+                <Textarea name="description" value={formik.values.description} title="Deskripsi" className="w-full" placeholder="Masukan Deskripsi" required={true} onChange={handleFormInput} />
                 <select name='type' className="select select-bordered w-full max-w-xs" onChange={handleFormInput}>
                     <option disabled selected>Filter</option>
                     <option>PS1</option>
@@ -101,7 +110,6 @@ const FormGame = ({ data, type = "create", onClick }) => {
                     <option>PS4</option>
                     <option>PS5</option>
                 </select>
-                <Textarea name="description" value={formik.values.description} title="Deskripsi" className="w-full" placeholder="Masukan Deskripsi" required={true} onChange={handleFormInput} />
             </div>
             <div className="flex gap-4 mt-5">
                 <Button className="text-white btn-wide hidden lg:flex btn-error" onClick={onClick}>Cancel</Button>

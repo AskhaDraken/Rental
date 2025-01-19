@@ -1,4 +1,5 @@
 import { prismaClient } from "@/database/prismaClient"
+import { ImageUpload } from "@/lib/imageUpload"
 import { jwtDecode } from "jwt-decode"
 import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
@@ -14,7 +15,7 @@ export async function GET(req) {
             }),
             { status: 200 }
         )
-    } else {        
+    } else {
         const game = await prismaClient.game.findMany({
             where: {
                 AND: [
@@ -35,9 +36,9 @@ export async function GET(req) {
             }
         })
 
-        
+
         const filter = await prismaClient.game.findMany()
-        
+
         const typeFilter = []
 
         filter.map((item) => {
@@ -56,11 +57,14 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-    const body = await req.json()    
 
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
 
     const { id } = jwtDecode(session.token)
+
+    const formdata = await req.formData()
+    const file = await ImageUpload(formdata.get('picture'))
+
 
     const rentalExist = await prismaClient.rental.findMany({
         where: {
@@ -71,16 +75,16 @@ export async function POST(req) {
 
     const game = await prismaClient.game.create({
         data: {
-            name: body.name,
-            picture: '',
-            description: body.description,
-            type: body.type,
+            name: formdata.get("name"),
+            picture: file,
+            description: formdata.get("description"),
+            type: formdata.get("type"),
             rentalId: rentalExist[0].id
         }
     })
     if (!game) return NextResponse.json("Failed to create game", { status: 500 })
 
-    return NextResponse.json(game, { status: 200 })
+    return NextResponse.json("game", { status: 200 })
 }
 
 export async function PATCH(req) {

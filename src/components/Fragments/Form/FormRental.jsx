@@ -54,10 +54,10 @@ const FormRental = ({ data, type = "create", onClick }) => {
         initialValues: {
             name: data?.name || "",
             description: data?.description || "",
-            alamat: data?.type || "",
-            mapurl: data?.price || "",
-            open: data?.price || "",
-            close: data?.price || "",
+            alamat: data?.alamat || "",
+            mapurl: data?.mapUrl || "",
+            open: data?.open || "",
+            close: data?.close || "",
         },
         onSubmit: (values) => {
             event.preventDefault()            
@@ -80,7 +80,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
             <div className='flex flex-col gap-4'>
                 <InputForm onChange={handleFormInput} type="text" value={formik.values.name} title="Name" name="name" />
                 {/* <input type="file" name="picture" id="" onChange={handleFormikFile} className='file-input w-full max-w-xs' /> */}
-                <Textarea name="description" title="Deskripsi" className="" placeholder="Deskripsi lapangan" onChange={handleFormInput} />
+                <Textarea name="description" value={formik.values.description} title="Deskripsi" className="" placeholder="Deskripsi lapangan" onChange={handleFormInput} />
                 <InputForm onChange={handleFormInput} type="text" value={formik.values.alamat} title="Alamat" name="alamat" />
                 <InputForm onChange={handleFormInput} type="text" value={formik.values.mapUrl} title="URL map" name="mapUrl" />
                 <div className='inline-flex gap-2'>

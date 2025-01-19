@@ -53,6 +53,7 @@ const FormRoom = ({ data, type = "create", onClick }) => {
     const formik = useFormik({
         initialValues: {
             name: data?.name || "",
+            picture: data?.picture || "",
             type: data?.type || "",
             price: data?.price || 0
         },
@@ -74,6 +75,13 @@ const FormRoom = ({ data, type = "create", onClick }) => {
     const handleFormInput = (event) => {
         const { name, value } = event.target
         formik.setFieldValue(name, value)
+    }
+
+    const handleFormikFile = (event) => {
+        const formdata = new FormData()
+
+        formdata.append("picture", event.target.files[0])
+        formik.setFieldValue(event.target.name, formdata.get("picture"))
     }
 
     const handleRenderTypePlaystation = () => {
@@ -98,6 +106,7 @@ const FormRoom = ({ data, type = "create", onClick }) => {
     return (
         <form className='block w-full space-y-4' onSubmit={formik.handleSubmit}>
             <div className='flex flex-col gap-4'>
+                <input type="file" name="picture" id="" onChange={handleFormikFile} className='file-input w-full max-w-xs' />
                 <InputForm
                     name="name"
                     title="Nama Playstation"

@@ -14,7 +14,11 @@ export const usePostGame = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return await axiosAuth.post('/api/game', body)
+            return await axiosAuth.post('/api/game', body, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
         },
         onSuccess,
         onError

@@ -60,7 +60,6 @@ export async function GET(req) {
         // Pengecekan jadwal yang sudah terbooking            
         order.map((item) => {
             item.time?.map((v) => {
-                // console.log(new Date(item.date).getDate() == tomorrow.getDate(), new Date(item.date).getDate() + 1, tomorrow.getDate());
                 if (new Date(item.date).getDate() == tomorrow.getDate()) {
                     if (values.id == v?.id) {
                         if(item.status) {                            

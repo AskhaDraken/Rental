@@ -78,7 +78,6 @@ export async function GET(req) {
             filter: [...new Set(roomFilter)]
         }, { status: 200 })
     } else {
-        console.log(req.nextUrl.searchParams.get('ps') != "null" ? req.nextUrl.searchParams.get("ps") : "");
 
         const tv = await prismaClient.tv.findMany({
             where: {
@@ -247,8 +246,6 @@ export async function PATCH(req) {
 }
 
 export async function DELETE(req) {
-    console.log(req.nextUrl.searchParams.get('id'));
-
     const findTv = await prismaClient.tv.findFirst({
         where: {
             id: req.nextUrl.searchParams.get('id')
