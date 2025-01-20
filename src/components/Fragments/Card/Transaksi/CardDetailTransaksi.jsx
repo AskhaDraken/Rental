@@ -15,7 +15,6 @@ import ImagePreview from '@/components/Elements/Image'
 
 const CardDetailTransaksi = ({ data }) => {
 
-
     const { data: session } = useSession()
     const queryClient = useQueryClient()
     const { data: television } = useFetchTvById(data.tvId)
@@ -113,7 +112,10 @@ const CardDetailTransaksi = ({ data }) => {
         if (role === "user") {
             const body = {
                 id: data.id,
-                userId: user?.data.id
+                tvId: data.tvId,
+                userId: user?.data.id,
+                jumlah: television?.data.psPrice + television?.data.roomPrice,
+                total: (television?.data.psPrice + television?.data.roomPrice) * data.time.length
             }
             return (
                 <div className='flex flex-col md:flex-row items-center justify-center gap-6'>

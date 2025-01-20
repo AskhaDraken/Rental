@@ -12,6 +12,17 @@ export const useFetchTransaksi = () => {
     })
 }
 
+export const useFetchTransaksiById = (id) => {
+    const axiosAuth = useAxiosAuth()
+
+    return useQuery({
+        queryKey: ["fetch.transaksi", id],
+        queryFn: async () => {
+            return await axiosAuth.get('/api/transaksi?id=' + id)
+        }
+    })
+}
+
 export const useCheckoutTransaksi = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({

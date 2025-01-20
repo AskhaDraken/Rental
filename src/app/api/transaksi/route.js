@@ -19,13 +19,27 @@ export async function GET(req) {
         
     } else if(role == "admin") {
         const date = new Date()
-        const transaction = await prismaClient.transaction.findMany({
-            where: {
-                date: date.toLocaleDateString()
-            }
-        })
-        
-        return NextResponse.json(transaction, { status: 200 })
+
+        if(req.nextUrl.searchParams.get("id")) {
+            return NextResponse.json(
+                await prismaClient.transaction.findFirst({
+                    where: {
+                        id: req.nextUrl.searchParams.get("id"),
+                        date: date.toLocaleDateString()
+                    }
+                })
+            )
+        } else {
+
+            const transaction = await prismaClient.transaction.findMany({
+                where: {
+                    date: date.toLocaleDateString()
+                }
+            })
+            
+            return NextResponse.json(transaction, { status: 200 })
+        }
+
     }
 }
 
