@@ -11,6 +11,7 @@ import Text from '@/components/Elements/Text'
 import { useFetchTvById } from '@/features/tv'
 import { jwtDecode } from 'jwt-decode'
 import { useFetchUserById } from '@/features/profil'
+import ImagePreview from '@/components/Elements/Image'
 
 const CardDetailTransaksi = ({ data }) => {
 

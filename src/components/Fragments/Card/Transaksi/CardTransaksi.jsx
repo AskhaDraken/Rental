@@ -6,6 +6,7 @@ import CardDetailTransaksi from './CardDetailTransaksi'
 import { useSession } from 'next-auth/react'
 import { jwtDecode } from 'jwt-decode'
 import { useFetchUserById } from '@/features/profil'
+import ImagePreview from '@/components/Elements/Image'
 
 const CardTransaksi = ({ data }) => {
 
