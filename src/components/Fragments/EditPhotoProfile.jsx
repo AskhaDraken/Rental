@@ -84,7 +84,7 @@ const EditPhotoProfil = ({ state }) => {
             <Avatar width={500} height={295} onClose={onClose} onCrop={onCrop} onImageLoad={(e) => { console.log(e.target); }} />
             <button className={`btn text-white btn-success btn-wide ${status === "pending" ? "btn-disabled" : ""} `} type='submit' onClick={() => saveImage()}>
                     {
-                        status === "pending" ? <span className="loading loading-dots loading-lg"></span> : <h1 className='font-semibold text-base'>Pesan Sekarang</h1>
+                        status === "pending" ? <span className="loading loading-dots loading-lg"></span> : <h1 className='font-semibold text-base'>Simpan</h1>
                     }
                 </button>
           </div>
