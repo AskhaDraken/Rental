@@ -46,7 +46,7 @@ const FormProfile = ({ state }) => {
     return (
         <div className='block w-full space-y-4'>
             <div className="flex flex-col items-center text-center gap-4 w-full">
-                <EditPhotoProfil state={state?.picture} />
+                <EditPhotoProfil state={state?.Profile.picture} />
                 <h1 className="font-poppins font-semibold text-xl text-black">{formik.values.fullname}</h1>
             </div>
             <form className='w-full px-4 md:px-0 max-w-2xl' action='' method='patch'>

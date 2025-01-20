@@ -21,6 +21,13 @@ export async function GET(req) {
                     role: true,
                     createdAt: true,
                     updatedAt: true
+                },
+                include: {
+                    Profile: {
+                        select: {
+                            picture: true
+                        }
+                    }
                 }
             })
         )
@@ -35,6 +42,13 @@ export async function GET(req) {
                     role: true,
                     createdAt: true,
                     updatedAt: true
+                },
+                include: {
+                    Profile: {
+                        select: {
+                            picture: true
+                        }
+                    }
                 }
             })
         )
@@ -55,14 +69,7 @@ export async function PATCH(req) {
     })
     if (!findUserById) return NextResponse.json("User not found", { status: 404 })
 
-
-    const formdata = await req.formData()
-    const file = await ImageUpload(formdata.get('picture'))
-
-    const body = {
-        picture: file,
-        bio: formdata.get('description')
-    }
+    const body = await req.json()
 
     const updateProfil = await prismaClient.user.update({
         where: {

@@ -82,7 +82,8 @@ const FormGame = ({ data, type = "create", onClick }) => {
     const handleFormikFile = (event) => {
         const formdata = new FormData()
 
-        formdata.append("picture", event.target.files[0])
+        formdata.append("picture", event.target.files[0])        
+        
         formik.setFieldValue(event.target.name, formdata.get("picture"))
     }
 

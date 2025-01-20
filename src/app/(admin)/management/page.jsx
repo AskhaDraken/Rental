@@ -80,9 +80,6 @@ const ManagementPage = () => {
         }
     })
 
-    console.log(rental);
-
-
     const handleManagement = () => {
         if (rental?.data.length > 0) {
             return (

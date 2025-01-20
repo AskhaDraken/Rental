@@ -18,7 +18,7 @@ const CardDetailTransaksi = ({ data }) => {
     const { data: session } = useSession()
     const queryClient = useQueryClient()
     const { data: television } = useFetchTvById(data.tvId)
-    const {data: user} = useFetchUserById(data.userId)
+    const { data: user } = useFetchUserById(data.userId)
 
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const CardDetailTransaksi = ({ data }) => {
             onError: (result) => {
                 toast.error("Gagal melakukan checkout" + result, { style: { backgroundColor: "#ff5861" } })
             },
-            
+
         })
     }
 
@@ -109,11 +109,11 @@ const CardDetailTransaksi = ({ data }) => {
 
     if (session) {
         const { role } = jwtDecode(session.user.token)
-        if(role === "user") {
+        if (role === "user") {
             const body = {
                 id: data.id,
                 userId: user?.data.id
-            }            
+            }
             return (
                 <div className='flex flex-col md:flex-row items-center justify-center gap-6'>
                     <div className='block space-y-6 max-w-xl'>
@@ -142,7 +142,7 @@ const CardDetailTransaksi = ({ data }) => {
                             <h1 className='font-semibold'>Total</h1>
                             <h1 className='font-semibold'>{ToRupiah((television?.data.psPrice + television?.data.roomPrice) * data.time.length)}</h1>
                         </div>
-        
+
                         <div className={`${data.status === "success" || renderStatusBermain().status === "Dibatalkan" || renderStatusBermain().status === "Invalid" ? "hidden" : "flex"} gap-2 flex-col md:flex-row justify-evenly`}>
                             <button
                                 className="btn btn-error w-full md:btn-wide text-white"
@@ -167,15 +167,15 @@ const CardDetailTransaksi = ({ data }) => {
                     </div>
                 </div>
             )
-        } else if(role === "admin") {
+        } else if (role === "admin") {
             return (
                 <div className='flex flex-col md:flex-row items-center justify-center gap-6'>
-                    <div className='block space-y-6 max-w-xl'> 
+                    <div className='block space-y-6 max-w-xl'>
 
                         <div className='flex flex-col gap-y-2 items-center justify-center w-full'>
-                            {/* <figure className='aspect-square max-w-24'>
-                                <ImagePreview className="rounded-full" src={process.env.NEXT_PUBLIC_API + "/api/v1/user/picture/" + user?.data.data.picture} />
-                            </figure> */}
+                            <figure className='aspect-square max-w-24'>
+                                <ImagePreview className="rounded-full" src={user?.data.Profile.picture != null ? user?.data.Profile.picture : '/emptyUser.png'} />
+                            </figure>
                             <h1 className='font-medium text-lg'>{user?.data.fullname}</h1>
                         </div>
 

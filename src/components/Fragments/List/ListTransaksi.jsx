@@ -3,10 +3,7 @@ import { useFetchTransaksi } from '@/features/transaction'
 import CardTransaksi from '../Card/Transaksi/CardTransaksi'
 
 const ListTransaksi = () => {
-    const { data: listTransaksi, isLoading } = useFetchTransaksi()
-
-    console.log(listTransaksi?.data);
-    
+    const { data: listTransaksi, isLoading } = useFetchTransaksi()    
 
     return isLoading ? Array.from({ length: 5 }).map((item, index) => (
         <div className='p-4 w-full h-24 border shadow grid grid-cols-5 gap-4 place-items-center' key={index}>

@@ -5,11 +5,16 @@ import ButtonSide from '@/components/Elements/Button/ButtonSide';
 import { useSession } from 'next-auth/react';
 import { useStorePublic } from '@/store/storePublic';
 import { Home } from 'react-feather';
+import { useFetchUser } from '@/features/profil';
+import ImagePreview from '@/components/Elements/Image';
 
 
 const Sidebar = () => {
     const { data: session } = useSession()
     const state = useStorePublic()
+
+    const { data: user, isLoading } = useFetchUser()
+
     
     return (
         <div className={`flex flex-row lg:min-h-screen lg:relative lg:w-fit z-${state.isMenu ? 50 : 0}`}>
@@ -68,7 +73,7 @@ const Sidebar = () => {
                             <div tabIndex={0} role="button" className="inline-flex gap-x-4 w-full h-full items-center justify-start">
                                 <div className="avatar">
                                     <div className='max-w-10 rounded-full'>
-                                        {/* <ImagePreview className=' aspect-square' width={35} src={`${process.env.NEXT_PUBLIC_API}/api/v1/user/picture/${session?.user.picture}`} alt="" /> */}
+                                        <ImagePreview className=' aspect-square' width={35} src={user?.data.Profile.picture != null ? user?.data.Profile.picture : '/emptyUser.png'} alt="" />
                                     </div>
                                 </div>
                                 <span className='text-lg text-black font-semibold'>{session?.user.fullname.split(" ")[0]}</span>

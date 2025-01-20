@@ -94,9 +94,9 @@ const CardTransaksi = ({ data }) => {
                 <>
                     <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 place-items-center grid-rows-1 w-full border hover:shadow transition-all p-4 md:p-6 rounded-md cursor-pointer bg-white' onClick={() => document.getElementById("modalPesanan" + data.id).showModal()}>
                         <div className='inline-flex gap-4 items-center justify-start w-full'>
-                            {/* <figure className='aspect-square max-w-16 md:max-w-12'>
-                                <ImagePreview className="rounded-full" src={process.env.NEXT_PUBLIC_API + "/api/v1/user/picture/" + user?.data.data.picture} />
-                            </figure> */}
+                            <figure className='aspect-square max-w-16 md:max-w-12'>
+                                <ImagePreview className="rounded-full" src={user?.data.Profile.picture != null ? user?.data.Profile.picture : '/emptyUser.png'} />
+                            </figure>
                             <div className='flex flex-col'>
                                 <label el className='line-clamp-1 h-fit text-lg font-medium' htmlFor="">{user?.data.fullname}</label>
                                 <label className='w-full line-clamp-1 h-fit text-sm text-gray-600 md:hidden' htmlFor="">{television?.data.playstationName} / {television?.data.roomName}</label>

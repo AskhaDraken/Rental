@@ -20,12 +20,12 @@ export async function ImageUpload (file) {
     
         }
     
-        const buffer = await file.arrayBuffer()    
+        const buffer = await file.arrayBuffer()
     
         const filename = Date.now() + "." + file.type.split("/")[1]
         
         const path = join('./public', 'upload', filename)    
-    
+        
         writeFile(path, Buffer.from(buffer), (err) => {
             if(err) {
                 return NextResponse.json("Failed upload", {status: 500})
