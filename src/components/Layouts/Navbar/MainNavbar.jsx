@@ -25,7 +25,7 @@ const NavBar = ({ children }) => {
                 return (
                     <div className='bg-[#f8fafc] text-black flex flex-col lg:flex-row w-full'>
                         <SideNavbar />
-                        <section className='w-full' >
+                        <section className='ml-64 w-full' >
                             {children}
                         </section>
                     </div>

@@ -17,7 +17,7 @@ const Sidebar = () => {
 
     
     return (
-        <div className={`flex flex-row lg:min-h-screen lg:relative lg:w-fit z-${state.isMenu ? 50 : 0}`}>
+        <div className={`flex flex-row lg:h-screen lg:fixed z-50 lg:min-w-64 lg:w-fit z-${state.isMenu ? 50 : 0}`}>
             <nav className="flex items-center justify-start gap-4 lg:hidden bg-third sticky md:fixed p-4 min-w-full z-20">
                 <label className="btn btn-circle bg-transparent border-none swap swap-rotate">
                     {/* this hidden checkbox controls the state */}
