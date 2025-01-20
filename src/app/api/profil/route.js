@@ -1,4 +1,5 @@
 import { prismaClient } from "@/database/prismaClient";
+import { ImageUpload } from "@/lib/imageUpload";
 import { jwtDecode } from "jwt-decode";
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";

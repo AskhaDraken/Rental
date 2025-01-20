@@ -73,6 +73,7 @@ const CardTelevisionDetail = ({ item, onClick }) => {
 
         checkout(body)
     }
+    
     return (
         <div className='flex flex-col items-start gap-4'>
             <div className='inline-flex gap-2 items-center hover:scale-[102%] cursor-pointer' onClick={onClick}>
@@ -81,9 +82,11 @@ const CardTelevisionDetail = ({ item, onClick }) => {
             </div>
 
             <div className='inline-flex gap-4'>
-                <span className='w-52 h-52 bg-secondary rounded'>
-
-                </span>
+                <figure className='max-w-72 bg-gray-400'>
+                    <img
+                        src={"/upload/" + room?.data.picture}
+                        alt={room?.data.name} />
+                </figure>
                 <div className='flex flex-col gap-4'>
                     <h1 className='text-lg font-bold text-black'>{item.name}</h1>
                     <h1 className='font-normal text-black'>Nomor Urut {item.nomorUrut}</h1>
@@ -91,7 +94,7 @@ const CardTelevisionDetail = ({ item, onClick }) => {
                     {/* <h1 className='font-bold text-black'>{room?.data.description}</h1> */}
                 </div>
             </div>
-            <ListJam data={item} />            
+            <ListJam data={item} />
             <form id={item.id} method='POST' action="#" className='flex justify-end w-full' onSubmit={handleSubmit}>
 
                 <button className={`btn bg-third text-white btn-info btn-wide ${status === "pending" ? "btn-disabled" : ""} ${state.jam.length < 1 ? "btn-disabled" : ""}`} type='submit'>
