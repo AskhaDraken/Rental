@@ -2,7 +2,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const useFetchRoom = (query) => {
-    
+
     const axiosAuth = useAxiosAuth()
     return useQuery({
         queryKey: ["fetch.room"],
@@ -26,7 +26,11 @@ export const usePostRoom = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return await axiosAuth.post('/api/room', body)
+            return await axiosAuth.post('/api/room', body, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
         },
         onSuccess,
         onError
@@ -37,7 +41,12 @@ export const usePatchRoom = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return await axiosAuth.patch('/api/room?id=' + body.id, body.data)
+            return await axiosAuth.patch('/api/room?id=' + body.id, body.data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+
+                }
+            })
         },
         onSuccess,
         onError

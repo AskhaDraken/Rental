@@ -43,8 +43,6 @@ export async function GET(req) {
 }
 
 export async function PATCH(req) {
-    const body = await req.json()
-
 
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
     const { id } = jwtDecode(session.token)
@@ -55,6 +53,15 @@ export async function PATCH(req) {
         },
     })
     if (!findUserById) return NextResponse.json("User not found", { status: 404 })
+
+
+    const formdata = await req.formData()
+    const file = await ImageUpload(formdata.get('picture'))
+
+    const body = {
+        picture: file,
+        bio: formdata.get('description')
+    }
 
     const updateProfil = await prismaClient.user.update({
         where: {

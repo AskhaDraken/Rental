@@ -59,7 +59,7 @@ const FormRegister = () => {
 
 
     return (
-        <form action="POST" onSubmit={formik.handleSubmit}>
+        <form className="flex flex-col w-full gap-4" action="POST" onSubmit={formik.handleSubmit}>
             <InputForm
                 label="Username"
                 name="username"

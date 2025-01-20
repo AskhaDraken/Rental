@@ -88,14 +88,22 @@ export async function POST(req) {
 }
 
 export async function PATCH(req) {
-    const body = await req.json()
-
     const findGame = await prismaClient.game.findFirst({
         where: {
             id: req.nextUrl.searchParams.get("id")
         }
     })
     if (!findGame) return NextResponse.json("Playstation not found", { status: 404 })
+
+    const formdata = await req.formData()
+    const file = await ImageUpload(formdata.get('picture'))    
+
+    const body = {
+        name: formdata.get("name"),
+        picture: file,
+        description: formdata.get("description"),
+        type: formdata.get("type"),
+    }
 
     const game = await prismaClient.game.update({
         where: {
@@ -105,7 +113,7 @@ export async function PATCH(req) {
     })
     if (!game) return NextResponse.json("Failed to update game", { status: 500 })
 
-    return NextResponse.json(game, { status: 200 })
+    return NextResponse.json("game", { status: 200 })
 }
 
 export async function DELETE(req) {

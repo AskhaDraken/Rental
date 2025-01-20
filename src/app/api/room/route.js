@@ -32,7 +32,9 @@ export async function POST(req) {
 
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET_KEY })
     const { id } = jwtDecode(session.token)
-    const body = await req.json()
+
+    const formdata = await req.formData()
+    const file = await ImageUpload(formdata.get('picture'))
 
     const findRentalExist = await prismaClient.rental.findFirst({
         where: {
@@ -43,9 +45,10 @@ export async function POST(req) {
 
     const room = await prismaClient.room.create({
         data: {
-            name: body.name,
-            type: body.type,
-            price: parseInt(body.price),
+            name: formdata.get("name"),
+            picture: file,
+            type: formdata.get("type"),
+            price: parseInt(formdata.get("price")),
             rentalId: findRentalExist.id
         }
     })
@@ -63,7 +66,15 @@ export async function PATCH(req) {
     })
     if (!findRoomExist) return NextResponse.json("Room not found", { status: 404 })
 
-    const body = await req.json()
+    const formdata = await req.formData()
+    const file = await ImageUpload(formdata.get('picture'))
+
+    const body = {
+        name: formdata.get("name"),
+        picture: file,
+        type: formdata.get("type"),
+        price: parseInt(formdata.get("price")),
+    }
 
     const room = await prismaClient.room.update({
         where: {
@@ -73,7 +84,7 @@ export async function PATCH(req) {
     })
     if (!room) return NextResponse.json("Failed to update room", { status: 500 })
 
-    return NextResponse.json(room, { status: 200 })
+    return NextResponse.json("room", { status: 200 })
 }
 
 export async function DELETE(req) {

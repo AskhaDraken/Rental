@@ -2,11 +2,10 @@ import Button from '@/components/Elements/Button'
 import InputForm from '@/components/Elements/Input'
 import SelectInput from '@/components/Elements/SelectInput'
 import Textarea from '@/components/Elements/Textarea'
-import { useFetchPlaystation } from '@/features/playstation'
+import { useFetchPlaystationOrder } from '@/features/playstation'
 import { useFetchRoom } from '@/features/room'
 import { usePatchTv, usePostTv } from '@/features/tv'
-import useAxiosAuth from '@/hooks/useAxiosAuth'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import React from 'react'
 import Swal from 'sweetalert2'
@@ -15,7 +14,7 @@ const FormTelevision = ({ data, type = "create", onClick }) => {
     const queryClient = useQueryClient()
 
 
-    const { data: listPlaystation } = useFetchPlaystation()
+    const { data: listPlaystation } = useFetchPlaystationOrder()
     const { data: listRoom } = useFetchRoom()
     const { mutate: addTelevision } = usePostTv({
         onSuccess: () => {
@@ -106,7 +105,7 @@ const FormTelevision = ({ data, type = "create", onClick }) => {
         }
     }
 
-    
+
     const handleRenderRoomTypePlaystation = () => {
         if (type === "update") {
             return listRoom?.data.map((item, index) => (
@@ -161,7 +160,7 @@ const FormTelevision = ({ data, type = "create", onClick }) => {
                         {handleRenderRoomTypePlaystation()}
                     </SelectInput>
                 </div>
-                
+
             </div>
             <div className="flex gap-4 mt-5">
                 <Button className="text-white btn-wide hidden lg:flex btn-error" onClick={onClick}>Cancel</Button>

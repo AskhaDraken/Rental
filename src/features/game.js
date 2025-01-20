@@ -29,7 +29,11 @@ export const usePatchGame = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return await axiosAuth.patch('/api/game?id=' + body.id, body.data)
+            return await axiosAuth.patch('/api/game?id=' + body.id, body.data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
         },
         onSuccess,
         onError

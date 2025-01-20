@@ -14,8 +14,7 @@ export async function POST(req) {
                 { phone: body.phone },
             ]
         }
-    })
-    
+    })    
 
     if (finduserExist !== null) {
         return NextResponse.json(
@@ -26,33 +25,42 @@ export async function POST(req) {
 
     const passwordEncrypt = await bcrypt.hashSync(body.password, 10)
 
-    const user = await prismaClient.user.create({
-        data: {
-            fullname: body.username,
-            email: body.email,
-            phone: body.phone,
-            password: passwordEncrypt
-        },
-        omit: {
-            password: true,
-            role: true
-        }
+    const data = await prismaClient.$transaction(async () => {
+        const user = await prismaClient.user.create({
+            data: {
+                fullname: body.username,
+                email: body.email,
+                phone: body.phone,
+                password: passwordEncrypt
+            },
+            include: {
+                Profile: true
+            },
+            omit: {
+                password: true,
+                role: true
+            }
+        })
+
+
+        const profil = await prismaClient.profile.create({
+            data: {
+                userId: user.id
+            },
+        })
+
+        return { user, profil }
     })
-
-    // const user = {}
-
-    if (!user) {
-        return NextResponse.json(
-            {
-                message: "User Not Created"
-            })
+    if (!data) {
+        return NextResponse.json({
+            message: "User Not Created"
+        })
     }
 
-    return NextResponse.json(
-        {
-            message: "User Created",
-            data: user
-        })
+    return NextResponse.json({
+        message: "User Created",
+        data: data
+    })
 
 
 }
