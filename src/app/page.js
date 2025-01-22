@@ -1,12 +1,9 @@
 "use client"
-import CardGame from "@/components/Fragments/Card/Game/CardGame";
-import CardGameFavorit from "@/components/Fragments/Card/Game/CardGameFavorit";
+
 import ListGameFavorit from "@/components/Fragments/List/ListGameFavorit";
-import { useFetchGameFavorit } from "@/features/game";
 import { jwtDecode } from "jwt-decode";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-// import Image from "next/image";
 
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
@@ -64,7 +61,7 @@ export default function Home() {
           <img src="/background1.png" alt="" className='flex-[1_0_100%] md:hidden scale-y-[-1]' />
           <img src="/background1.png" alt="" className='flex-[1_0_100%]' />
         </div>
-        <div className=' absolute grid lg:grid-cols-2 grid-cols-1 justify-between items-center'>
+        <div className='mx-auto container absolute flex w-full lg:grid-cols-2 grid-cols-1 justify-between items-center'>
 
           <div className='flex flex-col justify-center items-center'>
             <h1 className='font-poppins text-white  text-4xl font-bold hidden md:block'>KENAPA HARUS BELI MAHAL-MAHAL ?</h1>
@@ -75,10 +72,7 @@ export default function Home() {
               <IoArrowForwardCircleOutline className='md:text-5xl text-2xl ml-4' />
             </button>
           </div>
-
-          <figure className=''>
-            <img src="/logo.png" alt="" className='md:w-full w-80 md:h-full h-72' />
-          </figure>
+          <img src="/logo.png" alt="" className='md:w-full w-80 md:h-full h-72 flex-[1_0_100%] max-w-xl' />
         </div>
       </div>
 
@@ -94,8 +88,8 @@ export default function Home() {
               {
                 fitur.map((fitur, index) => {
                   return (
-                    <div className='flex flex-col place-items-center' key={index}>
-                      <figure className='max-w-24 '>
+                    <div className='flex flex-col gap-4 place-items-center' key={index}>
+                      <figure className='max-w-36 '>
                         <img src={fitur.gambar} alt="" className='flex-[1_0_100%]' />
                       </figure>
                       <h1 className='font-poppins font-bold text-3xl text-white'>{fitur.nama}</h1>
@@ -109,7 +103,7 @@ export default function Home() {
         </div>
 
         {/* Game Terfavorit */}
-        <ListGameFavorit/>
+        <ListGameFavorit />
       </div>
     </div>
   )
