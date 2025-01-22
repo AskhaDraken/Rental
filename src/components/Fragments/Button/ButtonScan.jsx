@@ -70,7 +70,7 @@ const ButtonScan = () => {
                 {
                     isResult ? <FormKonfirmasi data={JSON.parse(confirm)} onClick={() => document.getElementById("scanQrCode").close()}/> : <video id="scanView" className='w-full h-full max-w-7xl object-cover'></video>
                 }
-            </ModalLayout>
+                </ModalLayout>
         </>
     )
 }

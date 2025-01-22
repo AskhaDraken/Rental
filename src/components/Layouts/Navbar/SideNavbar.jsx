@@ -66,6 +66,7 @@ const Sidebar = () => {
                     <ButtonSide className="w-full" onClick={() => state.setMenu(!state.isMenu)} href="/management"><LuClipboardList size={26} />Management</ButtonSide>
                     <ButtonSide className="w-full" onClick={() => state.setMenu(!state.isMenu)} href="/transaksi"><LuShoppingCart size={26} />Transaksi</ButtonSide>
                     <ButtonSide className="w-full" onClick={() => state.setMenu(!state.isMenu)} href="/riwayat"><LuHistory size={26} />Riwayat</ButtonSide>
+                    <ButtonSide className="w-full" onClick={() => state.setMenu(!state.isMenu)} href="/setting"><LuHistory size={26} />Setting</ButtonSide>
 
                     {/* Profil */}
                     <div className="hidden mt-auto lg:flex items-center justify-between relative bg-white  rounded-md w-full h-fit p-2">
