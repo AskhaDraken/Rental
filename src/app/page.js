@@ -1,10 +1,11 @@
 "use client"
 import CardGame from "@/components/Fragments/Card/Game/CardGame";
-import { useFetchGame } from "@/features/game";
+import CardGameFavorit from "@/components/Fragments/Card/Game/CardGameFavorit";
+import ListGameFavorit from "@/components/Fragments/List/ListGameFavorit";
+import { useFetchGameFavorit } from "@/features/game";
 import { jwtDecode } from "jwt-decode";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
 // import Image from "next/image";
 
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
@@ -21,8 +22,6 @@ export default function Home() {
 
   }
   // axios.get('/api/game')
-  const { data: listGame, isLoading, refetch, } = useFetchGame()  
-
 
   const fitur = [
     {
@@ -110,20 +109,7 @@ export default function Home() {
         </div>
 
         {/* Game Terfavorit */}
-        <div className=' bg-fourth h-fit block space-y-8'>
-
-          <h1 className='flex justify-center  font-bold text-3xl py-5'>3 Game Terfavorit</h1>
-          <div className="w-full h-full overflow-x-scroll p-4">
-
-            <div className='flex justify-start items-start gap-10'>
-              {
-                listGame?.data.data.map((item, index) => (
-                  <CardGame item={item} key={index} />
-                ))
-              }
-            </div>
-          </div>
-        </div>
+        <ListGameFavorit/>
       </div>
     </div>
   )

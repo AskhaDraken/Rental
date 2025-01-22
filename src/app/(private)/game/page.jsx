@@ -14,6 +14,9 @@ const GamePage = () => {
     }
     const { data: listGame, isLoading, refetch, } = useFetchGame(queryParams)
 
+    console.log(listGame);
+    
+
     useEffect(() => {
         refetch()
     }, [query.get('value'), type])
@@ -33,24 +36,13 @@ const GamePage = () => {
                     </select>
                     <Search />
                 </div>
-                <div className="grid grid-cols-4">
+                <div className="grid grid-cols-4 gap-4">
                     {
                         listGame?.data.data.map((item, index) => (
                             <CardGame item={item} key={index} />
                         ))
                     }
                 </div>
-                {/* <div className='flex flex-col gap-10 items-center '>
-                    <img src="/logo.png" alt="" className='max-w-72 ' />
-
-                    <div className='flex flex-wrap gap-4'>
-                        {
-                            playstation?.data.map((item, index,) => (
-                                <CardPlaystation item={item} key={index} />
-                            ))
-                        }
-                    </div>
-                </div> */}
             </section>
         </div>
     )

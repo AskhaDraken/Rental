@@ -43,7 +43,7 @@ const TopNavbar = () => {
     <>
       <div className=" justify-center w-full flex bg-third sticky top-0 p-2 border-b border-white z-50">
         <nav className="countainer mx-auto max-w-7xl inline-flex items-center justify-between w-full text-white ">
-          <span className="text-5xl font-Slackey">Eternity</span>
+          <span className="text-5xl font-Slackey">For Station Center</span>
           <div className=" gap-10 hidden md:inline-flex">
             <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/">Home</Link>
             <Link className='text-xl font-poppins cursor-pointer hover:bg-white/20 rounded-xl transition-all duration-150 p-2 font-bold' href="/game">Game</Link>

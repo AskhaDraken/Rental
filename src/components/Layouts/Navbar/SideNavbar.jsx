@@ -55,11 +55,10 @@ const Sidebar = () => {
             <aside className={`h-full top-16 lg:top-0 ${state.isMenu ? "-translate-x-0" : "-translate-x-64"} lg:translate-x-0 transition-all fixed ease-linear lg:relative w-fit z-50 max-w-64 min-w-64`}>
                 <nav className='h-full flex flex-col bg-third/70 lg:bg-third backdrop-blur-sm shadow-sm p-4 gap-4'>
 
-                    <Link href='/dashboard' className='hidden lg:inline-flex items-center justify-center hover:scale-[101%] transition-all'>
-                        {/* <figure className="aspect-square max-w-20">
-                            <ImagePreview src='/Logo.png' />
-                        </figure> */}
-                        <h1 className=' text-3xl text-white font-semibold '>Eternity</h1>
+                    <Link href='/dashboard' className='hidden lg:inline-flex lg:flex-col items-center justify-center hover:scale-[101%] transition-all'>
+                        <figure className="aspect-square max-w-36">
+                            <ImagePreview src='/logo.png' />
+                        </figure>
                     </Link>
 
                     <ButtonSide className="w-full" onClick={() => state.setMenu(!state.isMenu)} href="/dashboard"><Home size={26} />Dashboard</ButtonSide>

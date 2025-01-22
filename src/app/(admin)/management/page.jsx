@@ -121,7 +121,7 @@ const ManagementPage = () => {
                 {handleManagement()}
             </div>
             <ModalLayout id="updateRental" title="Edit Rental" onClick={() => document.getElementById("updateRental").close()}>
-                {isLoading ? <h1>Loading</h1> : <FormRental data={rental?.data[0]} type="update" onClick={() => document.getElementById("updateRental").close()} />}
+                {!isLoading && <FormRental data={rental?.data[0]} type="update" onClick={() => document.getElementById("updateRental").close()} />}
             </ModalLayout>
         </>
     )

@@ -10,6 +10,34 @@ export const useFetchGame = (query) => {
         }
     })
 }
+
+export const useFetchGameFavorit = () => {
+    return useQuery({
+        queryKey: ["fetch.game.favorit"],
+        queryFn: async () => {
+            return await axios.get("/api/game/favorit")
+        }
+    })
+}
+
+export const useFetchGamePublic = () => {
+    return useQuery({
+        queryKey: ["fetch.game.public"],
+        queryFn: async () => {
+            return await axios.get(`/api/game/public`)
+        }
+    })
+}
+
+export const useFetchGamePublicById = (id) => {
+    return useQuery({
+        queryKey: ["fetch.game.public",id],
+        queryFn: async () => {
+            return await axios.get(`/api/game/public?id=${id}`)
+        }
+    })
+}
+
 export const usePostGame = ({ onSuccess, onError }) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
@@ -34,6 +62,28 @@ export const usePatchGame = ({ onSuccess, onError }) => {
                     "Content-Type": "multipart/form-data"
                 }
             })
+        },
+        onSuccess,
+        onError
+    })
+}
+
+export const usePatchGameFavorit = ({ onSuccess, onError }) => {
+    const axiosAuth = useAxiosAuth()
+    return useMutation({
+        mutationFn: async (body) => {
+            return await axiosAuth.patch('/api/game/favorit?id=' + body.id, {type: 'add'})
+        },
+        onSuccess,
+        onError
+    })
+}
+
+export const useDeleteGameFavorit = ({ onSuccess, onError }) => {
+    const axiosAuth = useAxiosAuth()
+    return useMutation({
+        mutationFn: async (body) => {
+            return await axiosAuth.patch('/api/game/favorit?id=' + body.id, {type: 'delete'})
         },
         onSuccess,
         onError

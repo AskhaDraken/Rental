@@ -10,7 +10,6 @@ import Swal from 'sweetalert2'
 const FormGame = ({ data, type = "create", onClick }) => {
     const queryClient = useQueryClient()
 
-
     const { mutate: addGame } = usePostGame({
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["fetch.game"] })

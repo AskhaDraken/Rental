@@ -1,14 +1,15 @@
 import Button from '@/components/Elements/Button'
 import InputForm from '@/components/Elements/Input'
 import Textarea from '@/components/Elements/Textarea'
+import { useFetchGamePublic } from '@/features/game'
 import { usePatchRental, usePostRental } from '@/features/rental'
 import { useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useEffect } from 'react'
+import OptionGame from '../Option/OptionGame'
 
 const FormRental = ({ data, type = "create", onClick }) => {
     const queryClient = useQueryClient()
-
 
     const { mutate: addRental } = usePostRental({
         onSuccess: () => {
@@ -60,7 +61,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
             close: data?.close || "",
         },
         onSubmit: (values) => {
-            event.preventDefault()            
+            event.preventDefault()
 
             if (type === "create") {
                 addRental(values)
@@ -69,7 +70,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
             }
 
         }
-    })
+    })    
 
     const handleFormInput = (event) => {
         const { name, value } = event.target
