@@ -79,7 +79,7 @@ const RiwayatPage = () => {
                 <div className='inline-flex justify-between items-center'>
                     <h1 className="text-2xl font-bold text-white">Riwayat</h1>
                     <div className="mt-6 flex justify-center">
-                        <PDFDownloadLink document={<Invoice />} fileName="invoice.pdf">
+                        <PDFDownloadLink document={<Invoice />} fileName={`Pendapatan Bulan ${MONTH[date.getMonth()]}.pdf`}>
                             <button className="btn btn-info text-white font-semibold">
                                 Download PDF Pendapatan Bulan Ini
                             </button>

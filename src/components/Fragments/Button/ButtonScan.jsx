@@ -60,17 +60,26 @@ const ButtonScan = () => {
         setIsResult(false)
     }
 
+    const handleCancel = () => {
+        document.getElementById('scanQrCode').close()
+        scanQr(!isScan)
+        setIsResult(false)
+    }
 
-
+    const handleConfirm = () => {
+        document.getElementById('scanQrCode').close()
+        scanQr(!isScan)
+        setIsResult(false)
+    }
 
     return (
         <>
             <span className="bg-secondary p-4 rounded-full w-fit h-fit cursor-pointer hover:scale-105 transition-all" onClick={handleBtnScan}><IoScan color='white' size={36} /></span>
             <ModalLayout className='h-fit' title="Scan QR Code" id="scanQrCode" onClick={handleStop}>
                 {
-                    isResult ? <FormKonfirmasi data={JSON.parse(confirm)} onClick={() => document.getElementById("scanQrCode").close()}/> : <video id="scanView" className='w-full h-full max-w-7xl object-cover'></video>
+                    isResult ? <FormKonfirmasi confirm={handleConfirm} data={JSON.parse(confirm)} onClick={handleCancel} /> : <video id="scanView" className='w-full h-full max-w-7xl object-cover'></video>
                 }
-                </ModalLayout>
+            </ModalLayout>
         </>
     )
 }

@@ -9,12 +9,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify';
 
-const FormKonfirmasi = ({ data, onClick }) => {
+const FormKonfirmasi = ({ data, onClick, confirm }) => {
 
     const { data: order, isLoading } = useFetchTransaksiById(data.id)
     const { data: television } = useFetchTvById(data.tvId)
     const { data: user } = useFetchUserById(data.userId)
 
+    console.log(order);
+    
 
     useEffect(() => { }, [isLoading])
 
@@ -48,6 +50,7 @@ const FormKonfirmasi = ({ data, onClick }) => {
 
     const { mutate: orderConfirm } = useKonfirmasiTransaksi({
         onSuccess: () => {
+            confirm()
             queryClient.invalidateQueries('fetch.transaksi')
             queryClient.invalidateQueries('fetch.statistik')
             toast.success("Berhasil dikonfirmasi", { style: { backgroundColor: "#00a96e" } })
@@ -57,6 +60,7 @@ const FormKonfirmasi = ({ data, onClick }) => {
             setIsResult(false)
         },
         onError: () => {
+            confirm()
             toast.error("Gagal dikonfirmasi, coba lagi", { style: { backgroundColor: "#ff5861" } })
 
             document.getElementById("scanQrCode").close()
