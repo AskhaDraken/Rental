@@ -37,7 +37,7 @@ export const usePatchRental = ({onSuccess, onError}) => {
     const axiosAuth = useAxiosAuth()
     return useMutation({
         mutationFn: async (body) => {
-            return axiosAuth.patch(`/api/rental?id=${body}`, body)
+            return axiosAuth.patch(`/api/rental?id=${body.id}`, body.data)
         },
         onSuccess,
         onError

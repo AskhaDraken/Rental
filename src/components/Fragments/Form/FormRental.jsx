@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import OptionGame from '../Option/OptionGame'
+import Swal from 'sweetalert2'
 
 const FormRental = ({ data, type = "create", onClick }) => {
     const queryClient = useQueryClient()
@@ -34,7 +35,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
     const { mutate: updateRental } = usePatchRental({
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["fetch.rental"] })
-            document.getElementById("editRental" + data.id).close()
+            document.getElementById("updateRental").close()
             Swal.fire({
                 icon: "success",
                 title: "Success",
@@ -42,7 +43,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
             })
         },
         onError: () => {
-            document.getElementById("editRental").close()
+            document.getElementById("updateRental").close()
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -56,7 +57,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
             name: data?.name || "",
             description: data?.description || "",
             alamat: data?.alamat || "",
-            mapurl: data?.mapUrl || "",
+            mapurl: data?.mapurl || "",
             open: data?.open || "",
             close: data?.close || "",
         },
@@ -66,7 +67,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
             if (type === "create") {
                 addRental(values)
             } else if (type === "update") {
-                updateRental(values)
+                updateRental({id: data.id, data: values})
             }
 
         }
@@ -83,7 +84,7 @@ const FormRental = ({ data, type = "create", onClick }) => {
                 {/* <input type="file" name="picture" id="" onChange={handleFormikFile} className='file-input w-full max-w-xs' /> */}
                 <Textarea name="description" value={formik.values.description} title="Deskripsi" className="" placeholder="Deskripsi lapangan" onChange={handleFormInput} />
                 <InputForm onChange={handleFormInput} type="text" value={formik.values.alamat} title="Alamat" name="alamat" />
-                <InputForm onChange={handleFormInput} type="text" value={formik.values.mapUrl} title="URL map" name="mapUrl" />
+                <InputForm onChange={handleFormInput} type="text" value={formik.values.mapurl} title="URL map" name="mapurl" />
                 <div className='inline-flex gap-2'>
                     <InputForm onChange={handleFormInput} value={formik.values.open} type="time" title="Open" name="open" />
                     <InputForm onChange={handleFormInput} value={formik.values.close} type="time" title="Close" name="close" />
