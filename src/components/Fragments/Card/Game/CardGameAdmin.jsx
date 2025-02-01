@@ -1,5 +1,5 @@
 import ModalLayout from '@/components/Elements/Modal/Modal'
-import React from 'react'
+import React, { useEffect } from 'react'
 import FormGame from '../../Form/FormGame'
 import Button from '@/components/Elements/Button'
 import { useDeleteGame, useDeleteGameFavorit, usePatchGameFavorit } from '@/features/game'
@@ -9,8 +9,7 @@ import { useFetchRental } from '@/features/rental'
 
 const CardGameAdmin = ({ item }) => {
   const queryClient = useQueryClient()
-  const { data: rentalFavoritGame, isLoading } = useFetchRental()
-  console.log();
+  const { data: rentalFavoritGame, isLoading, refetch } = useFetchRental()
 
   const { mutate: deleteGame } = useDeleteGame({
     onSuccess: () => {
@@ -34,6 +33,7 @@ const CardGameAdmin = ({ item }) => {
 
   const { mutate: addFavorit } = usePatchGameFavorit({
     onSuccess: () => {
+      refetch()
       queryClient.invalidateQueries({ queryKey: ["fetch.game"] })
       queryClient.invalidateQueries({ queryKey: ["fetch.game.public"] })
       queryClient.invalidateQueries({ queryKey: ["fetch.game.favorit"] })
@@ -53,6 +53,7 @@ const CardGameAdmin = ({ item }) => {
   })
   const { mutate: hapusFavorit } = useDeleteGameFavorit({
     onSuccess: () => {
+      refetch()
       queryClient.invalidateQueries({ queryKey: ["fetch.game"] })
       queryClient.invalidateQueries({ queryKey: ["fetch.game.public"] })
       queryClient.invalidateQueries({ queryKey: ["fetch.game.favorit"] })
@@ -70,6 +71,10 @@ const CardGameAdmin = ({ item }) => {
       })
     }
   })
+
+  useEffect(() => {
+
+  }, [])
 
 
   return (

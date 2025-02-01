@@ -1,4 +1,5 @@
 import useAxiosAuth from "@/hooks/useAxiosAuth"
+import axios from "@/lib/axios"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 
@@ -8,6 +9,15 @@ export const useFetchRental = () => {
         queryKey: ["fetch.rental"],
         queryFn: async () => {
             return axiosAuth.get("/api/rental")
+        }
+    })
+}
+
+export const useFetchRentalLocation = () => {
+    return useQuery({
+        queryKey: ["fetch.rental.location"],
+        queryFn: async () => {
+            return axios.get("/api/rental/location")
         }
     })
 }

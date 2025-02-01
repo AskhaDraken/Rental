@@ -1,9 +1,11 @@
 "use client"
 
 import ListGameFavorit from "@/components/Fragments/List/ListGameFavorit";
+import { useFetchRental, useFetchRentalLocation } from "@/features/rental";
 import { jwtDecode } from "jwt-decode";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { FaMapSigns } from "react-icons/fa";
 
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
@@ -19,6 +21,10 @@ export default function Home() {
 
   }
   // axios.get('/api/game')
+
+  const { data: rental, isLoading } = useFetchRentalLocation()
+  console.log(rental?.data.mapurl);
+  
 
   const fitur = [
     {
@@ -57,20 +63,28 @@ export default function Home() {
     <div className='flex flex-col relative bg-fourth text-white'>
       {/* Background dashboard */}
       <div className='flex w-full  bg-#14112E h-full justify-center items-center text-3xl'>
-        <div>
-          <img src="/background1.png" alt="" className='flex-[1_0_100%] md:hidden scale-y-[-1]' />
-          <img src="/background1.png" alt="" className='flex-[1_0_100%]' />
+        <div className='h-screen w-screen bg-cover' style={{ backgroundImage: "url('/background1.png')" }}>
+          {/* <img src="/background1.png" alt="" className='flex-[1_0_100%]' /> */}
         </div>
         <div className='mx-auto container absolute flex w-full lg:grid-cols-2 grid-cols-1 justify-between items-center'>
+          <div className="flex flex-col gap-4">
 
-          <div className='flex flex-col justify-center items-center'>
-            <h1 className='font-poppins text-white  text-4xl font-bold hidden md:block'>KENAPA HARUS BELI MAHAL-MAHAL ?</h1>
-            <h2 className='font-poppins text-white text-sm translate-x-[-50%] hidden md:block mt-1'>KALAU BISA RENTAL DENGAN HARGA TERJANGKAU
-            </h2>
-            {/* <button onClick={() => signIn()}>Login</button> */}
-            <button onClick={() => window.location.href = '/booking'} className='font-poppins flex justify-center items-center text-white bg-gradient-to-r from-primary to-secondary md:w-96 w-56 md:h-16 h-10 text-sm md:text-2xl rounded-3xl translate-x-[-38%] mt-3'>Booking Sekarang!
-              <IoArrowForwardCircleOutline className='md:text-5xl text-2xl ml-4' />
-            </button>
+            <div className='flex flex-col justify-center items-start gap-2 bg-secondary/50 p-6 rounded-3xl min-h-48'>
+              <h1 className='font-poppins text-white  text-4xl font-bold hidden md:block'>KENAPA HARUS BELI MAHAL-MAHAL ?</h1>
+              <p className='font-poppins text-xl text-white max-w-2xl  hidden md:block uppercase'>KALAU BISA RENTAL DENGAN HARGA TERJANGKAU Mau datang ke sini? Klik tombol lokasi dan kita ketemu disana!
+              </p>
+            </div>
+            <div className="inline-flex gap-4 justify-center items-center">
+              <button onClick={() => window.location.href = '/booking'} className='font-poppins flex justify-between p-4 items-center text-white bg-gradient-to-r from-primary to-secondary md:w-96 w-56 md:h-16 h-10 text-sm md:text-2xl rounded-full'>Booking Sekarang!
+                <IoArrowForwardCircleOutline size={48} />
+              </button>
+
+              <a href={rental?.data.mapurl.search(/https/) !== - 1 ? rental?.data.mapurl : `https://${rental?.data.mapurl}`} target="_blank">
+                <button className='font-poppins flex justify-between p-4 items-center text-white bg-gradient-to-r from-primary to-secondary md:w-96 w-56 md:h-16 h-10 text-sm md:text-2xl rounded-full'>Lokasi
+                  <FaMapSigns size={32} />
+                </button>
+              </a>
+            </div>
           </div>
           <img src="/logo.png" alt="" className='md:w-full w-80 md:h-full h-72 flex-[1_0_100%] max-w-xl' />
         </div>
