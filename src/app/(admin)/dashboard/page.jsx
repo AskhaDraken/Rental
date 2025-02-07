@@ -8,6 +8,7 @@ import { useFetchRental } from '@/features/rental'
 import ListTransaksi from '@/components/Fragments/List/ListTransaksi'
 import ButtonBooking from '@/components/Fragments/Button/ButtonBooking'
 import ButtonScan from '@/components/Fragments/Button/ButtonScan'
+import { useFetchUser } from '@/features/profil'
 
 const Dashboardproviders = () => {
 
@@ -16,6 +17,8 @@ const Dashboardproviders = () => {
     const [time, setTime] = useState(date.toLocaleTimeString())
 
     const { data: rental, isLoading } = useFetchRental()
+
+    const { data: user, isLoading: loadingUser } = useFetchUser()
 
 
     // const lapanganId = session.user.lapanganId == "" ? localStorage.getItem("aWQ=") : session.user.lapanganId !== "" && localStorage.getItem("aWQ=") !== null ? localStorage.getItem("aWQ=") : session.user.lapanganId
@@ -29,7 +32,7 @@ const Dashboardproviders = () => {
             return (
                 <div className='flex flex-col w-full h-full'>
                     <div className='inline-flex items-center p-2 justify-start w-full'>
-                        <h1 className='font-semibold text-xl text-white'>Hi {session.user.fullname}!</h1>
+                        <h1 className='font-semibold text-xl text-white'>Hi {user?.data.fullname}!</h1>
 
                         {/* Notification */}
                         {/* <div className='ml-auto hidden md:inline-flex gap-4 items-center justify-center'>

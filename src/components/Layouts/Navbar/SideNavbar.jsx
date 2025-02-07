@@ -12,9 +12,6 @@ const Sidebar = () => {
     const state = useStorePublic()
 
     const { data: user, isLoading } = useFetchUser()
-    console.log(user?.data.fullname.split(" ")[0]);
-    
-
     
     return (
         <div className={`flex flex-row lg:h-screen lg:fixed z-50 lg:min-w-64 lg:w-fit z-${state.isMenu ? 50 : 0}`}>
