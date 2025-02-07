@@ -2,7 +2,6 @@ import Link from 'next/link.js';
 import { usePostLogout } from '@/features/auth.js';
 import { LuClipboardList, LuShoppingCart, LuLogOut, LuUser, LuUserCircle, LuHistory } from "react-icons/lu"
 import ButtonSide from '@/components/Elements/Button/ButtonSide';
-import { useSession } from 'next-auth/react';
 import { useStorePublic } from '@/store/storePublic';
 import { Home } from 'react-feather';
 import { useFetchUser } from '@/features/profil';
@@ -10,10 +9,11 @@ import ImagePreview from '@/components/Elements/Image';
 
 
 const Sidebar = () => {
-    const { data: session } = useSession()
     const state = useStorePublic()
 
     const { data: user, isLoading } = useFetchUser()
+    console.log(user?.data.fullname.split(" ")[0]);
+    
 
     
     return (
@@ -75,7 +75,7 @@ const Sidebar = () => {
                                         <ImagePreview className=' aspect-square' width={35} src={user?.data.Profile.picture != null ? user?.data.Profile.picture : '/emptyUser.png'} alt="" />
                                     </div>
                                 </div>
-                                <span className='text-lg text-black font-semibold'>{session?.user.fullname.split(" ")[0]}</span>
+                                <span className='text-lg text-black font-semibold'>{user?.data.fullname.split(" ")[0]}</span>
                             </div>
                             <div className="dropdown-content menu translate-x-10 translate-y-3 rounded-md bg-base-100 z-[1] min-w-52 p-2 shadow gap-2 text-white">
                                 <Link
